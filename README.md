@@ -216,3 +216,7 @@ domain.tenant = tenant
 domain.is_primary = True
 domain.save()
 ```
+
+# CREATE SUPERUSER FOR A TENANT
+
+`./manage.py create_tenant_superuser`
