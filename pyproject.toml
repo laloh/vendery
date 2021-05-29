@@ -6,7 +6,7 @@ authors = ["laloh <eduardocarhue@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-Django = "^3.2.3"
+Django = "3.1.11"
 psycopg2-binary = "^2.8.6"
 django-extensions = "^3.1.3"
 django-tenants = "^3.3.1"
