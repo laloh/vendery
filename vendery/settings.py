@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['www.vendery.app','vendery.app','*', 'localhost']
 # Application definition
 SHARED_APPS = (
     'django_tenants',  # mandatory
-    'customers', # you must list the app where your tenant model resides in
+    'vendery.customers', # you must list the app where your tenant model resides in
 
     'django.contrib.contenttypes',
 
@@ -51,7 +51,7 @@ TENANT_APPS = (
     'django.contrib.contenttypes',
 
     # your tenant-specific apps
-    'inventory',
+    'vendery.inventory',
     # everything below here is optional
     'django.contrib.auth',
     'django.contrib.sessions',
