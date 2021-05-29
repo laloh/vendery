@@ -168,7 +168,7 @@ domain.save()
 from customers.models import Client, Domain
 
 # create your first real tenant
-tenant = Client(schema_name='tenant1',
+tenant = Client(schema_name='tenant',
                 name='Fonzy Tenant',
                 paid_until='2014-12-05',
                 on_trial=True)

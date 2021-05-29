@@ -51,7 +51,15 @@ TENANT_APPS = (
     'django.contrib.contenttypes',
 
     # your tenant-specific apps
-    'inventory'
+    'inventory',
+    # everything below here is optional
+    'django.contrib.auth',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.admin',
+    'django.contrib.staticfiles',
+    'django_extensions'
 )
 
 INSTALLED_APPS = list(SHARED_APPS) + [app for app in TENANT_APPS if app not in SHARED_APPS]
@@ -161,3 +169,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 TENANT_MODEL = "customers.Client" # app.Model
 TENANT_DOMAIN_MODEL = "customers.Domain"  # app.Model
+SITE_ID = 1
