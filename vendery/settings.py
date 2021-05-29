@@ -25,7 +25,7 @@ SECRET_KEY = '9um+!0gl@dp46^aqqfn3ayfps*q)z#w%s6=7^4q5pc9#cy^%l='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['www.vendery.app','vendery.app','*', 'localhost']
 
 
 # Application definition
@@ -41,6 +41,7 @@ SHARED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.admin',
+    'django_extensions'
 )
 
 TENANT_APPS = (
@@ -140,6 +141,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+import os
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 TENANT_MODEL = "customers.Client" # app.Model
 TENANT_DOMAIN_MODEL = "customers.Domain"  # app.Model
