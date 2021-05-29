@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from .inventory.views import CategoryListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', CategoryListView.as_view(), name='category_list_view')
 ]

@@ -75,13 +75,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+PUBLIC_SCHEMA_URLCONF = 'vendery.public_urls'
 ROOT_URLCONF = 'vendery.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
+        "DIRS": ["/home/lalo/vendery"],  # -> Dirs used by the standard template loader
+        # 'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -89,8 +90,17 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            "loaders": [
+                "django_tenants.template.loaders.filesystem.Loader",  # Must be first
+                "django.template.loaders.filesystem.Loader",
+                "django.template.loaders.app_directories.Loader",
+            ],
         },
     },
+]
+
+MULTITENANT_TEMPLATE_DIRS = [
+    "/home/lalo/vendery/tenants/%s/templates"
 ]
 
 WSGI_APPLICATION = 'vendery.wsgi.application'
@@ -157,16 +167,23 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 MULTITENANT_STATICFILES_DIRS = [
-    os.path.join("/home/lalo/vendery/customers", "tenants/%s/static"),
+    os.path.join("/home/lalo/vendery", "tenants/%s/static"),
 ]
 
 
 STATICFILES_STORAGE = "django_tenants.staticfiles.storage.TenantStaticFilesStorage"
-MULTITENANT_RELATIVE_STATIC_ROOT = ""  # (default: create sub-directory for each tenant)
+# REWRITE_STATIC_URLS = True/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
+MULTITENANT_RELATIVE_STATIC_ROOT = "tenants/%s"
 
 TENANT_MODEL = "customers.Client" # app.Model
 TENANT_DOMAIN_MODEL = "customers.Domain"  # app.Model
 SITE_ID = 1
+
+
+DEFAULT_FILE_STORAGE = "django_tenants.files.storage.TenantFileSystemStorage"
+
+MEDIA_ROOT = "/home/lalo/vendery/apps_dir/media/"
+MULTITENANT_RELATIVE_MEDIA_ROOT = "%s/other_dir"
