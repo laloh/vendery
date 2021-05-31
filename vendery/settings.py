@@ -81,7 +81,7 @@ ROOT_URLCONF = 'vendery.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        "DIRS": ["/home/lalo/vendery"],  # -> Dirs used by the standard template loader
+        "DIRS": ["/home/lalo/vendery/vendery"],  # -> Dirs used by the standard template loader
         # 'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -100,7 +100,7 @@ TEMPLATES = [
 ]
 
 MULTITENANT_TEMPLATE_DIRS = [
-    "/home/lalo/vendery/tenants/%s/templates"
+    "/home/lalo/vendery/vendery/tenants/%s/templates"
 ]
 
 WSGI_APPLICATION = 'vendery.wsgi.application'
@@ -167,7 +167,7 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 MULTITENANT_STATICFILES_DIRS = [
-    os.path.join("/home/lalo/vendery", "tenants/%s/static"),
+    os.path.join("/home/lalo/vendery/vendery", "tenants/%s/static"),
 ]
 
 
@@ -185,5 +185,5 @@ SITE_ID = 1
 
 DEFAULT_FILE_STORAGE = "django_tenants.files.storage.TenantFileSystemStorage"
 
-MEDIA_ROOT = "/home/lalo/vendery/apps_dir/media/"
+MEDIA_ROOT = "/home/lalo/vendery/vendery/apps_dir/media/"
 MULTITENANT_RELATIVE_MEDIA_ROOT = "%s/other_dir"
