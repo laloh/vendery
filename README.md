@@ -1,7 +1,11 @@
-sina
+Vendery
 ==============================
 
 Web Application for Inventory Management
+
+### Template Django Project
+
+https://django-tenants.readthedocs.io/en/latest/files.html
 
 ### Quick setup
 

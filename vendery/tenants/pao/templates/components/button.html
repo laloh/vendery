@@ -1,0 +1,22 @@
+{% load static %}
+<div class="d-flex flex-nowrap">
+  <button id='aumentar' class="btn btn-dark" onclick="aumentar()">+</button>
+  <input type='text' class="form-control" id="cantidad" value="0">
+  <button id='disminuir' class="btn btn-dark" onclick="disminuir()">-</button>
+
+
+</div>
+
+<script>
+  let inicio = 0;
+
+  function aumentar() {
+    let cantidad = document.getElementById('cantidad').value = ++inicio;
+
+  }
+
+  function disminuir() {
+    let cantidad = document.getElementById('cantidad').value = --inicio;
+
+  }
+</script>

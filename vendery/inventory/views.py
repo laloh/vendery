@@ -1,8 +1,7 @@
-from django.views.generic import ListView
-from .models import Category
+from django.views.generic import TemplateView
 
 
-class CategoryListView(ListView):
-    model = Category
-    template_name = 'index.html'
-    context_object_name = 'categories'
+class ViewInventory(TemplateView):
+    """ Inventory index"""
+    template_name = "index.html"
+
