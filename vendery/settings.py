@@ -81,7 +81,7 @@ ROOT_URLCONF = 'vendery.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        "DIRS": ["/home/lalo/vendery/vendery"],  # -> Dirs used by the standard template loader
+        "DIRS": ["/home/lalo/vendery/templates"],  # -> Dirs used by the standard template loader
         # 'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -165,14 +165,16 @@ STATICFILES_FINDERS = [
     "django_tenants.staticfiles.finders.TenantFileSystemFinder",  # Must be first
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    'compressor.finders.CompressorFinder',
 ]
+
 MULTITENANT_STATICFILES_DIRS = [
     os.path.join("/home/lalo/vendery/vendery", "tenants/%s/static"),
 ]
 
 
 STATICFILES_STORAGE = "django_tenants.staticfiles.storage.TenantStaticFilesStorage"
-# REWRITE_STATIC_URLS = True/
+REWRITE_STATIC_URLS = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
