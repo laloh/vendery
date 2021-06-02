@@ -27,6 +27,21 @@ argon2 = ["argon2-cffi (>=16.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-3-jet"
+version = "1.0.7"
+description = "Modern template for Django-3 admin interface with improved functionality"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+Django = "*"
+six = "*"
+
+[package.source]
+type = "url"
+url = "https://github.com/Barukimang/django-jet/archive/dev.zip"
+[[package]]
 name = "django-appconf"
 version = "1.0.4"
 description = "A helper class for handling configuration defaults of packaged apps gracefully."
@@ -168,7 +183,7 @@ python-versions = ">=3.5"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "daf69e0ec02c86e20386637bed1e6c3d48901b770a147fc8f1bb2c3b092e1a3c"
+content-hash = "bfefb0f9785494f7f439cd516d6c6044a788082526716eabfafbe82dfd6c3726"
 
 [metadata.files]
 asgiref = [
@@ -179,6 +194,7 @@ django = [
     {file = "Django-3.1.11-py3-none-any.whl", hash = "sha256:c79245c488411d1ae300b8f7a08ac18a496380204cf3035aff97ad917a8de999"},
     {file = "Django-3.1.11.tar.gz", hash = "sha256:9a0a2f3d34c53032578b54db7ec55929b87dda6fec27a06cc2587afbea1965e5"},
 ]
+django-3-jet = []
 django-appconf = [
     {file = "django-appconf-1.0.4.tar.gz", hash = "sha256:be58deb54a43d77d2e1621fe59f787681376d3cd0b8bd8e4758ef6c3a6453380"},
     {file = "django_appconf-1.0.4-py2.py3-none-any.whl", hash = "sha256:1b1d0e1069c843ebe8ae5aa48ec52403b1440402b320c3e3a206a0907e97bb06"},
