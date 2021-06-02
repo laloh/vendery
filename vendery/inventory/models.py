@@ -13,6 +13,10 @@ class Category (TimeStampedModel):
     name = models.CharField(max_length=255, default=None)
     status = models.CharField(choices=Status.choices, default=Status.AVAILABLE, max_length=50)
 
+    class Meta:
+        verbose_name = ('Categoria')
+        verbose_name_plural = ('Categorias')
+
     def __str__(self):
         return self.name
 
@@ -32,6 +36,11 @@ class Products(TimeStampedModel):
     stock = models.IntegerField(default=0)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=None)
 
+    class Meta:
+        verbose_name = ('Producto')
+        verbose_name_plural = ('Productos')
+
+
     def __str__(self):
         return self.name
 
@@ -50,6 +59,10 @@ class Vendors(TimeStampedModel):
     password = models.CharField(max_length=255, default=None)
     status = models.CharField(choices=Status.choices, default=Status.AVAILABLE, max_length=50)
     products = models.ManyToManyField(Products)
+
+    class Meta:
+        verbose_name = ('Vendedor')
+        verbose_name_plural = ('Vendedores')
 
     def __str__(self):
         return self.name
@@ -73,6 +86,10 @@ class Clients(TimeStampedModel):
     debt = models.FloatField(default=0)
     status = models.CharField(choices=Status.choices, default=Status.AVAILABLE, max_length=50)
 
+    class Meta:
+        verbose_name = ('Cliente')
+        verbose_name_plural = ('Clientes')
+
     def __str__(self):
         return self.name
 
@@ -82,6 +99,10 @@ class Orders(TimeStampedModel):
     total = models.FloatField(default=0)
     store = models.CharField(default=None, max_length=255)
     products = models.ManyToManyField(Products)
+
+    class Meta:
+        verbose_name = ('Venta')
+        verbose_name_plural = ('Ventas')
 
     def __str__(self):
         return "Orders"
@@ -96,6 +117,10 @@ class Tickets(TimeStampedModel):
     vendor = models.ForeignKey(Vendors, on_delete=models.CASCADE, default=None)
     client = models.ForeignKey(Clients, on_delete=models.CASCADE, default=None)
     order = models.OneToOneField(Orders, on_delete=models.CASCADE, default=None)
+
+    class Meta:
+        verbose_name = ('Ticket')
+        verbose_name_plural = ('Tickets')
 
     def __str__(self):
         return "Firm from Admin"
