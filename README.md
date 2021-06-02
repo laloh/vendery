@@ -190,7 +190,7 @@ domain.save()
 ## PROD
 
 ```python
-from vendery.customers import Client, Domain
+from vendery.customers.models import Client, Domain
 
 # create your public tenant
 tenant = Client(schema_name='vendery',
@@ -206,7 +206,7 @@ domain.tenant = tenant
 domain.is_primary = True
 domain.save()
 
-from vendery.customers import Client, Domain
+from vendery.customers.models import Client, Domain
 
 # create your first real tenant
 tenant = Client(schema_name='lalo',
