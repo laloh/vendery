@@ -40,6 +40,7 @@ SHARED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
+    'jet',
     'django.contrib.admin',
     'django.contrib.staticfiles',
     'django_extensions'
@@ -57,10 +58,13 @@ TENANT_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
+    'jet',
     'django.contrib.admin',
     'django.contrib.staticfiles',
     'django_extensions'
 )
+
+X_FRAME_OPTIONS='SAMEORIGIN' # only if django version >= 3.0
 
 INSTALLED_APPS = list(SHARED_APPS) + [app for app in TENANT_APPS if app not in SHARED_APPS]
 
@@ -189,3 +193,4 @@ DEFAULT_FILE_STORAGE = "django_tenants.files.storage.TenantFileSystemStorage"
 
 MEDIA_ROOT = f"{BASE_DIR}/vendery/apps_dir/media/"
 MULTITENANT_RELATIVE_MEDIA_ROOT = "%s/other_dir"
+JET_SIDE_MENU_COMPACT = True
