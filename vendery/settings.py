@@ -180,7 +180,7 @@ MULTITENANT_STATICFILES_DIRS = [
 STATICFILES_STORAGE = "django_tenants.staticfiles.storage.TenantStaticFilesStorage"
 REWRITE_STATIC_URLS = True
 
-STATIC_URL = '/static/'
+STATIC_URL = '/staticfiles/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
 MULTITENANT_RELATIVE_STATIC_ROOT = "tenants/%s"
 
