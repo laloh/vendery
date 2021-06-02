@@ -72,6 +72,7 @@ MIDDLEWARE = [
     'django_tenants.middleware.main.TenantMainMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -193,4 +194,18 @@ DEFAULT_FILE_STORAGE = "django_tenants.files.storage.TenantFileSystemStorage"
 
 MEDIA_ROOT = f"{BASE_DIR}/vendery/apps_dir/media/"
 MULTITENANT_RELATIVE_MEDIA_ROOT = "%s/other_dir"
+
 JET_SIDE_MENU_COMPACT = True
+JET_SIDE_MENU_ITEMS = [
+    {'app_label': 'inventory', 'items': [
+        {'name': 'category', 'label': 'Categorias'},
+        {'name': 'clients', 'label': 'Clientes'},
+        {'name': 'products', 'label': 'Productos'},
+        {'name': 'tickets', 'label': 'Tickets'},
+        {'name': 'vendors', 'label': 'Vendedores'},
+        {'name': 'orders', 'label': 'Ventas'},
+    ]},
+    {'app_label': 'sites', 'items': [
+        {'name': 'site', 'label': 'Páginas'},
+    ]},
+]
