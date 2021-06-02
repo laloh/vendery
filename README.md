@@ -226,3 +226,7 @@ domain.save()
 # CREATE SUPERUSER FOR A TENANT
 
 `./manage.py create_tenant_superuser`
+
+# Django Jet
+config: https://jet.readthedocs.io/en/latest/config_file.html#jet-default-theme
+
