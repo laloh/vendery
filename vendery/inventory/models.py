@@ -1,5 +1,6 @@
 from django.db import models
 from model_utils.models import TimeStampedModel
+from django.contrib.auth.models import AbstractUser
 
 
 class Category (TimeStampedModel):
@@ -45,7 +46,7 @@ class Products(TimeStampedModel):
         return self.name
 
 
-class Vendors(TimeStampedModel):
+class Vendors(AbstractUser, TimeStampedModel):
     # TODO: Add Gastos Field
     # TODO: See if we can delete password field
     class Status(models.TextChoices):
@@ -55,8 +56,6 @@ class Vendors(TimeStampedModel):
 
     name = models.CharField(max_length=255, default=None)
     phone = models.CharField(max_length=20, default=None)
-    email = models.CharField(max_length=255, default=None)
-    password = models.CharField(max_length=255, default=None)
     status = models.CharField(choices=Status.choices, default=Status.AVAILABLE, max_length=50)
     products = models.ManyToManyField(Products)
 
