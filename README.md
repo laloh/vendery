@@ -230,3 +230,20 @@ domain.save()
 # Django Jet
 config: https://jet.readthedocs.io/en/latest/config_file.html#jet-default-theme
 
+# Factory Boy with Django Tenant
+Execute:
+`python manage.py tenant_command shell_plus`
+
+then import factory boy. 
+
+i.e.
+
+```python
+In [1]: from vendery.inventory.tests.factories import ProductFactory, CategoryFactory
+
+In [2]: product = ProductFactory()
+
+In [3]: product
+Out[3]: <Products: joIYNzQPdVQI>
+
+```

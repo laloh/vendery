@@ -2,7 +2,7 @@ from django.db import models
 from model_utils.models import TimeStampedModel
 
 
-class Category (TimeStampedModel):
+class Category(TimeStampedModel):
 
     class Status(models.TextChoices):
         AVAILABLE = "available", "Available"

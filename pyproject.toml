@@ -16,6 +16,8 @@ gunicorn = "^20.1.0"
 django-compressor = "^2.4.1"
 python-dotenv = "^0.17.1"
 django-3-jet = {url = "https://github.com/Barukimang/django-jet/archive/dev.zip"}
+factory-boy = "^3.2.0"
+ipython = "^7.24.1"
 
 [tool.poetry.dev-dependencies]
 
