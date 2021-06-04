@@ -43,7 +43,8 @@ SHARED_APPS = (
     'jet',
     'django.contrib.admin',
     'django.contrib.staticfiles',
-    'django_extensions'
+    'django_extensions',
+    'widget_tweaks'
 
 )
 
@@ -147,7 +148,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'inventory.Vendors'
+AUTH_USER_MODEL = 'inventory.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/

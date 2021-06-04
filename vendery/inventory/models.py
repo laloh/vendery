@@ -41,12 +41,20 @@ class Products(TimeStampedModel):
         verbose_name = ('Producto')
         verbose_name_plural = ('Productos')
 
-
     def __str__(self):
         return self.name
 
 
-class Vendors(AbstractUser, TimeStampedModel):
+class User(AbstractUser, TimeStampedModel):
+    # TODO:
+    direccion = models.TextField(blank=True, max_length=50)
+    telefono = models.CharField(max_length=20, blank=True)
+
+    def __str__(self):
+        return '{}'.format(self.direccion)
+
+
+class Vendors(TimeStampedModel):
     # TODO: Add Gastos Field
     # TODO: See if we can delete password field
     class Status(models.TextChoices):
