@@ -239,9 +239,9 @@ then import factory boy.
 i.e.
 
 ```python
-In [1]: from vendery.inventory.tests.factories import ProductFactory, CategoryFactory
+In [1]: from vendery.inventory.tests.factories import *
 
-In [2]: product = ProductFactory()
+In [2]: product = ProductsFactory()
 
 In [3]: product
 Out[3]: <Products: joIYNzQPdVQI>
