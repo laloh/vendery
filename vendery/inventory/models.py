@@ -51,7 +51,7 @@ class User(AbstractUser, TimeStampedModel):
     telefono = models.CharField(max_length=20, blank=True)
 
     def __str__(self):
-        return '{}'.format(self.direccion)
+        return '{}'.format(self.username)
 
 
 class Vendors(TimeStampedModel):
@@ -66,6 +66,7 @@ class Vendors(TimeStampedModel):
     phone = models.CharField(max_length=20, default=None)
     status = models.CharField(choices=Status.choices, default=Status.AVAILABLE, max_length=50)
     products = models.ManyToManyField(Products)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
 
     class Meta:
         verbose_name = ('Vendedor')
