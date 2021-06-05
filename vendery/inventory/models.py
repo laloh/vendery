@@ -65,7 +65,7 @@ class Vendors(TimeStampedModel):
     name = models.CharField(max_length=255, default=None)
     phone = models.CharField(max_length=20, default=None)
     status = models.CharField(choices=Status.choices, default=Status.AVAILABLE, max_length=50)
-    products = models.ManyToManyField(Products)
+    products = models.ManyToManyField(Products, related_name='vendors_products')
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
 
     class Meta:

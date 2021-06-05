@@ -1,8 +1,9 @@
-from django.views.generic import TemplateView
+from django.views.generic import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 from .forms import AuthenticationFormUser
+from .models import Vendors
 
 
 class Login(LoginView):
@@ -20,8 +21,13 @@ class Logout(LogoutView):
     next_page = reverse_lazy('inventory:view-login')
 
 
-class ViewInventory(LoginRequiredMixin, TemplateView):
+class ViewInventory(LoginRequiredMixin, ListView):
     """ Inventory index"""
     login_url = reverse_lazy("inventory:view-login")
     template_name = "index.html"
+    context_object_name = "vendors"
+    model = Vendors
+
+    def get_queryset(self):
+        return self.model.objects.prefetch_related('products').filter(user=self.request.user)
 
