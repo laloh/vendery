@@ -1,0 +1,31 @@
+{% extends "loyout/base.html" %}
+{% load static %}
+{% block main %}
+   <div class="container">
+
+   <table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">Locacion</th>
+      <th scope="col">debt</th>
+      <th scope="col">Cliente</th>
+      <th scope="col">Orden</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for sale in sales %}
+    <tr>
+      <th scope="row">{{sale.id}}</th>
+      <td>{{ sale.location }}</td>
+      <td>{{ sale.debt }}</td>
+      <td>{{ sale.client }}</td>
+      <td>{{ sale.order }}</td>
+    </tr>
+{% endfor %}
+
+  </tbody>
+</table>
+
+   </div>
+{% endblock %}

@@ -1,5 +1,6 @@
 from django.db import models
 from model_utils.models import TimeStampedModel
+from django.contrib.auth.models import AbstractUser
 
 
 class Category(TimeStampedModel):
@@ -22,7 +23,7 @@ class Category(TimeStampedModel):
 
 
 class Products(TimeStampedModel):
-
+    # TODO: Add Labels to spanish
     class Status(models.TextChoices):
         AVAILABLE = "available", "Available"
         DELETED = "deleted", "Deleted"
@@ -31,6 +32,7 @@ class Products(TimeStampedModel):
 
     name = models.CharField(max_length=255, default=None)
     price = models.FloatField(default=0)
+    # TODO Make it optional
     status = models.CharField(choices=Status.choices, default=Status.AVAILABLE, max_length=50)
     description = models.TextField(default=None)
     stock = models.IntegerField(default=0)
@@ -40,9 +42,17 @@ class Products(TimeStampedModel):
         verbose_name = ('Producto')
         verbose_name_plural = ('Productos')
 
-
     def __str__(self):
         return self.name
+
+
+class User(AbstractUser, TimeStampedModel):
+    # TODO: Translate to english
+    direccion = models.TextField(blank=True, max_length=50)
+    telefono = models.CharField(max_length=20, blank=True)
+
+    def __str__(self):
+        return '{}'.format(self.username)
 
 
 class Vendors(TimeStampedModel):
@@ -55,10 +65,9 @@ class Vendors(TimeStampedModel):
 
     name = models.CharField(max_length=255, default=None)
     phone = models.CharField(max_length=20, default=None)
-    email = models.CharField(max_length=255, default=None)
-    password = models.CharField(max_length=255, default=None)
     status = models.CharField(choices=Status.choices, default=Status.AVAILABLE, max_length=50)
-    products = models.ManyToManyField(Products)
+    products = models.ManyToManyField(Products, related_name='vendors_products')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
 
     class Meta:
         verbose_name = ('Vendedor')
