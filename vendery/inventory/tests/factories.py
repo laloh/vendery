@@ -55,7 +55,7 @@ class VendorsFactory(factory.django.DjangoModelFactory):
         if extracted:
             # A list of groups were passed in, use them
             for group in extracted:
-                self.groups.add(Products)
+                self.products.add(group)
 
     class Meta:
         model = Vendors
@@ -79,6 +79,17 @@ class ClientsFactory(factory.django.DjangoModelFactory):
 class OrdersFactory(factory.django.DjangoModelFactory):
     total = factory.fuzzy.FuzzyFloat(0.5, 42.7)
     store = factory.fuzzy.FuzzyText()
+
+    @factory.post_generation
+    def products(self, create, extracted, **kwargs):
+        if not create:
+            # Simple build, do nothing.
+            return
+
+        if extracted:
+            # A list of groups were passed in, use them
+            for group in extracted:
+                self.products.add(group)
 
     class Meta:
         model = Orders
