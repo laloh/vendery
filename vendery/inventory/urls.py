@@ -7,5 +7,6 @@ urlpatterns = [
     path('', ViewInventory.as_view(), name='view-inventory'),
     path('login', Login.as_view(), name='view-login'),
     path('logout', Logout.as_view(), name='view-logout'),
+    path('mis/ventas', ViewSales.as_view(), name='view-sales'),
 ]
 

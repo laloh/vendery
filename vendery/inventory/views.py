@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 from .forms import AuthenticationFormUser
-from .models import Vendors
+from .models import Vendors, Tickets
 
 
 class Login(LoginView):
@@ -31,3 +31,13 @@ class ViewInventory(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return self.model.objects.prefetch_related('products').filter(user=self.request.user)
 
+
+class ViewSales(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy("inventory:view-login")
+    template_name = "views/sales.html"
+    context_object_name = "sales"
+    model = Tickets
+
+    def get_queryset(self):
+        vendor = Vendors.objects.get(user=self.request.user)
+        return self.model.objects.filter(vendor=vendor.id)
