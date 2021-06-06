@@ -41,12 +41,20 @@ class Products(TimeStampedModel):
         verbose_name = ('Producto')
         verbose_name_plural = ('Productos')
 
-
     def __str__(self):
         return self.name
 
 
-class Vendors(AbstractUser, TimeStampedModel):
+class User(AbstractUser, TimeStampedModel):
+    # TODO:
+    direccion = models.TextField(blank=True, max_length=50)
+    telefono = models.CharField(max_length=20, blank=True)
+
+    def __str__(self):
+        return '{}'.format(self.username)
+
+
+class Vendors(TimeStampedModel):
     # TODO: Add Gastos Field
     # TODO: See if we can delete password field
     class Status(models.TextChoices):
@@ -57,7 +65,8 @@ class Vendors(AbstractUser, TimeStampedModel):
     name = models.CharField(max_length=255, default=None)
     phone = models.CharField(max_length=20, default=None)
     status = models.CharField(choices=Status.choices, default=Status.AVAILABLE, max_length=50)
-    products = models.ManyToManyField(Products)
+    products = models.ManyToManyField(Products, related_name='vendors_products')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
 
     class Meta:
         verbose_name = ('Vendedor')
