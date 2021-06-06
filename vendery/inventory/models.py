@@ -37,6 +37,8 @@ class Products(TimeStampedModel):
     description = models.TextField(default=None)
     stock = models.IntegerField(default=0)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=None)
+    image = models.ImageField(default=None)
+
 
     class Meta:
         verbose_name = ('Producto')

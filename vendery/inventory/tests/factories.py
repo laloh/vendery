@@ -24,6 +24,15 @@ class ProductsFactory(factory.django.DjangoModelFactory):
     stock = factory.fuzzy.FuzzyInteger(0, 10)
     category = factory.SubFactory(CategoryFactory)
 
+    image = factory.LazyAttribute(
+        lambda _: ContentFile(
+            factory.django.ImageField()._make_data(
+                {'width': 1024, 'height': 768}
+            ), 'nike-shoes.png'
+        )
+    )
+
+
     class Meta:
         model = Products
 
