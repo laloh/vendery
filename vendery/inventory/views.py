@@ -1,9 +1,9 @@
-from django.views.generic import ListView
+from django.views.generic import TemplateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 from .forms import AuthenticationFormUser
-from .models import Vendors, Tickets
+from .models import Vendors, Tickets, Clients
 
 
 class Login(LoginView):
@@ -41,3 +41,17 @@ class ViewSales(LoginRequiredMixin, ListView):
     def get_queryset(self):
         vendor = Vendors.objects.get(user=self.request.user)
         return self.model.objects.filter(vendor=vendor.id)
+
+
+class ViewSalesData(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy("inventory:view-login")
+    template_name = "views/sales_data.html"
+    context_object_name = "clients"
+    model = Clients
+
+    def get_queryset(self):
+        return self.model.objects.all()
+
+
+class ViewNote(LoginRequiredMixin, TemplateView):
+    template_name = "views/note.html"

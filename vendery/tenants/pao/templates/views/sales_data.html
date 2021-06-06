@@ -1,0 +1,36 @@
+{% extends "loyout/base.html" %}
+{% load static %}
+
+{% block main %}
+    <div class="container">
+        <div class="text-center">
+            <h2> Venta en Proceso</h2>
+        </div>
+        <form class="pt-5">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Clientes</label>
+                <select class="form-control" name="client" id="client">
+                    <option>--------</option>
+                    {% for client in clients %}
+                        <option value="{{ client.id }}">{{ client.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Lugar</label>
+                <select class="form-control" name="location" id="location">
+                    <option>--------</option>
+                    {% for client in clients %}
+                        <option value="{{ client.location }}">{{ client.location }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="text-center">
+                <a type="submit" href="{% url 'inventory:view-note' %}" class="btn btn-primary">Vender</a>
+            </div>
+        </form>
+
+    </div>
+{% endblock %}
