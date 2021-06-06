@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic.base import RedirectView
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
     path('', RedirectView.as_view(url='inventory/')),
     path('admin/', admin.site.urls),
     path('inventory/', include('vendery.inventory.urls')),
-]
+] + static(settings.MEDIA_ROOT, document_root=settings.MEDIA_ROOT)
