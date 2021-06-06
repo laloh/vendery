@@ -1,8 +1,7 @@
-import factory
 import factory.fuzzy
-from django.db.utils import ConnectionRouter
+from django.core.files.base import ContentFile
 
-from ..models import Products, Category, Vendors, Clients, Orders, Tickets
+from ..models import *
 
 
 class CategoryFactory(factory.django.DjangoModelFactory):
@@ -29,14 +28,23 @@ class ProductsFactory(factory.django.DjangoModelFactory):
         model = Products
 
 
+class UserFactory(factory.django.DjangoModelFactory):
+    address = factory.fuzzy.FuzzyText()
+    phone = factory.fuzzy.FuzzyText()
+    username = factory.fuzzy.FuzzyText()
+    email = factory.LazyAttribute(lambda a: 'test@test.com')
+
+    class Meta:
+        model = User
+
+
 class VendorsFactory(factory.django.DjangoModelFactory):
     name = factory.fuzzy.FuzzyText()
     phone = factory.fuzzy.FuzzyText()
-    email = factory.fuzzy.FuzzyText()
-    password = factory.fuzzy.FuzzyText()
     status = factory.fuzzy.FuzzyChoice(
         x[0] for x in Vendors.Status.choices
     )
+    user = factory.SubFactory(UserFactory)
 
     @factory.post_generation
     def products(self, create, extracted, **kwargs):
@@ -71,20 +79,26 @@ class ClientsFactory(factory.django.DjangoModelFactory):
 class OrdersFactory(factory.django.DjangoModelFactory):
     total = factory.fuzzy.FuzzyFloat(0.5, 42.7)
     store = factory.fuzzy.FuzzyText()
-    products = factory.SubFactory(ProductsFactory)
 
     class Meta:
         model = Orders
 
 
 class TicketsFactory(factory.django.DjangoModelFactory):
-    firm = factory.django.ImageField(from_path='nota-remision.png')
     location = factory.fuzzy.FuzzyText()
     comments = factory.fuzzy.FuzzyText()
     debt = factory.fuzzy.FuzzyFloat(0.5, 42.7)
     vendor = factory.SubFactory(VendorsFactory)
     client = factory.SubFactory(ClientsFactory)
     order = factory.SubFactory(OrdersFactory)
+
+    firm = factory.LazyAttribute(
+        lambda _: ContentFile(
+            factory.django.ImageField()._make_data(
+                {'width': 1024, 'height': 768}
+            ), 'nota-remision.png'
+        )
+    )
 
     class Meta:
         model = Tickets

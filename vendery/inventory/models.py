@@ -48,8 +48,8 @@ class Products(TimeStampedModel):
 
 class User(AbstractUser, TimeStampedModel):
     # TODO: Translate to english
-    direccion = models.TextField(blank=True, max_length=50)
-    telefono = models.CharField(max_length=20, blank=True)
+    address = models.TextField(blank=True, max_length=50)
+    phone = models.CharField(max_length=20, blank=True)
 
     def __str__(self):
         return '{}'.format(self.username)
