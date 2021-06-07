@@ -1,22 +1,28 @@
 {% load static %}
-<div class="d-flex flex-nowrap">
-  <button id='aumentar' class="btn btn-dark" onclick="aumentar()">+</button>
-  <input type='text' class="form-control" id="cantidad" value="0">
-  <button id='disminuir' class="btn btn-dark" onclick="disminuir()">-</button>
+<div class="d-flex flex-nowrap p-0">
+<button type="button"  class="btn btn-dark pl-2" onclick="increase{{ product.id }}()">+</button>
+        <input type="text"  name="cantidad" class="form-control pr-2 pl-2" id="product-{{ product.id }}" value="0">
+        <button type="button" class="btn btn-dark pr-2" onclick="decrease{{ product.id }}()">-</button>
 
 
 </div>
 
 <script>
-  let inicio = 0;
+let id = "{{ product.id }}"
+function increase(){
+    let textBox = document.getElementById("product-"+ id);
+    textBox.value++;
 
-  function aumentar() {
-    let cantidad = document.getElementById('cantidad').value = ++inicio;
+}
 
-  }
+function decrease() {
+    let textBox = document.getElementById("product-"+ id);
+    if(textBox.value > 0){
+            textBox.value--;
+    }
+    else {
+         textBox.value = 0;
+    }
 
-  function disminuir() {
-    let cantidad = document.getElementById('cantidad').value = --inicio;
-
-  }
+}
 </script>
