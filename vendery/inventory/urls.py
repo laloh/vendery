@@ -10,5 +10,7 @@ urlpatterns = [
     path('mis-ventas', ViewSales.as_view(), name='view-sales'),
     path('venta', ViewSalesData.as_view(), name='view-sales-data'),
     path('nota-remision', ViewNote.as_view(), name='view-note'),
+    path('inventario', ViewInventoryAll.as_view(), name='view-inventory-all'),
+    path('clientes', ViewCustomers.as_view(), name='view-customers'),
 ]
 

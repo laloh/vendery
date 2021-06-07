@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 from .forms import AuthenticationFormUser
-from .models import Vendors, Tickets, Clients
+from .models import Vendors, Tickets, Clients, Products
 
 
 class Login(LoginView):
@@ -31,6 +31,12 @@ class ViewInventory(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return self.model.objects.prefetch_related('products').filter(user=self.request.user)
 
+    def get_context_data(self, **kwargs):
+        context = super(ViewInventory, self).get_context_data(**kwargs)
+        context['products'] = Products.objects.all()
+
+        return context
+
 
 class ViewSales(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("inventory:view-login")
@@ -55,3 +61,11 @@ class ViewSalesData(LoginRequiredMixin, ListView):
 
 class ViewNote(LoginRequiredMixin, TemplateView):
     template_name = "views/note.html"
+
+
+class ViewInventoryAll(LoginRequiredMixin, TemplateView):
+    template_name = "views/inventory.html"
+
+
+class ViewCustomers(LoginRequiredMixin, TemplateView):
+    template_name = "views/customers.html"
