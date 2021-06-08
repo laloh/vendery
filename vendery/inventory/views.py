@@ -67,5 +67,12 @@ class ViewInventoryAll(LoginRequiredMixin, TemplateView):
     template_name = "views/inventory.html"
 
 
-class ViewCustomers(LoginRequiredMixin, TemplateView):
+class ViewCustomers(LoginRequiredMixin, ListView):
     template_name = "views/customers.html"
+    model = Clients
+    context_object_name = "customers"
+
+    def get_queryset(self):
+        return self.model.objects.all()
+
+

@@ -6,7 +6,14 @@
         <div class="text-center">
             <h2> Venta en Proceso</h2>
         </div>
-        <form class="pt-5">
+
+
+<div class="card">
+  <div class="card-header text-white text-center" style="background-color: #3d90bf">
+    Datos
+  </div>
+  <div class="card-body">
+         <form class="pt-5">
             {% csrf_token %}
 
             <div class="form-group">
@@ -28,9 +35,13 @@
                 </select>
             </div>
             <div class="text-center">
-                <a type="submit" href="{% url 'inventory:view-note' %}" class="btn btn-primary">Vender</a>
+                <a type="submit" href="{% url 'inventory:view-note' %}" class="btn btn-dark">Vender</a>
             </div>
         </form>
+  </div>
+</div>
+
+
 
     </div>
 {% endblock %}
