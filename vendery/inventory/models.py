@@ -23,7 +23,7 @@ class Category (TimeStampedModel):
 
 
 class Products(TimeStampedModel):
-
+    # TODO: Add Labels to spanish
     class Status(models.TextChoices):
         AVAILABLE = "available", "Available"
         DELETED = "deleted", "Deleted"
@@ -32,6 +32,7 @@ class Products(TimeStampedModel):
 
     name = models.CharField(max_length=255, default=None)
     price = models.FloatField(default=0)
+    # TODO Make it optional
     status = models.CharField(choices=Status.choices, default=Status.AVAILABLE, max_length=50)
     description = models.TextField(default=None)
     stock = models.IntegerField(default=0)
@@ -46,7 +47,7 @@ class Products(TimeStampedModel):
 
 
 class User(AbstractUser, TimeStampedModel):
-    # TODO:
+    # TODO: Translate to english
     direccion = models.TextField(blank=True, max_length=50)
     telefono = models.CharField(max_length=20, blank=True)
 
