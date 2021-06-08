@@ -1,9 +1,9 @@
-from django.views.generic import ListView
+from django.views.generic import TemplateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 from .forms import AuthenticationFormUser
-from .models import Vendors, Tickets
+from .models import Vendors, Tickets, Clients, Products
 
 
 class Login(LoginView):
@@ -31,6 +31,12 @@ class ViewInventory(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return self.model.objects.prefetch_related('products').filter(user=self.request.user)
 
+    def get_context_data(self, **kwargs):
+        context = super(ViewInventory, self).get_context_data(**kwargs)
+        context['products'] = Products.objects.all()
+
+        return context
+
 
 class ViewSales(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("inventory:view-login")
@@ -41,3 +47,32 @@ class ViewSales(LoginRequiredMixin, ListView):
     def get_queryset(self):
         vendor = Vendors.objects.get(user=self.request.user)
         return self.model.objects.filter(vendor=vendor.id)
+
+
+class ViewSalesData(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy("inventory:view-login")
+    template_name = "views/sales_data.html"
+    context_object_name = "clients"
+    model = Clients
+
+    def get_queryset(self):
+        return self.model.objects.all()
+
+
+class ViewNote(LoginRequiredMixin, TemplateView):
+    template_name = "views/note.html"
+
+
+class ViewInventoryAll(LoginRequiredMixin, TemplateView):
+    template_name = "views/inventory.html"
+
+
+class ViewCustomers(LoginRequiredMixin, ListView):
+    template_name = "views/customers.html"
+    model = Clients
+    context_object_name = "customers"
+
+    def get_queryset(self):
+        return self.model.objects.all()
+
+
