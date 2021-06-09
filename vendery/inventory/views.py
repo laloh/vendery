@@ -1,8 +1,8 @@
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
-from .forms import AuthenticationFormUser
+from .forms import AuthenticationFormUser, ClientForm
 from .models import Vendors, Tickets, Clients, Products
 
 
@@ -60,19 +60,29 @@ class ViewSalesData(LoginRequiredMixin, ListView):
 
 
 class ViewNote(LoginRequiredMixin, TemplateView):
+    login_url = reverse_lazy("inventory:view-login")
     template_name = "views/note.html"
 
 
 class ViewInventoryAll(LoginRequiredMixin, TemplateView):
+    login_url = reverse_lazy("inventory:view-login")
     template_name = "views/inventory.html"
 
 
 class ViewCustomers(LoginRequiredMixin, ListView):
-    template_name = "views/customers.html"
+    login_url = reverse_lazy("inventory:view-login")
+    template_name = "views/customer/customers.html"
     model = Clients
     context_object_name = "customers"
 
     def get_queryset(self):
         return self.model.objects.all()
 
+
+class ViewCreateCustomers(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy("inventory:view-login")
+    template_name = "views/customer/new.html"
+    success_url = reverse_lazy('inventory:view-customers')
+    model = Clients
+    form_class = ClientForm
 

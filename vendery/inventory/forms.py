@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
-from .models import User
+from .models import User, Clients
 
 
 class AuthenticationFormUser(AuthenticationForm):
@@ -55,3 +55,8 @@ class AuthenticationFormUser(AuthenticationForm):
         self.cleaned_data['username'] = _user.username
         return self.cleaned_data
 
+
+class ClientForm(forms.ModelForm):
+    class Meta:
+        model = Clients
+        fields = "__all__"

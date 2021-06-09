@@ -12,5 +12,6 @@ urlpatterns = [
     path('nota-remision', ViewNote.as_view(), name='view-note'),
     path('inventario', ViewInventoryAll.as_view(), name='view-inventory-all'),
     path('clientes', ViewCustomers.as_view(), name='view-customers'),
+    path('nuevo-cliente', ViewCreateCustomers.as_view(), name='view-customers-new'),
 ]
 
