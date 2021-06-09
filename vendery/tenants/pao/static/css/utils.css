@@ -1,0 +1,33 @@
+@media (min-width: 576px) {
+    .product-name {
+        font-size: 0.8rem;
+    !important;
+
+    }
+
+    .total {
+        width: 20rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    .product-name {
+        font-size: 1.5rem;
+    }
+
+    .total {
+        width: 25rem;
+    }
+
+}
+
+.div-total {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #262525;
+    padding: 0;
+    text-align: center;
+
+}

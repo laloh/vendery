@@ -1,34 +1,40 @@
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="#">Sina</a>
+{% load static %}
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <img src="{% static 'img/shoe.png' %}" style="height: 3rem; width: 3rem;" alt="">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
             aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="{% url 'inventory:view-inventory' %}">Inicio <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'inventory:view-sales' %}">Ventas</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Inventario</a>
-        </li>
-             <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Clientes</a>
-        </li>
-          <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{ user.get_username }}
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Datos</a>
-          <a class="dropdown-item" href="{% url 'inventory:view-logout' %}">Cerrar sesion</a>
-        </div>
-      </li>
-      </ul>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'inventory:view-inventory' %}">Inicio <span
+                        class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'inventory:view-sales' %}">Ventas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'inventory:view-inventory-all' %}">Inventario</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'inventory:view-customers' %}">Clientes</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-person-fill text-info" viewBox="0 0 16 16">
+                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                    </svg>
+                    {{ user.get_username }}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Datos</a>
+                    <a class="dropdown-item" href="{% url 'inventory:view-logout' %}">Cerrar sesion</a>
+                </div>
+            </li>
+        </ul>
 
     </div>
-      {% include 'components/search.html' %}
-  </nav>
+</nav>
