@@ -37,11 +37,11 @@
                                     <td>{{ product.category }}</td>
                                     <td>
                                         {% if product.status == "available" %}
-                                            Disponible
+                                          <p class="text-success"> Disponible </p>
                                         {% elif product.status == "Deleted" %}
-                                            Eliminado
+                                          <p class="text-danger"> Eliminado </p>
                                         {% elif product.status == "Paused" %}
-                                            Suspendido
+                                          <p class="text-warning"> Suspendido </p>
                                         {% endif %}
                                     </td>
                                 </tr>

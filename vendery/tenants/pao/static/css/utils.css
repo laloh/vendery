@@ -26,8 +26,12 @@
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color: #262525;
+    background-color: #363636; !important;
     padding: 0;
     text-align: center;
 
+}
+
+.other {
+    background-color: #e7e7e7; color: black;
 }
