@@ -1,4 +1,4 @@
-from django.views.generic import TemplateView, ListView, CreateView
+from django.views.generic import TemplateView, ListView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
@@ -86,3 +86,15 @@ class ViewCreateCustomers(LoginRequiredMixin, CreateView):
     model = Clients
     form_class = ClientForm
 
+
+class ViewUpdateCustomers(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy("inventory:view-login")
+    template_name = "views/customer/update_client.html"
+    success_url = reverse_lazy('inventory:view-customers')
+    model = Clients
+    form_class = ClientForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context["pk"] = self.kwargs["pk"]
+        return context

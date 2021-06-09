@@ -30,7 +30,11 @@
                         <tbody>
                         {% for customer in customers %}
                             <tr>
-                                <th scope="row">{{ customer.id }}</th>
+                                <th scope="row">
+                                    <a href="#" class="link"
+                                       onclick="modal_update('{% url 'inventory:view-customers-update' customer.id %}')">
+                                        {{ customer.id }}</a>
+                                </th>
                                 <td>{{ customer.name }}</td>
                                 <td>{{ customer.phone }}</td>
                                 <td>{{ customer.location }}</td>
@@ -53,7 +57,14 @@
                 {% endif %}
             </div>
         </div>
-
-
     </div>
+
+    <div class="modal fade" id="update_client" role="dialog"></div>
+    <script>
+        function modal_update(url) {
+            $('#update_client').load(url, function () {
+                $(this).modal('show');
+            });
+        }
+    </script>
 {% endblock %}
