@@ -68,6 +68,12 @@ class ViewInventoryAll(LoginRequiredMixin, TemplateView):
     login_url = reverse_lazy("inventory:view-login")
     template_name = "views/inventory.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['vendors'] = Vendors.objects.prefetch_related('products').filter(user=self.request.user)
+
+        return context
+
 
 class ViewCustomers(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("inventory:view-login")
@@ -96,5 +102,6 @@ class ViewUpdateCustomers(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context["pk"] = self.kwargs["pk"]
+        context['pk'] = self.kwargs['pk']
+
         return context
