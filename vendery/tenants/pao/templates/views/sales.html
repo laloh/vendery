@@ -8,29 +8,34 @@
                 Datos
             </div>
             <div class="card-body">
-                <table class="table table-bordered table-responsive-sm" >
-                    <thead>
-                    <tr>
-                        <th scope="col">id</th>
-                        <th scope="col">Locacion</th>
-                        <th scope="col">debt</th>
-                        <th scope="col">Cliente</th>
-                        <th scope="col">Orden</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for sale in sales %}
+                {% if sales %}
+                    <table class="table table-bordered table-responsive-sm">
+                        <thead>
                         <tr>
-                            <th scope="row"><a href="#">{{ sale.id }}</a></th>
-                            <td>{{ sale.location }}</td>
-                            <td>{{ sale.debt }}</td>
-                            <td>{{ sale.client }}</td>
-                            <td>{{ sale.order }}</td>
+                            <th scope="col">id</th>
+                            <th scope="col">Locacion</th>
+                            <th scope="col">debt</th>
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Orden</th>
                         </tr>
-                    {% endfor %}
+                        </thead>
 
-                    </tbody>
-                </table>
+                        <tbody>
+                        {% for sale in sales %}
+                            <tr>
+                                <th scope="row"><a href="{% url 'inventory:view-orders-show' sale.order.id %}">{{ sale.id }}</a></th>
+                                <td>{{ sale.location }}</td>
+                                <td>{{ sale.debt }}</td>
+                                <td>{{ sale.client }}</td>
+                                <td>{{ sale.order }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+
+                    </table>
+                {% else %}
+                    <h4 class="text-center"> No existen ventas</h4>
+                {% endif %}
             </div>
         </div>
 

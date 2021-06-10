@@ -39,7 +39,6 @@ class Products(TimeStampedModel):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=None)
     image = models.ImageField(default=None)
 
-
     class Meta:
         verbose_name = ('Producto')
         verbose_name_plural = ('Productos')
@@ -116,7 +115,7 @@ class Orders(TimeStampedModel):
         verbose_name_plural = ('Ventas')
 
     def __str__(self):
-        return "Orders"
+        return self.store
 
 
 class Tickets(TimeStampedModel):
@@ -134,4 +133,4 @@ class Tickets(TimeStampedModel):
         verbose_name_plural = ('Tickets')
 
     def __str__(self):
-        return "Firm from Admin"
+        return f"{self.id}"

@@ -1,0 +1,60 @@
+{% load static widget_tweaks %}
+
+<div class="modal-dialog modal-lg" role="document" style="max-width: 690px; margin: initial auto;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Actualizar Cliente</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'inventory:view-customers-update' pk %}">
+                    {% csrf_token %}
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputName">Nombre</label>
+                            {% render_field form.name class="form-control" %}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputPhone">Telefono</label>
+                            {% render_field form.phone class="form-control" %}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputEmail">Email</label>
+                            {% render_field form.email class="form-control" %}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputLocation">Direccion</label>
+                            {% render_field form.location class="form-control" %}
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputCity">Nombre de Tienda</label>
+                            {% render_field form.store_name class="form-control" %}
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputState">Deuda</label>
+                            {% render_field form.debt class="form-control" %}
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="inputZip">Estatus</label>
+                            {% render_field form.status class="form-control" %}
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-dark">Actualizar</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
