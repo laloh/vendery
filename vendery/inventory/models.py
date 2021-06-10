@@ -3,7 +3,7 @@ from model_utils.models import TimeStampedModel
 from django.contrib.auth.models import AbstractUser
 
 
-class Category (TimeStampedModel):
+class Category(TimeStampedModel):
 
     class Status(models.TextChoices):
         AVAILABLE = "available", "Available"
@@ -37,6 +37,7 @@ class Products(TimeStampedModel):
     description = models.TextField(default=None)
     stock = models.IntegerField(default=0)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=None)
+    image = models.ImageField(default=None)
 
     class Meta:
         verbose_name = ('Producto')
@@ -48,8 +49,8 @@ class Products(TimeStampedModel):
 
 class User(AbstractUser, TimeStampedModel):
     # TODO: Translate to english
-    direccion = models.TextField(blank=True, max_length=50)
-    telefono = models.CharField(max_length=20, blank=True)
+    address = models.TextField(blank=True, max_length=50)
+    phone = models.CharField(max_length=20, blank=True)
 
     def __str__(self):
         return '{}'.format(self.username)
@@ -89,8 +90,8 @@ class Clients(TimeStampedModel):
     name = models.CharField(max_length=255, default=None)
     phone = models.CharField(max_length=20, default=None)
     email = models.CharField(max_length=255, default=None)
-    password = models.CharField(max_length=255, default=None)
     location = models.CharField(max_length=255, default=None)
+    # TODO: Add store_name as Table
     store_name = models.CharField(max_length=255, default=None)
     debt = models.FloatField(default=0)
     status = models.CharField(choices=Status.choices, default=Status.AVAILABLE, max_length=50)
@@ -114,7 +115,7 @@ class Orders(TimeStampedModel):
         verbose_name_plural = ('Ventas')
 
     def __str__(self):
-        return "Orders"
+        return self.store
 
 
 class Tickets(TimeStampedModel):
@@ -132,4 +133,4 @@ class Tickets(TimeStampedModel):
         verbose_name_plural = ('Tickets')
 
     def __str__(self):
-        return "Firm from Admin"
+        return f"{self.id}"

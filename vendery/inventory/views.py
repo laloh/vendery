@@ -1,9 +1,10 @@
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
-from .forms import AuthenticationFormUser
-from .models import Vendors, Tickets, Clients, Products
+from .forms import AuthenticationFormUser, ClientForm, OrdersForm
+
+from .models import Vendors, Tickets, Clients, Products, Orders
 
 
 class Login(LoginView):
@@ -60,15 +61,24 @@ class ViewSalesData(LoginRequiredMixin, ListView):
 
 
 class ViewNote(LoginRequiredMixin, TemplateView):
+    login_url = reverse_lazy("inventory:view-login")
     template_name = "views/note.html"
 
 
 class ViewInventoryAll(LoginRequiredMixin, TemplateView):
+    login_url = reverse_lazy("inventory:view-login")
     template_name = "views/inventory.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['vendors'] = Vendors.objects.prefetch_related('products').filter(user=self.request.user)
+
+        return context
 
 
 class ViewCustomers(LoginRequiredMixin, ListView):
-    template_name = "views/customers.html"
+    login_url = reverse_lazy("inventory:view-login")
+    template_name = "views/customer/customers.html"
     model = Clients
     context_object_name = "customers"
 
@@ -76,3 +86,37 @@ class ViewCustomers(LoginRequiredMixin, ListView):
         return self.model.objects.all()
 
 
+class ViewCreateCustomers(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy("inventory:view-login")
+    template_name = "views/customer/new.html"
+    success_url = reverse_lazy('inventory:view-customers')
+    model = Clients
+    form_class = ClientForm
+
+
+class ViewUpdateCustomers(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy("inventory:view-login")
+    template_name = "views/customer/update_client.html"
+    success_url = reverse_lazy('inventory:view-customers')
+    model = Clients
+    form_class = ClientForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['pk'] = self.kwargs['pk']
+
+        return context
+
+
+class ViewShowOrders(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy("inventory:view-login")
+    template_name = "views/orders.html"
+    success_url = reverse_lazy('inventory:view-sales')
+    model = Orders
+    form_class = OrdersForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['orders'] = self.kwargs['pk']
+
+        return context
