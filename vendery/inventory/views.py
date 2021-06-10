@@ -2,8 +2,9 @@ from django.views.generic import TemplateView, ListView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
-from .forms import AuthenticationFormUser, ClientForm
-from .models import Vendors, Tickets, Clients, Products
+from .forms import AuthenticationFormUser, ClientForm, OrdersForm
+
+from .models import Vendors, Tickets, Clients, Products, Orders
 
 
 class Login(LoginView):
@@ -103,5 +104,19 @@ class ViewUpdateCustomers(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         context['pk'] = self.kwargs['pk']
+
+        return context
+
+
+class ViewShowOrders(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy("inventory:view-login")
+    template_name = "views/orders.html"
+    success_url = reverse_lazy('inventory:view-sales')
+    model = Orders
+    form_class = OrdersForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['orders'] = self.kwargs['pk']
 
         return context

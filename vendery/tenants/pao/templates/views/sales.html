@@ -23,7 +23,7 @@
                         <tbody>
                         {% for sale in sales %}
                             <tr>
-                                <th scope="row"><a href="#">{{ sale.id }}</a></th>
+                                <th scope="row"><a href="{% url 'inventory:view-orders-show' sale.order.id %}">{{ sale.id }}</a></th>
                                 <td>{{ sale.location }}</td>
                                 <td>{{ sale.debt }}</td>
                                 <td>{{ sale.client }}</td>

@@ -39,7 +39,6 @@ class Products(TimeStampedModel):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=None)
     image = models.ImageField(default=None)
 
-
     class Meta:
         verbose_name = ('Producto')
         verbose_name_plural = ('Productos')

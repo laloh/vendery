@@ -14,5 +14,6 @@ urlpatterns = [
     path('clientes/', ViewCustomers.as_view(), name='view-customers'),
     path('nuevo-cliente/', ViewCreateCustomers.as_view(), name='view-customers-new'),
     path('actualizar-cliente/<int:pk>/', ViewUpdateCustomers.as_view(), name='view-customers-update'),
+    path('orden/<int:pk>/', ViewShowOrders.as_view(), name='view-orders-show'),
 ]
 
