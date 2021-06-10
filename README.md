@@ -209,7 +209,7 @@ domain.save()
 from vendery.customers.models import Client, Domain
 
 # create your first real tenant
-tenant = Client(schema_name='lalo',
+tenant = Client(schema_name='pao',
                 name='Fonzy Tenant',
                 paid_until='2014-12-05',
                 on_trial=True)
@@ -217,7 +217,7 @@ tenant.save()  # migrate_schemas automatically called, your tenant is ready to b
 
 # Add one or more domains for the tenant
 domain = Domain()
-domain.domain = 'lalo.vendery.app'  # don't add your port or www here!
+domain.domain = 'pao.vendery.app'  # don't add your port or www here!
 domain.tenant = tenant
 domain.is_primary = True
 domain.save()
