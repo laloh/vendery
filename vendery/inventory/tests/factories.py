@@ -28,7 +28,7 @@ class ProductsFactory(factory.django.DjangoModelFactory):
         lambda _: ContentFile(
             factory.django.ImageField()._make_data(
                 {'width': 1024, 'height': 768}
-            ), 'nike-shoes.png'
+            ), 'test.jpg'
         )
     )
 

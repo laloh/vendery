@@ -2,11 +2,77 @@
 {% load static %}
 
 {% block main %}
-    <div class="container">
-           <div class="text-center">
-            <h2> Nota de Remisión
- </h2>
-        </div>
+    <link href="{% static 'css/note.css' %}" rel="stylesheet">
+    <h1>Chanclazo</h1>
 
+    <div>
+    <aside>
+      <address id="from">
+        Miercoles 20 de Enero del 2021
+        +52 238 250 4583
+        Vendedor
+        Ana Paola Arcos Rodriguez
+      </address>
+
+      <address id="to">
+        Cliente
+        Eduardo Carrera Huerta
+        Palenque, Chiapas
+        +52 936 101 2202
+      </address>
+    </aside>
     </div>
+
+    <div>
+    <dl id="informations">
+      <dt>Nota Numero:</dt>
+      <dd>10</dd>
+    </dl>
+    </div>
+
+    <div>
+    <table>
+      <thead>
+        <th>Producto</th>
+        <th>Precio</th>
+        <th>Cantidad</th>
+        <th>Subtotal</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Zapato de Niña</td>
+          <td>$100.00</td>
+          <td>4</td>
+          <td>$400.00</td>
+        </tr>
+        <tr>
+          <td>Tenis niño</td>
+          <td>$200.00</td>
+          <td>2</td>
+          <td>$400.00</td>
+        </tr>
+        <tr>
+          <td>Sandalias Talla 2</td>
+          <td>$50.00</td>
+          <td>20</td>
+          <td>$1,000.00</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div id="total" class="pt-5">
+    <table>
+      <thead>
+        <th>Total</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>$10,545.00</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+
 {% endblock %}
