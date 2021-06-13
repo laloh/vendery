@@ -117,6 +117,20 @@ class ViewShowOrders(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context['orders'] = self.kwargs['pk']
+        context['data'] = Orders.objects.get(id=self.kwargs['pk'])
+        context['orders'] = Orders.objects.prefetch_related('products').filter(id=self.kwargs['pk'])
 
         return context
+
+
+class SearchView(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy("inventory:view-login")
+    template_name = "index.html"
+    model = Products
+    context_object_name = 'productos'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        # TODO: Modify query to search only seller's products
+        Vendors.objects.prefetch_related('products').filter(user=self.request.user)
+        return self.model.objects.filter(name__icontains=query)
