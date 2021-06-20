@@ -6,6 +6,9 @@ from .forms import AuthenticationFormUser, ClientForm, OrdersForm
 
 from .models import Vendors, Tickets, Clients, Products, Orders
 
+from weasyprint import HTML
+from django.template.loader import render_to_string
+
 
 class Login(LoginView):
     template_name = 'login.html'
@@ -64,7 +67,6 @@ class ViewNote(LoginRequiredMixin, TemplateView):
     login_url = reverse_lazy("inventory:view-login")
     template_name = "views/note.html"
 
-
 class ViewInventoryAll(LoginRequiredMixin, TemplateView):
     login_url = reverse_lazy("inventory:view-login")
     template_name = "views/inventory.html"
@@ -74,7 +76,6 @@ class ViewInventoryAll(LoginRequiredMixin, TemplateView):
         context['vendors'] = Vendors.objects.prefetch_related('products').filter(user=self.request.user)
 
         return context
-
 
 class ViewCustomers(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("inventory:view-login")
@@ -134,3 +135,4 @@ class SearchView(LoginRequiredMixin, ListView):
         # TODO: Modify query to search only seller's products
         Vendors.objects.prefetch_related('products').filter(user=self.request.user)
         return self.model.objects.filter(name__icontains=query)
+
