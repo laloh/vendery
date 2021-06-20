@@ -1,0 +1,70 @@
+{% load static widget_tweaks %}
+<style>
+    .img_modal{
+        width: 15rem;
+        height: 15rem;
+    }
+</style>
+<div class="modal-dialog modal-lg" role="document" style="max-width: 690px; margin: initial auto;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Informacion del Producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'inventory:view-product-show' pk %}">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-center">
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <img class="img_modal" src="{{ form.instance.image.url }}"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputName">Nombre</label>
+                            <input type="text" class="form-control" value="{{ form.instance.name }}">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputPrice">Precio</label>
+                            <input type="text" class="form-control" value="{{ form.instance.price }}">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="inputStatus">Estatus</label>
+                            <input type="text" class="form-control" value="{{ form.instance.status }}">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputStock">Existencias</label>
+                            <input type="text" class="form-control" value="{{ form.instance.stock }}">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputCategory">Categoria</label>
+                            <input type="text" class="form-control" value="{{ form.instance.category }}">
+                        </div>
+                    </div>
+                       <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="inputDescription">Descripcion</label>
+                            <textarea  class="md-textarea form-control" rows="3"> {{ form.instance.description }}</textarea>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                           <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+ $('.form-control').prop('readonly', true);
+</script>
