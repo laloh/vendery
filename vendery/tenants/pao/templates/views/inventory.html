@@ -16,34 +16,26 @@
                     <table class="table table-bordered table-responsive-sm ">
                         <thead>
                         <tr>
-                            <th scope="col">id</th>
+                            <th scope="col">Clave</th>
                             <th scope="col">Nombre</th>
-                            <th scope="col">Precio</th>
                             <th scope="col">Existencia</th>
-                            <th scope="col">Categoria</th>
-                            <th scope="col">Esatatus</th>
+
                         </tr>
                         </thead>
                         <tbody>
                         {% for vendor in vendors %}
                             {% for product in vendor.products.all %}
                                 <tr>
+
                                     <th scope="row">
+                                    <a href="#" class="link"
+                                        onclick="modal_view('{% url 'inventory:view-product-show' product.id %}')">
                                         {{ product.id }}
+                                    </a>
                                     </th>
                                     <td>{{ product.name }}</td>
-                                    <td>{{ product.price }}</td>
                                     <td>{{ product.stock }}</td>
-                                    <td>{{ product.category }}</td>
-                                    <td>
-                                        {% if product.status == "available" %}
-                                          <p class="text-success"> Disponible </p>
-                                        {% elif product.status == "Deleted" %}
-                                          <p class="text-danger"> Eliminado </p>
-                                        {% elif product.status == "Paused" %}
-                                          <p class="text-warning"> Suspendido </p>
-                                        {% endif %}
-                                    </td>
+
                                 </tr>
                             {% endfor %}
                         {% endfor %}
@@ -55,4 +47,12 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="view_product" role="dialog"></div>
+<script>
+    function modal_view(url) {
+        $('#view_product').load(url, function () {
+            $(this).modal('show');
+        });
+    }
+    </script>
 {% endblock %}
