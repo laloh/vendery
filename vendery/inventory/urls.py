@@ -15,7 +15,8 @@ urlpatterns = [
     path('nuevo-cliente/', ViewCreateCustomers.as_view(), name='view-customers-new'),
     path('actualizar-cliente/<int:pk>/', ViewUpdateCustomers.as_view(), name='view-customers-update'),
     path('orden/<int:pk>/', ViewShowOrders.as_view(), name='view-orders-show'),
-    path('search-products', SearchView.as_view(), name='search_products')
-
+    path('search-products', SearchView.as_view(), name='search_products'),
+    path('producto/<int:pk>/', ViewShowProduct.as_view(), name='view-product-show'),
+    path('ticket/<int:pk>/', ViewShowTickets.as_view(), name='view-ticket-show'),
 ]
 

@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
-from .models import User, Clients, Orders
+from .models import User, Clients, Orders, Products, Tickets
 
 
 class AuthenticationFormUser(AuthenticationForm):
@@ -65,4 +65,16 @@ class ClientForm(forms.ModelForm):
 class OrdersForm(forms.ModelForm):
     class Meta:
         model = Orders
+        fields = "__all__"
+
+
+class ProductsForm(forms.ModelForm):
+    class Meta:
+        model = Products
+        fields = "__all__"
+
+
+class TicketsForm(forms.ModelForm):
+    class Meta:
+        model = Tickets
         fields = "__all__"
