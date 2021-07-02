@@ -1,28 +1,7 @@
 {% load static %}
 <div class="d-flex flex-nowrap p-0">
-<button type="button"  class="btn btn-dark pl-2" onclick="increase{{ product.id }}()">+</button>
-        <input type="text"  name="cantidad" class="form-control pr-2 pl-2" id="product-{{ product.id }}" value="0">
-        <button type="button" class="btn btn-dark pr-2" onclick="decrease{{ product.id }}()">-</button>
-
-
+    <button data-product="{{ product }}" class="btn btn-dark pl-2 increase-total">+</button>
+    <input type="text" name="cantidad" class="form-control pr-2 pl-2">
+    <button data-product="{{ product }}" class="btn btn-dark pr-2 decrease-total">-</button>
 </div>
-
-<script>
-let id = "{{ product.id }}"
-function increase(){
-    let textBox = document.getElementById("product-"+ id);
-    textBox.value++;
-
-}
-
-function decrease() {
-    let textBox = document.getElementById("product-"+ id);
-    if(textBox.value > 0){
-            textBox.value--;
-    }
-    else {
-         textBox.value = 0;
-    }
-
-}
-</script>
+<script type="text/javascript" src="{% static 'js/sell_button.js' %}"></script>
