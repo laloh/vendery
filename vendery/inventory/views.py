@@ -1,3 +1,6 @@
+import json
+
+from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
@@ -136,3 +139,14 @@ class SearchView(LoginRequiredMixin, ListView):
         Vendors.objects.prefetch_related('products').filter(user=self.request.user)
         return self.model.objects.filter(name__icontains=query)
 
+
+# Refactor: Change unit insertion for Bulk
+def selling_product(request):
+    order_products = json.loads(request.body)
+
+    order = Orders.objects.create(total=order_products['sumTotalAmount'])
+    for product_id, value in order_products["products"].items():
+        product = Products.objects.get(id=product_id)
+        order.products.add(product)
+
+    return HttpResponseRedirect('')

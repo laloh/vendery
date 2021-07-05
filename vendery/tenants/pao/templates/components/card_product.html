@@ -62,7 +62,10 @@
                     </div>
                 </div>
                 <div class="col pr-5">
-                    <a type="button" href="{% url 'inventory:view-sales-data' %}" class="btn btn-dark"
+                    <a type="button"
+                       href="{% url 'inventory:view-sales-data' %}"
+                       id="sell-button"
+                       class="btn btn-dark"
                        style="border-radius: 1rem;">Vender</a>
                 </div>
             </div>
@@ -70,4 +73,5 @@
     </div>
     <hr class="border-0">
 </div>
+
 <script type="text/javascript" src="{% static 'js/sell_button.js' %}"></script>

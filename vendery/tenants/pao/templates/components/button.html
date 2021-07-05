@@ -1,7 +1,12 @@
 {% load static %}
 <div class="d-flex flex-nowrap p-0">
-    <button data-product="{{ product }}" class="btn btn-dark pl-2 increase-total">+</button>
-    <input type="text" name="cantidad" class="form-control pr-2 pl-2">
-    <button data-product="{{ product }}" class="btn btn-dark pr-2 decrease-total">-</button>
+    <button data-id="{{ product.id }}"
+            data-price="{{ product.price }}"
+            class="btn btn-dark pl-2 increase-total">+</button>
+
+    <input type="text" name="cantidad" class="form-control pr-2 pl-2" value="0">
+
+    <button data-id="{{ product.id }}"
+            data-price="{{ product.price }}"
+            class="btn btn-dark pr-2 decrease-total">-</button>
 </div>
-<script type="text/javascript" src="{% static 'js/sell_button.js' %}"></script>

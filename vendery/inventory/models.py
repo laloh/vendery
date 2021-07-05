@@ -107,7 +107,6 @@ class Clients(TimeStampedModel):
 class Orders(TimeStampedModel):
 
     total = models.FloatField(default=0)
-    store = models.CharField(default=None, max_length=255)
     products = models.ManyToManyField(Products)
 
     class Meta:

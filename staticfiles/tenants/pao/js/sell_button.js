@@ -1,22 +1,90 @@
-var increaseTotal = document.getElementsByClassName('increase-total')
+let increaseTotal = document.getElementsByClassName('increase-total')
 var decreaseTotal = document.getElementsByClassName('decrease-total')
 var totalAmount = document.getElementById("total-amount")
+var sellButton = document.getElementById('sell-button')
 
 
+var order = {
+	"sumTotalAmount": 0.0,
+	"products": {}
+}
 
-for (i = 0; i < increaseTotal.length; i++) {
+function setTextTotalAmount(element){
+	order.sumTotalAmount = parseFloat(order.sumTotalAmount.toFixed(2))
+	if (order.sumTotalAmount <= 0) {
+		order.sumTotalAmount = 0
+	}
+	element.innerHTML = "Total: $" + order.sumTotalAmount + " MX"
+}
+
+
+for (let i = 0; i < increaseTotal.length; i++) {
 	increaseTotal[i].addEventListener('click', function (){
-		var productPrice = this.dataset.product['price']
+		var productID = this.dataset.id
+		var productPrice = parseFloat(this.dataset.price)
 
-		console.log('increaseTotal button %s', id)
-		console.log(id)
+		order.sumTotalAmount += productPrice
+		setTextTotalAmount(totalAmount)
+
+		if (!order.products.hasOwnProperty(productID)) {
+			order.products[productID] = {
+				"quantity":0,
+				"subtotal":0
+			}
+		}
+
+		order.products[productID].quantity += 1
+		order.products[productID].subtotal += productPrice
+
+		// Not permit zero values
+		if (order.products[productID].quantity <= 0) {
+			order.products[productID].quantity = 0
+			order.products[productID].subtotal = 0
+		}
 	})
 }
 
-for (i = 0; i < decreaseTotal.length; i++) {
+for (let i = 0; i < decreaseTotal.length; i++) {
 	decreaseTotal[i].addEventListener('click', function (){
-		var id = this.dataset.product
-		console.log('decrease button %s', id)
-		console.log(id)
+		var productID = this.dataset.id
+		var productPrice = parseFloat(this.dataset.price)
+
+		order.sumTotalAmount -= productPrice
+		setTextTotalAmount(totalAmount)
+
+		if (!order.products.hasOwnProperty(productID)) {
+			order.products[productID] = {
+				"quantity":0,
+				"subtotal":0
+			}
+		}
+
+		order.products[productID].quantity -= 1
+		order.products[productID].subtotal -= productPrice
+
+		// Not permit zero values
+		if (order.products[productID].quantity <= 0) {
+			order.products[productID].quantity = 0
+			order.products[productID].subtotal = 0
+		}
 	})
+}
+
+sellButton.onclick = function () {
+	var url = '/inventory/selling-product/'
+
+	fetch(url, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+			// 'X-CSRFToken': csrftoken,
+		},
+		body: JSON.stringify(order)
+	})
+		.then((response) => {
+			return response.json();
+		})
+		.then((data) => {
+			location.reload()
+		});
 }
