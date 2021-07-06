@@ -41,6 +41,7 @@ class ViewInventory(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(ViewInventory, self).get_context_data(**kwargs)
         context['products'] = Products.objects.all()
+        context['clients'] = Clients.objects.all()
 
         return context
 
@@ -70,6 +71,7 @@ class ViewNote(LoginRequiredMixin, TemplateView):
     login_url = reverse_lazy("inventory:view-login")
     template_name = "views/note.html"
 
+
 class ViewInventoryAll(LoginRequiredMixin, TemplateView):
     login_url = reverse_lazy("inventory:view-login")
     template_name = "views/inventory.html"
@@ -79,6 +81,7 @@ class ViewInventoryAll(LoginRequiredMixin, TemplateView):
         context['vendors'] = Vendors.objects.prefetch_related('products').filter(user=self.request.user)
 
         return context
+
 
 class ViewCustomers(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("inventory:view-login")
@@ -140,9 +143,10 @@ class SearchView(LoginRequiredMixin, ListView):
         return self.model.objects.filter(name__icontains=query)
 
 
-# Refactor: Change unit insertion for Bulk
+# TODO: Refactor Change unit insertion for Bulk
 def selling_product(request):
     order_products = json.loads(request.body)
+    print(order_products)
 
     order = Orders.objects.create(total=order_products['sumTotalAmount'])
     for product_id, value in order_products["products"].items():

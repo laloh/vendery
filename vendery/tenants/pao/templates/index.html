@@ -2,7 +2,7 @@
 {% load static %}
 {% block main %}
     <div class="container">
-
+        {% include 'components/clients.html' with clients=clients %}
         {% include 'components/search.html' %}
         <div class="row pt-3 pl-2">
             {% for p in productos %}
@@ -38,6 +38,6 @@
         </div>
         {% include 'components/card_product.html' %}
     </div>
-
+    <script type="text/javascript" src="{% static 'js/sell_button.js' %}"></script>
 
 {% endblock %}

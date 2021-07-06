@@ -2,6 +2,7 @@ let increaseTotal = document.getElementsByClassName('increase-total')
 var decreaseTotal = document.getElementsByClassName('decrease-total')
 var totalAmount = document.getElementById("total-amount")
 var sellButton = document.getElementById('sell-button')
+var clientID = document.getElementById("select-client")
 
 
 var order = {
@@ -72,6 +73,10 @@ for (let i = 0; i < decreaseTotal.length; i++) {
 
 sellButton.onclick = function () {
 	var url = '/inventory/selling-product/'
+
+	order['clientID'] = clientID
+						.options[clientID.selectedIndex]
+						.getAttribute('value')
 
 	fetch(url, {
 		method: 'POST',
