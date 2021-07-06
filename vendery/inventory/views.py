@@ -1,6 +1,7 @@
 import json
 
 from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
@@ -67,9 +68,24 @@ class ViewSalesData(LoginRequiredMixin, ListView):
         return self.model.objects.all()
 
 
+def insert_order_to_db(request):
+    # TODO: Refactor Change unit insertion for Bulk
+    order_products = json.loads(request.body)
+    print(order_products)
+
+    order = Orders.objects.create(total=order_products['sumTotalAmount'])
+    for product_id, value in order_products["products"].items():
+        product = Products.objects.get(id=product_id)
+        order.products.add(product)
+
+
 class ViewNote(LoginRequiredMixin, TemplateView):
     login_url = reverse_lazy("inventory:view-login")
     template_name = "views/note.html"
+
+    def post(self, request, *args, **kwargs):
+        insert_order_to_db(request)
+        return render(request, self.template_name, None)
 
 
 class ViewInventoryAll(LoginRequiredMixin, TemplateView):
@@ -143,14 +159,3 @@ class SearchView(LoginRequiredMixin, ListView):
         return self.model.objects.filter(name__icontains=query)
 
 
-# TODO: Refactor Change unit insertion for Bulk
-def selling_product(request):
-    order_products = json.loads(request.body)
-    print(order_products)
-
-    order = Orders.objects.create(total=order_products['sumTotalAmount'])
-    for product_id, value in order_products["products"].items():
-        product = Products.objects.get(id=product_id)
-        order.products.add(product)
-
-    return HttpResponseRedirect('')

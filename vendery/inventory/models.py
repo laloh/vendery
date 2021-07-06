@@ -114,7 +114,7 @@ class Orders(TimeStampedModel):
         verbose_name_plural = ('Ventas')
 
     def __str__(self):
-        return self.store
+        return str(self.id)
 
 
 class Tickets(TimeStampedModel):
