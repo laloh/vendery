@@ -17,14 +17,11 @@
             </div>
             <hr>
                 {% if customers %}
-                    <table class="table table-bordered table-responsive-sm ">
+                    <table class="table table-bordered">
                         <thead>
                         <tr>
-                            <th scope="col">id</th>
+                            <th scope="col">Clave</th>
                             <th scope="col">Nombre</th>
-                            <th scope="col">Telefono</th>
-                            <th scope="col">Lugar</th>
-                            <th scope="col">Estatus</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -36,17 +33,6 @@
                                         {{ customer.id }}</a>
                                 </th>
                                 <td>{{ customer.name }}</td>
-                                <td>{{ customer.phone }}</td>
-                                <td>{{ customer.location }}</td>
-                                <td>
-                                    {% if customer.status == "available" %}
-                                        Disponible
-                                    {% elif customer.status == "Deleted" %}
-                                        Eliminado
-                                    {% elif customer.status == "Paused" %}
-                                        Suspendido
-                                    {% endif %}
-                                </td>
                             </tr>
                         {% endfor %}
 

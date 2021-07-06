@@ -6,7 +6,7 @@ from django.views.generic import TemplateView, ListView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
-from .forms import AuthenticationFormUser, ClientForm, OrdersForm
+from .forms import AuthenticationFormUser, ClientForm, OrdersForm, ProductsForm, TicketsForm
 
 from .models import Vendors, Tickets, Clients, Products, Orders
 
@@ -158,4 +158,31 @@ class SearchView(LoginRequiredMixin, ListView):
         Vendors.objects.prefetch_related('products').filter(user=self.request.user)
         return self.model.objects.filter(name__icontains=query)
 
+
+class ViewShowProduct(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy("inventory:view-login")
+    template_name = "views/products/product_detail.html"
+    success_url = reverse_lazy('inventory:view-inventory-all')
+    model = Products
+    form_class = ProductsForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['pk'] = self.kwargs['pk']
+
+        return context
+
+
+class ViewShowTickets(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy("inventory:view-login")
+    template_name = "views/products/ticket_detail.html"
+    success_url = reverse_lazy('inventory:view-sales')
+    model = Tickets
+    form_class = TicketsForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['pk'] = self.kwargs['pk']
+
+        return context
 
