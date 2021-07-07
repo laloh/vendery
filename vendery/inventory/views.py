@@ -1,7 +1,7 @@
 import json
 
 from django.shortcuts import render
-from django.views.generic import TemplateView, ListView, CreateView, UpdateView, FormView
+from django.views.generic import TemplateView, ListView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
@@ -66,22 +66,10 @@ class ViewSalesData(LoginRequiredMixin, ListView):
 
 def insert_order_to_db(orders):
     # TODO: Refactor Change unit insertion for Bulk
-
     order = Orders.objects.create(total=orders['sumTotalAmount'])
     for product_id, value in orders["products"].items():
         product = Products.objects.get(id=product_id)
         order.products.add(product)
-
-
-# TODO: Change this function to a ViewNote
-def generate_invoice_note(request):
-    if request.method == "POST":
-        orders = json.loads(request.body)
-        request.session['orders'] = orders
-        insert_order_to_db(orders)
-        return render(request, "views/note.html")
-    else:
-        return render(request, "views/note.html", {"products": request.session['orders']})
 
 
 class ViewNote(LoginRequiredMixin, TemplateView):
@@ -90,8 +78,12 @@ class ViewNote(LoginRequiredMixin, TemplateView):
 
     def post(self, request, *args, **kwargs):
         orders = json.loads(request.body)
+        request.session['orders'] = orders
         insert_order_to_db(orders)
-        return render(request, self.template_name, {"products": orders})
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name,
+                      {"products": request.session['orders']})
 
 
 class ViewInventoryAll(LoginRequiredMixin, TemplateView):

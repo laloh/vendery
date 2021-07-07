@@ -18,5 +18,4 @@ urlpatterns = [
     path('search-products', SearchView.as_view(), name='search_products'),
     path('producto/<int:pk>/', ViewShowProduct.as_view(), name='view-product-show'),
     path('ticket/<int:pk>/', ViewShowTickets.as_view(), name='view-ticket-show'),
-    path('confirm-sell/', generate_invoice_note, name="view-confirm-sell")
 ]

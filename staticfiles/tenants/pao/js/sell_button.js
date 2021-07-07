@@ -75,31 +75,9 @@ for (let i = 0; i < decreaseTotal.length; i++) {
 	})
 }
 
-function sendDataToDjango() {
-	var url = '/inventory/confirm-sell/'
-
-	order['clientID'] = clientID
-						.options[clientID.selectedIndex]
-						.getAttribute('value')
-
-	fetch(url, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-			// 'X-CSRFToken': csrftoken,
-		},
-		body: JSON.stringify(order)
-	})
-		.then((response) => {
-			return response.json();
-		})
-		.then((data) => {
-			location.reload()
-		});
-}
 
 sellButton.onclick = function () {
-	var url = '/inventory/confirm-sell/'
+	var url = '/inventory/nota-remision/'
 
 	order['clientID'] = clientID
 						.options[clientID.selectedIndex]
