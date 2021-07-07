@@ -55,18 +55,20 @@
 <hr class="pt-5 border-0">
 <div class="div-total">
     <div class="d-flex align-items-end flex-column">
-        <form class="pt-4">
+        <form class="pt-4" method="GET" action="confirm-sell/">
             <div class="row">
                 <div class="col pl-5">
                     <div class="p-2 bg-light text-dark" id="total-amount" style="border-radius: 0.5rem; width:10rem;">Total: $0.00
                     </div>
                 </div>
                 <div class="col pr-5">
-                    <a type="button"
-                       href="{% url 'inventory:view-note' %}"
-                       id="sell-button"
-                       class="btn btn-dark"
-                       style="border-radius: 1rem;">Vender</a>
+                    <button class="btn btn-dark" onclick="sendDataToDjango()">Vender
+{#                    <a#}
+{#                       href="{% url 'inventory:view-note' %}"#}
+{#                       id="sell-button"#}
+{#                       class="btn btn-dark"#}
+{#                       style="border-radius: 1rem;">Vender</a>#}
+                    </button>
                 </div>
             </div>
         </form>

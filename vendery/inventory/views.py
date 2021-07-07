@@ -1,17 +1,13 @@
 import json
 
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic import TemplateView, ListView, CreateView, UpdateView
+from django.views.generic import TemplateView, ListView, CreateView, UpdateView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
+
 from .forms import AuthenticationFormUser, ClientForm, OrdersForm, ProductsForm, TicketsForm
-
 from .models import Vendors, Tickets, Clients, Products, Orders
-
-from weasyprint import HTML
-from django.template.loader import render_to_string
 
 
 class Login(LoginView):
@@ -68,15 +64,24 @@ class ViewSalesData(LoginRequiredMixin, ListView):
         return self.model.objects.all()
 
 
-def insert_order_to_db(request):
+def insert_order_to_db(orders):
     # TODO: Refactor Change unit insertion for Bulk
-    order_products = json.loads(request.body)
-    print(order_products)
 
-    order = Orders.objects.create(total=order_products['sumTotalAmount'])
-    for product_id, value in order_products["products"].items():
+    order = Orders.objects.create(total=orders['sumTotalAmount'])
+    for product_id, value in orders["products"].items():
         product = Products.objects.get(id=product_id)
         order.products.add(product)
+
+
+# TODO: Change this function to a ViewNote
+def generate_invoice_note(request):
+    if request.method == "POST":
+        orders = json.loads(request.body)
+        request.session['orders'] = orders
+        insert_order_to_db(orders)
+        return render(request, "views/note.html")
+    else:
+        return render(request, "views/note.html", {"products": request.session['orders']})
 
 
 class ViewNote(LoginRequiredMixin, TemplateView):
@@ -84,8 +89,9 @@ class ViewNote(LoginRequiredMixin, TemplateView):
     template_name = "views/note.html"
 
     def post(self, request, *args, **kwargs):
-        insert_order_to_db(request)
-        return render(request, self.template_name, None)
+        orders = json.loads(request.body)
+        insert_order_to_db(orders)
+        return render(request, self.template_name, {"products": orders})
 
 
 class ViewInventoryAll(LoginRequiredMixin, TemplateView):

@@ -30,8 +30,10 @@ for (let i = 0; i < increaseTotal.length; i++) {
 		if (!order.products.hasOwnProperty(productID)) {
 			order.products[productID] = {
 				"quantity":0,
-				"subtotal":0
+				"subtotal":0,
+				"price": productPrice
 			}
+			console.log(order)
 		}
 
 		order.products[productID].quantity += 1
@@ -56,8 +58,10 @@ for (let i = 0; i < decreaseTotal.length; i++) {
 		if (!order.products.hasOwnProperty(productID)) {
 			order.products[productID] = {
 				"quantity":0,
-				"subtotal":0
+				"subtotal":0,
+				"price": productPrice
 			}
+			console.log(order)
 		}
 
 		order.products[productID].quantity -= 1
@@ -71,8 +75,8 @@ for (let i = 0; i < decreaseTotal.length; i++) {
 	})
 }
 
-sellButton.onclick = function () {
-	var url = '/inventory/nota-remision/'
+function sendDataToDjango() {
+	var url = '/inventory/confirm-sell/'
 
 	order['clientID'] = clientID
 						.options[clientID.selectedIndex]
@@ -80,6 +84,29 @@ sellButton.onclick = function () {
 
 	fetch(url, {
 		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+			// 'X-CSRFToken': csrftoken,
+		},
+		body: JSON.stringify(order)
+	})
+		.then((response) => {
+			return response.json();
+		})
+		.then((data) => {
+			location.reload()
+		});
+}
+
+sellButton.onclick = function () {
+	var url = '/inventory/confirm-sell/'
+
+	order['clientID'] = clientID
+						.options[clientID.selectedIndex]
+						.getAttribute('value')
+
+	fetch(url, {
+		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json'
 			// 'X-CSRFToken': csrftoken,
