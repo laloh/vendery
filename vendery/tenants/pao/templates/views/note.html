@@ -1,55 +1,67 @@
-{% extends "loyout/base.html" %}
 {% load static %}
-
-{% block main %}
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
     <link href="{% static 'css/note.css' %}" rel="stylesheet">
-    <h1>Chanclazo</h1>
+    <title>Invoice</title>
+    <meta name="description" content="Invoice demo sample">
+    <meta name="author" content="Kozea">
+  </head>
 
-    <div>
+  <body>
+    <h1>Invoice</h1>
+
     <aside>
       <address id="from">
-        Miercoles 20 de Enero del 2021
-        +52 238 250 4583
-        Vendedor
-        Ana Paola Arcos Rodriguez
+        Weasyprint [ by Kozea ]
+        107 boulevard de Stalingrad
+        69100 Villeurbanne City
+        France
       </address>
 
       <address id="to">
-        Cliente
-        Eduardo Carrera Huerta
-        Palenque, Chiapas
-        +52 936 101 2202
+        Our awesome developers
+        From all around the world
+        Earth
       </address>
     </aside>
-    </div>
 
-    <div>
     <dl id="informations">
-      <dt>Nota Numero:</dt>
-      <dd>10</dd>
+      <dt>Invoice number</dt>
+      <dd>12345</dd>
+      <dt>Date</dt>
+      <dd>March 31, 2018</dd>
     </dl>
-    </div>
 
-    <div>
     <table>
       <thead>
-        <th>Producto</th>
-        <th>Precio</th>
-        <th>Cantidad</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Quantity</th>
         <th>Subtotal</th>
       </thead>
       <tbody>
-      {% for product in products %}
         <tr>
-          <td>Zapato de Niña</td>
-          <td>$100.00</td>
-          <td>4</td>
-          <td>$400.00</td>
+          <td>Website design</td>
+          <td>€34.20</td>
+          <td>100</td>
+          <td>€3,420.00</td>
         </tr>
-      {% endfor %}
+        <tr>
+          <td>Website development</td>
+          <td>€45.50</td>
+          <td>100</td>
+          <td>€4,550.00</td>
+        </tr>
+        <tr>
+          <td>Website integration</td>
+          <td>€25.75</td>
+          <td>100</td>
+          <td>€2,575.00</td>
+        </tr>
       </tbody>
     </table>
-    </div>
 
     <div id="total" class="pt-5">
     <table>
@@ -63,6 +75,5 @@
       </tbody>
     </table>
     </div>
-
-
-{% endblock %}
+  </body>
+</html>

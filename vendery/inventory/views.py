@@ -1,3 +1,4 @@
+import os
 import json
 
 from django.shortcuts import render
@@ -5,6 +6,11 @@ from django.views.generic import TemplateView, ListView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
+from django.template.loader import render_to_string
+from weasyprint import HTML, CSS
+from django.conf import settings
+from django.template.loader import get_template
+
 
 from .forms import AuthenticationFormUser, ClientForm, OrdersForm, ProductsForm, TicketsForm
 from .models import Vendors, Tickets, Clients, Products, Orders
@@ -72,7 +78,19 @@ def insert_order_to_db(orders):
         order.products.add(product)
 
 
+def generate_pdf(request, template):
+    pdf_file = HTML(string=template).write_pdf(
+        stylesheets=[CSS(settings.STATIC_ROOT + f'tenants/{request.user}/css/note.css')],
+        presentational_hints=True)
+
+    dirname = os.path.dirname(__file__)
+    if os.path.exists(dirname):
+        f = open(os.path.join(dirname, "test2.pdf"), 'wb')
+        f.write(pdf_file)
+
+
 class ViewNote(LoginRequiredMixin, TemplateView):
+
     login_url = reverse_lazy("inventory:view-login")
     template_name = "views/note.html"
 
@@ -82,8 +100,10 @@ class ViewNote(LoginRequiredMixin, TemplateView):
         insert_order_to_db(orders)
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name,
-                      {"products": request.session['orders']})
+        orders = request.session['orders']
+        rendered_template = render_to_string(self.template_name, {"products": orders})
+        generate_pdf(request, rendered_template)
+        return render(request, self.template_name, {"products": orders})
 
 
 class ViewInventoryAll(LoginRequiredMixin, TemplateView):
