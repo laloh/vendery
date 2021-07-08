@@ -75,7 +75,8 @@ for (let i = 0; i < decreaseTotal.length; i++) {
 	})
 }
 
-setTimeout(function () {
+
+sellButton.onclick = function () {
 	var url = '/inventory/nota-remision/'
 
 	order['clientID'] = clientID
@@ -96,4 +97,4 @@ setTimeout(function () {
 		.then((data) => {
 			location.reload()
 		});
-}, 5000)
+}
