@@ -115,26 +115,16 @@ class ViewNote(LoginRequiredMixin, TemplateView):
     template_name = "views/note.html"
 
     def post(self, request, *args, **kwargs):
-        print("weeeee post")
-        print(request.session.session_key)
-        print(request.session.values)
         orders = json.loads(request.body)
-        print(orders)
         request.session['orders'] = orders
         insert_order_to_db(orders)
-        return render(request, self.template_name, {"products": orders})
 
     def get(self, request, *args, **kwargs):
-        print("weeeee get")
-        print(request.body)
-        print(request.session.session_key)
-        print(request.session.values)
         orders = request.session['orders']
-        print(orders)
         rendered_template = render_to_string(self.template_name, {"products": orders})
         pdf_path = generate_pdf(request, rendered_template)
         print(pdf_path)
-        # send_pdf_sms(pdf_path)
+        send_pdf_sms(pdf_path)
         return render(request, self.template_name, {"products": orders})
 
 
@@ -235,5 +225,4 @@ class ViewShowTickets(LoginRequiredMixin, UpdateView):
         context['pk'] = self.kwargs['pk']
 
         return context
-
 
