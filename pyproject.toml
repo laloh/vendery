@@ -18,6 +18,7 @@ python-dotenv = "^0.17.1"
 django-3-jet = {url = "https://github.com/Barukimang/django-jet/archive/dev.zip"}
 django-widget-tweaks = "^1.4.8"
 weasyprint = "^52.5"
+twilio = "^6.61.0"
 
 [tool.poetry.dev-dependencies]
 

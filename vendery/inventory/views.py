@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from django.template.loader import render_to_string
 from weasyprint import HTML, CSS
 from django.conf import settings
-from django.template.loader import get_template
+from twilio.rest import Client
 
 
 from .forms import AuthenticationFormUser, ClientForm, OrdersForm, ProductsForm, TicketsForm
@@ -79,14 +79,34 @@ def insert_order_to_db(orders):
 
 
 def generate_pdf(request, template):
+    media_pdf_path = f'{request.user}/pdf/test2.pdf'
+    pdf_path = os.path.join(settings.MEDIA_ROOT, media_pdf_path)
+    css_path = f'tenants/{request.user}/css/note.css'
+
     pdf_file = HTML(string=template).write_pdf(
-        stylesheets=[CSS(settings.STATIC_ROOT + f'tenants/{request.user}/css/note.css')],
+        stylesheets=[CSS(settings.STATIC_ROOT + css_path)],
         presentational_hints=True)
+
+    download_path = f'{request.scheme}://{request.get_host()}/{media_pdf_path}'
 
     dirname = os.path.dirname(__file__)
     if os.path.exists(dirname):
-        f = open(os.path.join(dirname, "test2.pdf"), 'wb')
+        f = open(pdf_path, 'wb')
         f.write(pdf_file)
+
+    return download_path
+
+
+def send_pdf_sms(pdf_path):
+    account_sid = 'AC81ecb5361350d7c651828ded7208547e'
+    auth_token = '7972d8c260291774f4f491278fc186a9'
+    client = Client(account_sid, auth_token)
+
+    client.messages.create(
+        body=f'Gracias por tu compra, descarga tu Nota aquí: {pdf_path}',
+        from_='+12408984498',
+        to='+522382504583'
+    )
 
 
 class ViewNote(LoginRequiredMixin, TemplateView):
@@ -102,7 +122,9 @@ class ViewNote(LoginRequiredMixin, TemplateView):
     def get(self, request, *args, **kwargs):
         orders = request.session['orders']
         rendered_template = render_to_string(self.template_name, {"products": orders})
-        generate_pdf(request, rendered_template)
+        pdf_path = generate_pdf(request, rendered_template)
+        print(pdf_path)
+        send_pdf_sms(pdf_path)
         return render(request, self.template_name, {"products": orders})
 
 
