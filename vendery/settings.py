@@ -148,7 +148,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'inventory.User'
 APPEND_SLASH = True
 
 # Internationalization
