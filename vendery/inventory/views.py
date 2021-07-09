@@ -117,7 +117,6 @@ class ViewNote(LoginRequiredMixin, TemplateView):
     orders = {}
 
     def post(self, request, *args, **kwargs):
-        print("nigga what")
         orders = json.loads(request.body)
         self.orders['orders'] = orders
         insert_order_to_db(orders)
@@ -125,18 +124,14 @@ class ViewNote(LoginRequiredMixin, TemplateView):
 
     # TODO: Fix delay between post and get
     def get(self, request, *args, **kwargs):
-        while 'orders' not in self.orders:
-            print("Waiting for data....")
-            print(self.orders)
+        while 'orders' not in self.orders.keys():
+            print("Waiting for data...")
             time.sleep(1)
 
-        print(self.orders)
         orders = self.orders['orders']
         rendered_template = render_to_string(self.template_name, {"products": orders})
         pdf_path = generate_pdf(request, rendered_template)
         # send_pdf_sms(pdf_path)
-        self.orders.pop("orders", "key_not_found")
-        self.request.session.pop('orders', 'key_not_found')
         return render(request, self.template_name, {"products": orders})
 
 
