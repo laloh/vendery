@@ -1,5 +1,6 @@
 import os
 import json
+import time
 
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView
@@ -113,19 +114,29 @@ class ViewNote(LoginRequiredMixin, TemplateView):
 
     login_url = reverse_lazy("inventory:view-login")
     template_name = "views/note.html"
+    orders = {}
 
     def post(self, request, *args, **kwargs):
+        print("nigga what")
         orders = json.loads(request.body)
-        request.session['orders'] = orders
+        self.orders['orders'] = orders
         insert_order_to_db(orders)
         return render(request, self.template_name, {"products": orders})
 
+    # TODO: Fix delay between post and get
     def get(self, request, *args, **kwargs):
-        orders = request.session['orders']
+        while 'orders' not in self.orders:
+            print("Waiting for data....")
+            print(self.orders)
+            time.sleep(1)
+
+        print(self.orders)
+        orders = self.orders['orders']
         rendered_template = render_to_string(self.template_name, {"products": orders})
         pdf_path = generate_pdf(request, rendered_template)
-        print(pdf_path)
-        send_pdf_sms(pdf_path)
+        # send_pdf_sms(pdf_path)
+        self.orders.pop("orders", "key_not_found")
+        self.request.session.pop('orders', 'key_not_found')
         return render(request, self.template_name, {"products": orders})
 
 
