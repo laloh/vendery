@@ -255,9 +255,15 @@ sudo apt-get install build-essential python3-dev python3-pip python3-setuptools 
 
 # Run migrations
 
-`python manage.py makemigrations inventory`
-`python manage.py migrate_schemas --shared`
-`python manage.py migrate_schemas --shared`
-`python manage.py makemigrations customers`
-`python manage.py shell_plus`
-`Create tenant with code above`
+**Set up models**
+- `git checkout util/reset_migration`
+- `git checkout HEAD-1`
+- `python manage.py makemigrations customers`
+- `python manage.py makemigrations inventory`
+- `python manage.py migrate_schemas --shared`
+- `git checkout HEAD`
+- `python manage.py makemigrations customers`
+- `python manage.py makemigrations inventory`
+- `python manage.py migrate_schemas --shared`
+- `python manage.py shell_plus`
+- `Create tenant with code above`
