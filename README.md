@@ -252,3 +252,12 @@ Out[3]: <Products: joIYNzQPdVQI>
 ````shell
 sudo apt-get install build-essential python3-dev python3-pip python3-setuptools python3-wheel python3-cffi libcairo2 libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-0 libffi-dev shared-mime-info
 ````
+
+# Run migrations
+
+`python manage.py makemigrations inventory`
+`python manage.py migrate_schemas --shared`
+`python manage.py migrate_schemas --shared`
+`python manage.py makemigrations customers`
+`python manage.py shell_plus`
+`Create tenant with code above`
