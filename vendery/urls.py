@@ -22,6 +22,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
     path('', RedirectView.as_view(url='inventory/')),
-    path('admin', admin.site.urls),
-    path('inventory', include('vendery.inventory.urls')),
+    path('admin/', admin.site.urls),
+    path('inventory/', include('vendery.inventory.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
