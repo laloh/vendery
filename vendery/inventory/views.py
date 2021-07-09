@@ -118,6 +118,7 @@ class ViewNote(LoginRequiredMixin, TemplateView):
         orders = json.loads(request.body)
         request.session['orders'] = orders
         insert_order_to_db(orders)
+        return render(request, self.template_name, {"products": orders})
 
     def get(self, request, *args, **kwargs):
         orders = request.session['orders']
