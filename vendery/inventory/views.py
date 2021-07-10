@@ -124,10 +124,6 @@ class ViewNote(LoginRequiredMixin, TemplateView):
 
     # TODO: Fix delay between post and get
     def get(self, request, *args, **kwargs):
-        while 'orders' not in self.orders.keys():
-            print("Waiting for data...")
-            time.sleep(1)
-
         orders = self.orders['orders']
         rendered_template = render_to_string(self.template_name, {"products": orders})
         pdf_path = generate_pdf(request, rendered_template)
