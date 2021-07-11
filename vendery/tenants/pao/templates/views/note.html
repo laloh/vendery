@@ -4,63 +4,51 @@
   <head>
     <meta charset="utf-8">
     <link href="{% static 'css/note.css' %}" rel="stylesheet">
-    <title>Invoice</title>
+    <title>Huellitas</title>
     <meta name="description" content="Invoice demo sample">
     <meta name="author" content="Kozea">
   </head>
 
   <body>
-    <h1>Invoice</h1>
-
+    <h1>Huellitas</h1>
     <aside>
       <address id="from">
-        Weasyprint [ by Kozea ]
-        107 boulevard de Stalingrad
-        69100 Villeurbanne City
-        France
+
       </address>
 
       <address id="to">
-        Our awesome developers
-        From all around the world
-        Earth
+        {{ client.name }}
+        {{ client.email }}
+        {{ client.phone }}
+        {{ client.location }}
       </address>
     </aside>
 
     <dl id="informations">
-      <dt>Invoice number</dt>
+      <dt>Folio:</dt>
       <dd>12345</dd>
-      <dt>Date</dt>
-      <dd>March 31, 2018</dd>
+      <dt>Fecha:</dt>
+      <dd>{{ date }}</dd>
     </dl>
 
     <table>
       <thead>
-        <th>Description</th>
-        <th>Price</th>
-        <th>Quantity</th>
+        <th>Producto</th>
+        <th>Precio</th>
+        <th>Cantidad</th>
         <th>Subtotal</th>
       </thead>
-      <tbody>
+        <tbody>
+   {% for key, product in products.items %}
         <tr>
-          <td>Website design</td>
-          <td>€34.20</td>
-          <td>100</td>
-          <td>€3,420.00</td>
+        <td>{{product.name}}</td>
+        <td>{{product.price}}</td>
+        <td>{{product.quantity}}</td>
+        <td>{{product.subtotal}}</td>
+
         </tr>
-        <tr>
-          <td>Website development</td>
-          <td>€45.50</td>
-          <td>100</td>
-          <td>€4,550.00</td>
-        </tr>
-        <tr>
-          <td>Website integration</td>
-          <td>€25.75</td>
-          <td>100</td>
-          <td>€2,575.00</td>
-        </tr>
-      </tbody>
+        {% endfor %}
+        </tbody>
     </table>
 
     <div id="total" class="pt-5">
@@ -70,7 +58,7 @@
       </thead>
       <tbody>
         <tr>
-          <td>$10,545.00</td>
+          <td>${{ total }}</td>
         </tr>
       </tbody>
     </table>

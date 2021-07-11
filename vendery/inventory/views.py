@@ -11,6 +11,9 @@ from django.template.loader import render_to_string
 from weasyprint import HTML, CSS
 from django.conf import settings
 from twilio.rest import Client
+from datetime import date
+from datetime import datetime
+
 
 
 from .forms import AuthenticationFormUser, ClientForm, OrdersForm, ProductsForm, TicketsForm
@@ -117,19 +120,25 @@ class ViewNote(LoginRequiredMixin, TemplateView):
     orders = {}
 
     def post(self, request, *args, **kwargs):
+        print('Entro al post')
         orders = json.loads(request.body)
         self.orders['orders'] = orders
         insert_order_to_db(orders)
-        return render(request, self.template_name, {"products": orders})
+        return reverse_lazy('inventory: view-note')
 
-    # TODO: Fix delay between post and get
-    def get(self, request, *args, **kwargs):
-        orders = self.orders['orders']
-        rendered_template = render_to_string(self.template_name, {"products": orders})
-        pdf_path = generate_pdf(request, rendered_template)
-        # send_pdf_sms(pdf_path)
-        return render(request, self.template_name, {"products": orders})
+    def get_context_data(self, **kwargs):
+        context = super(ViewNote, self).get_context_data(**kwargs)
+        date = datetime.strftime(datetime.now() ,'%b %d, %Y')
+        context['products'] = self.orders["orders"]["products"]
+        context['total'] = self.orders["orders"]["sumTotalAmount"]
+        context["client"] = Clients.objects.get(id=self.orders["orders"]["clientID"])
+        context["date"] =  date
+        rendered_template = render_to_string(self.template_name, {"products": self.orders["orders"]["products"],
+                                                                  "date": date,
+                                                                  "total":self.orders["orders"]["sumTotalAmount"] })
+        pdf_path = generate_pdf(self.request, rendered_template)
 
+        return context
 
 class ViewInventoryAll(LoginRequiredMixin, TemplateView):
     login_url = reverse_lazy("inventory:view-login")
