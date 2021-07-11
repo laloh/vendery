@@ -15,7 +15,6 @@ from datetime import date
 from datetime import datetime
 
 
-
 from .forms import AuthenticationFormUser, ClientForm, OrdersForm, ProductsForm, TicketsForm
 from .models import Vendors, Tickets, Clients, Products, Orders
 
@@ -83,7 +82,7 @@ def insert_order_to_db(orders):
 
 
 def generate_pdf(request, template):
-    media_pdf_path = f'{request.user}/pdf/test2.pdf'
+    media_pdf_path = f'{request.tenant.schema_name}/pdf/test2.pdf'
     pdf_path = os.path.join(settings.MEDIA_ROOT, media_pdf_path)
     css_path = f'tenants/{request.tenant.schema_name}/css/note.css'
 
