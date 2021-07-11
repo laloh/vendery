@@ -23,12 +23,14 @@ for (let i = 0; i < increaseTotal.length; i++) {
 	increaseTotal[i].addEventListener('click', function (){
 		var productID = this.dataset.id
 		var productPrice = parseFloat(this.dataset.price)
+		var productName = this.dataset.name
 
 		order.sumTotalAmount += productPrice
 		setTextTotalAmount(totalAmount)
 
 		if (!order.products.hasOwnProperty(productID)) {
 			order.products[productID] = {
+				"name": productName,
 				"quantity":0,
 				"subtotal":0,
 				"price": productPrice
@@ -51,12 +53,14 @@ for (let i = 0; i < decreaseTotal.length; i++) {
 	decreaseTotal[i].addEventListener('click', function (){
 		var productID = this.dataset.id
 		var productPrice = parseFloat(this.dataset.price)
+		var productName = this.dataset.name
 
 		order.sumTotalAmount -= productPrice
 		setTextTotalAmount(totalAmount)
 
 		if (!order.products.hasOwnProperty(productID)) {
 			order.products[productID] = {
+				"name": productName,
 				"quantity":0,
 				"subtotal":0,
 				"price": productPrice
