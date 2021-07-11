@@ -1,6 +1,8 @@
 import os
 import json
 import time
+import hashlib
+import uuid
 
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView
@@ -82,10 +84,12 @@ def insert_order_to_db(orders):
 
 
 def generate_pdf(request, template):
-    media_pdf_path = f'{request.tenant.schema_name}/pdf/test2.pdf'
+    unique_id = uuid.uuid4().hex[:8]
+    media_pdf_path = f'{request.tenant.schema_name}/pdf/order_{unique_id}.pdf'
     pdf_path = os.path.join(settings.MEDIA_ROOT, media_pdf_path)
-    css_path = f'tenants/{request.tenant.schema_name}/css/note.css'
+    # TODO: Generate Ticket Table Row
 
+    css_path = f'tenants/{request.tenant.schema_name}/css/note.css'
     pdf_file = HTML(string=template).write_pdf(
         stylesheets=[CSS(settings.STATIC_ROOT + css_path)],
         presentational_hints=True)
