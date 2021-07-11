@@ -85,7 +85,7 @@ def insert_order_to_db(orders):
 def generate_pdf(request, template):
     media_pdf_path = f'{request.user}/pdf/test2.pdf'
     pdf_path = os.path.join(settings.MEDIA_ROOT, media_pdf_path)
-    css_path = f'tenants/{request.user}/css/note.css'
+    css_path = f'tenants/{request.tenant.schema_name}/css/note.css'
 
     pdf_file = HTML(string=template).write_pdf(
         stylesheets=[CSS(settings.STATIC_ROOT + css_path)],
@@ -120,7 +120,6 @@ class ViewNote(LoginRequiredMixin, TemplateView):
     orders = {}
 
     def post(self, request, *args, **kwargs):
-        print('Entro al post')
         orders = json.loads(request.body)
         self.orders['orders'] = orders
         insert_order_to_db(orders)
