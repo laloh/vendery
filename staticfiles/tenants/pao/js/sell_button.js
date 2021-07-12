@@ -81,7 +81,8 @@ for (let i = 0; i < decreaseTotal.length; i++) {
 
 
 sellButton.onclick = function () {
-	var url = '/inventory/nota-remision/'
+	// var token=document.getElementById("token").value;
+	var url = "/inventory/nota-remision/"
 
 	order['clientID'] = clientID
 						.options[clientID.selectedIndex]

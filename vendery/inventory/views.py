@@ -4,7 +4,7 @@ import time
 import hashlib
 import uuid
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
@@ -15,10 +15,11 @@ from django.conf import settings
 from twilio.rest import Client
 from datetime import date
 from datetime import datetime
+from django.http import JsonResponse
 
 
 from .forms import AuthenticationFormUser, ClientForm, OrdersForm, ProductsForm, TicketsForm
-from .models import Vendors, Tickets, Clients, Products, Orders
+from .models import Vendors, Tickets, Clients, Products, Orders, TemporaryOrders
 
 
 class Login(LoginView):
@@ -48,6 +49,7 @@ class ViewInventory(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ViewInventory, self).get_context_data(**kwargs)
+        context['token'] = uuid.uuid4()
         context['products'] = Products.objects.all()
         context['clients'] = Clients.objects.all()
 
@@ -119,28 +121,39 @@ def send_pdf_sms(pdf_path):
 class ViewNote(LoginRequiredMixin, TemplateView):
 
     login_url = reverse_lazy("inventory:view-login")
-    template_name = "views/note.html"
-    orders = {}
+    template_name = "views/product_orders.html"
 
     def post(self, request, *args, **kwargs):
         orders = json.loads(request.body)
-        self.orders['orders'] = orders
-        insert_order_to_db(orders)
-        return reverse_lazy('inventory: view-note')
+        print(kwargs)
+        print(orders)
+        uuid_unique = uuid.uuid4()
+        print("UUID", uuid_unique)
+        TemporaryOrders.objects.create(unique_id=uuid_unique, data_orders=orders)
+        dato = TemporaryOrders.objects.filter(unique_id=uuid_unique)
+        print("Dato", dato)
+        # self.orders['orders'] = orders
+        # insert_order_to_db(orders)
+        return JsonResponse(orders)
+        # return redirect('inventory:view-note')
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, *args, **kwargs):
         context = super(ViewNote, self).get_context_data(**kwargs)
         date = datetime.strftime(datetime.now() ,'%b %d, %Y')
-        context['products'] = self.orders["orders"]["products"]
-        context['total'] = self.orders["orders"]["sumTotalAmount"]
-        context["client"] = Clients.objects.get(id=self.orders["orders"]["clientID"])
-        context["date"] =  date
-        rendered_template = render_to_string(self.template_name, {"products": self.orders["orders"]["products"],
-                                                                  "date": date,
-                                                                  "total":self.orders["orders"]["sumTotalAmount"] })
-        pdf_path = generate_pdf(self.request, rendered_template)
+        print(self.kwargs)
 
+        # context['products'] = self.orders["orders"]["products"]
+        # context['total'] = self.orders["orders"]["sumTotalAmount"]
+        # context["client"] = Clients.objects.get(id=self.orders["orders"]["clientID"])
+        # context["date"] =  date
+        # rendered_template = render_to_string(self.template_name, {"products": self.orders["orders"]["products"],
+        #                                                           "date": date,
+        #                                                           "total":self.orders["orders"]["sumTotalAmount"] })
+        # pdf_path = generate_pdf(self.request, rendered_template)
+        # context['ordenes'] =  self.orders
         return context
+
+
 
 class ViewInventoryAll(LoginRequiredMixin, TemplateView):
     login_url = reverse_lazy("inventory:view-login")
@@ -239,4 +252,17 @@ class ViewShowTickets(LoginRequiredMixin, UpdateView):
         context['pk'] = self.kwargs['pk']
 
         return context
+
+class ViewTemporaryOrders(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy("inventory:view-login")
+    model = TemporaryOrders
+    fields = '__all__'
+
+    def post(self, request, *args, **kwargs):
+        orders = json.loads(request.body)
+        print(orders)
+
+        return 'ok'
+
+
 

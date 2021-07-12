@@ -133,3 +133,11 @@ class Tickets(TimeStampedModel):
 
     def __str__(self):
         return f"{self.id}"
+
+
+class TemporaryOrders(TimeStampedModel):
+    unique_id = models.UUIDField(default=None, unique=True, null=True)
+    data_orders = models.JSONField(null=True)
+
+    def __str__(self):
+        return f'{self.id}/{self.unique_id}'
