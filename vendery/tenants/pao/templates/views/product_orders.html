@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-datos
+{% extends "loyout/base.html" %}
+{% block main %}
+    <div class="pt-5">
 
-</body>
-</html>
+    Aqui contenido
+    <a type="button" class="btn btn-success" href="{% url 'inventory:view-note-data' token %}">Confirmar venta</a>
+    </div>
+
+{% endblock %}

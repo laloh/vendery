@@ -118,39 +118,30 @@ def send_pdf_sms(pdf_path):
     )
 
 
-class ViewNote(LoginRequiredMixin, TemplateView):
+class ViewNote(LoginRequiredMixin, CreateView):
 
     login_url = reverse_lazy("inventory:view-login")
     template_name = "views/product_orders.html"
+    model = TemporaryOrders
+    fields = '__all__'
+
+    # orders = {}
 
     def post(self, request, *args, **kwargs):
         orders = json.loads(request.body)
-        print(kwargs)
+        token =  kwargs['token']
         print(orders)
-        uuid_unique = uuid.uuid4()
-        print("UUID", uuid_unique)
-        TemporaryOrders.objects.create(unique_id=uuid_unique, data_orders=orders)
-        dato = TemporaryOrders.objects.filter(unique_id=uuid_unique)
-        print("Dato", dato)
+        TemporaryOrders.objects.create(unique_id=token, data_orders=orders)
+        print('POST------', token)
         # self.orders['orders'] = orders
         # insert_order_to_db(orders)
-        return JsonResponse(orders)
-        # return redirect('inventory:view-note')
+        # return JsonResponse(orders)
+        return redirect('inventory:view-note', token=token )
 
     def get_context_data(self, *args, **kwargs):
         context = super(ViewNote, self).get_context_data(**kwargs)
-        date = datetime.strftime(datetime.now() ,'%b %d, %Y')
-        print(self.kwargs)
-
-        # context['products'] = self.orders["orders"]["products"]
-        # context['total'] = self.orders["orders"]["sumTotalAmount"]
-        # context["client"] = Clients.objects.get(id=self.orders["orders"]["clientID"])
-        # context["date"] =  date
-        # rendered_template = render_to_string(self.template_name, {"products": self.orders["orders"]["products"],
-        #                                                           "date": date,
-        #                                                           "total":self.orders["orders"]["sumTotalAmount"] })
-        # pdf_path = generate_pdf(self.request, rendered_template)
-        # context['ordenes'] =  self.orders
+        context['token'] = self.kwargs['token']
+        print('tok', self.kwargs['token'] )
         return context
 
 
@@ -253,16 +244,27 @@ class ViewShowTickets(LoginRequiredMixin, UpdateView):
 
         return context
 
-class ViewTemporaryOrders(LoginRequiredMixin, CreateView):
+
+class ViewTemporaryOrders(LoginRequiredMixin, TemplateView):
     login_url = reverse_lazy("inventory:view-login")
-    model = TemporaryOrders
-    fields = '__all__'
+    template_name = "views/note.html"
 
-    def post(self, request, *args, **kwargs):
-        orders = json.loads(request.body)
-        print(orders)
-
-        return 'ok'
-
-
-
+    def get_context_data(self, *args, **kwargs):
+        context = super(ViewTemporaryOrders, self).get_context_data(**kwargs)
+        date = datetime.strftime(datetime.now() ,'%b %d, %Y')
+        datos = TemporaryOrders.objects.get(unique_id=self.kwargs['token'])
+        id_client = datos.data_orders["clientID"]
+        client = Clients.objects.get(id=id_client)
+        user = self.request.user
+        context['products'] = datos.data_orders['products']
+        context['total'] = datos.data_orders["sumTotalAmount"]
+        context["client"] = client
+        context["date"] =  date
+        context['vendor'] = user
+        rendered_template = render_to_string(self.template_name, {"products": datos.data_orders['products'],
+                                                                  "date": date,
+                                                                  "total": datos.data_orders["sumTotalAmount"],
+                                                                  "vendor": user,
+                                                                  "client": client})
+        pdf_path = generate_pdf(self.request, rendered_template)
+        return context
