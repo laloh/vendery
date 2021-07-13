@@ -125,17 +125,20 @@ class ViewNote(LoginRequiredMixin, CreateView):
     model = TemporaryOrders
     fields = '__all__'
 
-    # orders = {}
-
     def post(self, request, *args, **kwargs):
         orders = json.loads(request.body)
+        user_id = self.request.user
         token =  kwargs['token']
-        print(orders)
         TemporaryOrders.objects.create(unique_id=token, data_orders=orders)
-        print('POST------', token)
-        # self.orders['orders'] = orders
-        # insert_order_to_db(orders)
-        # return JsonResponse(orders)
+        total = orders['sumTotalAmount']
+        productos = orders['products']
+        object_order = Orders.objects.create(total=total)
+        for key, value in productos.items():
+            product = Products.objects.get(id=key)
+            object_order.products.add(product)
+        user = Vendors.objects.get(user=user_id)
+        client = Clients.objects.get(id=orders['clientID'])
+        Tickets.objects.create(vendor=user, client=client, order=object_order)
         return redirect('inventory:view-note', token=token )
 
     def get_context_data(self, *args, **kwargs):
