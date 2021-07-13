@@ -119,10 +119,10 @@ class Orders(TimeStampedModel):
 
 class Tickets(TimeStampedModel):
 
-    firm = models.ImageField(default=None)
-    location = models.CharField(max_length=255, default=None)
-    comments = models.TextField(default=None)
-    debt = models.FloatField(default=0)
+    firm = models.ImageField(default=None, blank=True, null=True)
+    location = models.CharField(max_length=255, default=None, blank=True,  null=True)
+    comments = models.TextField(default=None, blank=True,  null=True)
+    debt = models.FloatField(default=0, blank=True,  null=True)
     vendor = models.ForeignKey(Vendors, on_delete=models.CASCADE, default=None)
     client = models.ForeignKey(Clients, on_delete=models.CASCADE, default=None)
     order = models.OneToOneField(Orders, on_delete=models.CASCADE, default=None)
@@ -133,3 +133,11 @@ class Tickets(TimeStampedModel):
 
     def __str__(self):
         return f"{self.id}"
+
+
+class TemporaryOrders(TimeStampedModel):
+    unique_id = models.UUIDField(default=None, unique=True, null=True)
+    data_orders = models.JSONField(null=True)
+
+    def __str__(self):
+        return f'{self.id}/{self.unique_id}'

@@ -4,7 +4,7 @@ import time
 import hashlib
 import uuid
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
@@ -15,10 +15,11 @@ from django.conf import settings
 from twilio.rest import Client
 from datetime import date
 from datetime import datetime
+from django.http import JsonResponse
 
 
 from .forms import AuthenticationFormUser, ClientForm, OrdersForm, ProductsForm, TicketsForm
-from .models import Vendors, Tickets, Clients, Products, Orders
+from .models import Vendors, Tickets, Clients, Products, Orders, TemporaryOrders
 
 
 class Login(LoginView):
@@ -48,6 +49,7 @@ class ViewInventory(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ViewInventory, self).get_context_data(**kwargs)
+        context['token'] = uuid.uuid4()
         context['products'] = Products.objects.all()
         context['clients'] = Clients.objects.all()
 
@@ -116,31 +118,36 @@ def send_pdf_sms(pdf_path):
     )
 
 
-class ViewNote(LoginRequiredMixin, TemplateView):
+class ViewNote(LoginRequiredMixin, CreateView):
 
     login_url = reverse_lazy("inventory:view-login")
-    template_name = "views/note.html"
-    orders = {}
+    template_name = "views/product_orders.html"
+    model = TemporaryOrders
+    fields = '__all__'
 
     def post(self, request, *args, **kwargs):
         orders = json.loads(request.body)
-        self.orders['orders'] = orders
-        insert_order_to_db(orders)
-        return reverse_lazy('inventory: view-note')
+        user_id = self.request.user
+        token =  kwargs['token']
+        TemporaryOrders.objects.create(unique_id=token, data_orders=orders)
+        total = orders['sumTotalAmount']
+        productos = orders['products']
+        object_order = Orders.objects.create(total=total)
+        for key, value in productos.items():
+            product = Products.objects.get(id=key)
+            object_order.products.add(product)
+        user = Vendors.objects.get(user=user_id)
+        client = Clients.objects.get(id=orders['clientID'])
+        Tickets.objects.create(vendor=user, client=client, order=object_order)
+        return redirect('inventory:view-note', token=token )
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, *args, **kwargs):
         context = super(ViewNote, self).get_context_data(**kwargs)
-        date = datetime.strftime(datetime.now() ,'%b %d, %Y')
-        context['products'] = self.orders["orders"]["products"]
-        context['total'] = self.orders["orders"]["sumTotalAmount"]
-        context["client"] = Clients.objects.get(id=self.orders["orders"]["clientID"])
-        context["date"] =  date
-        rendered_template = render_to_string(self.template_name, {"products": self.orders["orders"]["products"],
-                                                                  "date": date,
-                                                                  "total":self.orders["orders"]["sumTotalAmount"] })
-        pdf_path = generate_pdf(self.request, rendered_template)
-
+        context['token'] = self.kwargs['token']
+        print('tok', self.kwargs['token'] )
         return context
+
+
 
 class ViewInventoryAll(LoginRequiredMixin, TemplateView):
     login_url = reverse_lazy("inventory:view-login")
@@ -240,3 +247,27 @@ class ViewShowTickets(LoginRequiredMixin, UpdateView):
 
         return context
 
+
+class ViewTemporaryOrders(LoginRequiredMixin, TemplateView):
+    login_url = reverse_lazy("inventory:view-login")
+    template_name = "views/note.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ViewTemporaryOrders, self).get_context_data(**kwargs)
+        date = datetime.strftime(datetime.now() ,'%b %d, %Y')
+        datos = TemporaryOrders.objects.get(unique_id=self.kwargs['token'])
+        id_client = datos.data_orders["clientID"]
+        client = Clients.objects.get(id=id_client)
+        user = self.request.user
+        context['products'] = datos.data_orders['products']
+        context['total'] = datos.data_orders["sumTotalAmount"]
+        context["client"] = client
+        context["date"] =  date
+        context['vendor'] = user
+        rendered_template = render_to_string(self.template_name, {"products": datos.data_orders['products'],
+                                                                  "date": date,
+                                                                  "total": datos.data_orders["sumTotalAmount"],
+                                                                  "vendor": user,
+                                                                  "client": client})
+        pdf_path = generate_pdf(self.request, rendered_template)
+        return context

@@ -13,7 +13,8 @@
     <h1>Huellitas</h1>
     <aside>
       <address id="from">
-
+          <h3>Vendedor:</h3>
+          {{ vendor }}
       </address>
 
       <address id="to">
@@ -42,9 +43,9 @@
    {% for key, product in products.items %}
         <tr>
         <td>{{product.name}}</td>
-        <td>{{product.price}}</td>
+        <td>${{product.price}} MXN.</td>
         <td>{{product.quantity}}</td>
-        <td>{{product.subtotal}}</td>
+        <td>${{product.subtotal}} MXN.</td>
 
         </tr>
         {% endfor %}
@@ -58,7 +59,7 @@
       </thead>
       <tbody>
         <tr>
-          <td>${{ total }}</td>
+          <td>${{ total }} MXN.</td>
         </tr>
       </tbody>
     </table>
