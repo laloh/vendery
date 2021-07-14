@@ -3,7 +3,7 @@ var decreaseTotal = document.getElementsByClassName('decrease-total')
 var totalAmount = document.getElementById("total-amount")
 var sellButton = document.getElementById('sell-button')
 var clientID = document.getElementById("select-client")
-var quantity = document.getElementById("quantity")
+var quantity = document.getElementsByClassName("quantity")
 
 
 var order = {
@@ -48,7 +48,7 @@ for (let i = 0; i < increaseTotal.length; i++) {
 			order.products[productID].subtotal = 0
 		}
 
-		quantity.innerText = order.products[productID].quantity
+		quantity[i].innerText = order.products[productID].quantity
 
 	})
 }
@@ -81,7 +81,7 @@ for (let i = 0; i < decreaseTotal.length; i++) {
 			order.products[productID].subtotal = 0
 		}
 
-		quantity.innerText = order.products[productID].quantity
+		quantity[i].innerText = order.products[productID].quantity
 
 	})
 }
