@@ -17,7 +17,7 @@ from datetime import date
 from datetime import datetime
 from django.http import JsonResponse
 
-
+from django.template import RequestContext
 from .forms import AuthenticationFormUser, ClientForm, OrdersForm, ProductsForm, TicketsForm
 from .models import Vendors, Tickets, Clients, Products, Orders, TemporaryOrders
 
@@ -118,12 +118,9 @@ def send_pdf_sms(pdf_path):
     )
 
 
-class ViewNote(LoginRequiredMixin, CreateView):
-
+class ViewNote(LoginRequiredMixin, TemplateView):
     login_url = reverse_lazy("inventory:view-login")
     template_name = "views/product_orders.html"
-    model = TemporaryOrders
-    fields = '__all__'
 
     def post(self, request, *args, **kwargs):
         orders = json.loads(request.body)
@@ -139,7 +136,7 @@ class ViewNote(LoginRequiredMixin, CreateView):
         user = Vendors.objects.get(user=user_id)
         client = Clients.objects.get(id=orders['clientID'])
         Tickets.objects.create(vendor=user, client=client, order=object_order)
-        return redirect('inventory:view-note', token=token )
+        return redirect('inventory:view-sales')
 
     def get_context_data(self, *args, **kwargs):
         context = super(ViewNote, self).get_context_data(**kwargs)
@@ -272,3 +269,12 @@ class ViewTemporaryOrders(LoginRequiredMixin, TemplateView):
         pdf_path = generate_pdf(self.request, rendered_template)
         send_pdf_sms(pdf_path)
         return context
+
+
+class Error404(TemplateView):
+    template_name = "404.html"
+
+
+class Error500(TemplateView):
+    template_name = "500.html"
+

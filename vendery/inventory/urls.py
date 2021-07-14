@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import *
-
+from django.conf.urls import handler404, handler500
 app_name = 'inventory'
 
 urlpatterns = [
@@ -20,3 +20,5 @@ urlpatterns = [
     path('producto/<int:pk>/', ViewShowProduct.as_view(), name='view-product-show'),
     path('ticket/<int:pk>/', ViewShowTickets.as_view(), name='view-ticket-show'),
 ]
+handler404 = Error404.as_view()
+# handler500 = Error500.as_error_view()
