@@ -270,4 +270,5 @@ class ViewTemporaryOrders(LoginRequiredMixin, TemplateView):
                                                                   "vendor": user,
                                                                   "client": client})
         pdf_path = generate_pdf(self.request, rendered_template)
+        send_pdf_sms(pdf_path)
         return context
