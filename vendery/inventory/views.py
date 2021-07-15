@@ -66,6 +66,11 @@ class ViewSales(LoginRequiredMixin, ListView):
         vendor = Vendors.objects.get(user=self.request.user)
         return self.model.objects.filter(vendor=vendor.id)
 
+    def get_context_data(self, *args, **kwargs):
+        context = super(ViewSales, self).get_context_data(**kwargs)
+        context['pdf'] = f'{self.request.scheme}://{self.request.get_host()}/{self.request.tenant.schema_name}/pdf/order_'
+        return context
+
 
 class ViewSalesData(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("inventory:view-login")
@@ -85,9 +90,9 @@ def insert_order_to_db(orders):
         order.products.add(product)
 
 
-def generate_pdf(request, template):
+def generate_pdf(request, template, token):
     unique_id = uuid.uuid4().hex[:8]
-    media_pdf_path = f'{request.tenant.schema_name}/pdf/order_{unique_id}.pdf'
+    media_pdf_path = f'{request.tenant.schema_name}/pdf/order_{token}.pdf'
     pdf_path = os.path.join(settings.MEDIA_ROOT, media_pdf_path)
     # TODO: Generate Ticket Table Row
 
@@ -135,7 +140,7 @@ class ViewNote(LoginRequiredMixin, TemplateView):
             object_order.products.add(product)
         user = Vendors.objects.get(user=user_id)
         client = Clients.objects.get(id=orders['clientID'])
-        Tickets.objects.create(vendor=user, client=client, order=object_order)
+        Tickets.objects.create(vendor=user, client=client, order=object_order, token=token)
         return redirect('inventory:view-sales')
 
     def get_context_data(self, *args, **kwargs):
@@ -261,12 +266,13 @@ class ViewTemporaryOrders(LoginRequiredMixin, TemplateView):
         context["client"] = client
         context["date"] =  date
         context['vendor'] = user
+        token = kwargs['token']
         rendered_template = render_to_string(self.template_name, {"products": datos.data_orders['products'],
                                                                   "date": date,
                                                                   "total": datos.data_orders["sumTotalAmount"],
                                                                   "vendor": user,
                                                                   "client": client})
-        pdf_path = generate_pdf(self.request, rendered_template)
+        pdf_path = generate_pdf(self.request, rendered_template, token)
         send_pdf_sms(pdf_path)
         return context
 
@@ -277,4 +283,3 @@ class Error404(TemplateView):
 
 class Error500(TemplateView):
     template_name = "500.html"
-

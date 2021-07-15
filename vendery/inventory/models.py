@@ -126,6 +126,7 @@ class Tickets(TimeStampedModel):
     vendor = models.ForeignKey(Vendors, on_delete=models.CASCADE, default=None)
     client = models.ForeignKey(Clients, on_delete=models.CASCADE, default=None)
     order = models.OneToOneField(Orders, on_delete=models.CASCADE, default=None)
+    token = models.UUIDField(default=None, unique=True, null=True)
 
     class Meta:
         verbose_name = ('Ticket')

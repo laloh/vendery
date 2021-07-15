@@ -15,6 +15,8 @@
                             <th scope="col">Clave</th>
                             <th scope="col">Cliente</th>
                             <th scope="col">Venta</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
                         </tr>
                         </thead>
 
@@ -29,10 +31,11 @@
                                 </th>
                                 <td>{{ sale.client }}</td>
                                 <td> <a type="button" class="btn btn-info" href="{% url 'inventory:view-orders-show' sale.order.id %}">Ver venta </a></td>
+                                 <td> <a type="button" class="btn btn-info" href="{% url 'inventory:view-note-data' sale.token %}">Enviar Nota </a></td>
+                                 <td> <a type="button" class="btn btn-info" href="{{pdf}}{{sale.token}}.pdf/" >Ver Nota</a></td>
                             </tr>
                         {% endfor %}
                         </tbody>
-
                     </table>
                 {% else %}
                     <h4 class="text-center"> No existen ventas</h4>
