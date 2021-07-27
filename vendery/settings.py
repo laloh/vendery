@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['www.vendery.app','vendery.app','*', 'localhost']
 SHARED_APPS = (
     'django_tenants',  # mandatory
     'vendery.customers', # you must list the app where your tenant model resides in
+    'vendery.admin_panel', #
 
     'django.contrib.contenttypes',
 
@@ -54,6 +55,7 @@ TENANT_APPS = (
 
     # your tenant-specific apps
     'vendery.inventory',
+    'vendery.admin_panel',
     # everything below here is optional
     'django.contrib.auth',
     'django.contrib.sessions',
@@ -71,6 +73,7 @@ INSTALLED_APPS = list(SHARED_APPS) + [app for app in TENANT_APPS if app not in S
 
 MIDDLEWARE = [
     'django_tenants.middleware.main.TenantMainMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -83,6 +86,7 @@ MIDDLEWARE = [
 
 PUBLIC_SCHEMA_URLCONF = 'vendery.public_urls'
 ROOT_URLCONF = 'vendery.urls'
+APPEND_SLASH=True
 
 TEMPLATES = [
     {
