@@ -47,19 +47,19 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#" data-toggle="collapse" data-target="#demo"><i
+                    <a href="#" data-toggle="collapse" data-target="#ticket"><i
                             class="fa fa-fw fa-ticket"></i> Tickets <i class="fa fa-chevron-down"></i></a>
-                    <ul id="demo" class="collapse">
-                        <li>
-                            <a href="#">Dropdown Item</a>
+                    <ul id="ticket" class="collapse">
+                      <li>
+                            <a href="{% url 'panel:view-create-tickets' %}"><i class="fa fa-plus-circle"></i> Registrar</a>
                         </li>
                         <li>
-                            <a href="#">Dropdown Item</a>
+                            <a href="{% url 'panel:view-list-tickets' %}"><i class="fa fa-eye"></i> Ver tickets</a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="blank-page.html"><i class="fa fa-fw fa-shopping-bag"></i> Ventas</a>
+                    <a href="{% url 'panel:view-list-sales'  %}"><i class="fa fa-fw fa-shopping-bag"></i> Ventas</a>
                 </li>
                 <li>
                     <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a>
