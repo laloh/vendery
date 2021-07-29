@@ -1,0 +1,35 @@
+
+
+{% extends "admin_panel/layout/base_admin.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+        <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Clientes
+            </h1>
+        </div>
+    </div>
+    <table class="table table-sm">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Email</th>
+      <th scope="col">Deuda</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for customer in customers %}
+    <tr>
+      <th scope="row">{{ customer.id }}</th>
+      <td><a href="{% url 'panel:view-update-client' customer.id %}">{{ customer.name }}</a></td>
+      <td>{{ customer.email }}</td>
+      <td>{{ customer.debt }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
