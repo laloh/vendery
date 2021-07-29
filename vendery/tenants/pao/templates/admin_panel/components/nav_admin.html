@@ -10,29 +10,39 @@
                     <a href="tables.html"><i class="fa fa-fw fa-users"></i> Vendedores</a>
                 </li>
                 <li>
-                    <a href="#" data-toggle="collapse" data-target="#demo"><i
+                    <a href="#" data-toggle="collapse" data-target="#client"><i
                             class="fa fa-fw fa-users"></i> Clientes <i class="fa fa-chevron-down"></i></a>
-                    <ul id="demo" class="collapse">
+                    <ul id="client" class="collapse">
                         <li>
-                            <a href="{% url 'panel:view-create-client' %}">Registrar</a>
+                            <a href="{% url 'panel:view-create-client' %}"><i class="fa fa-plus-circle"></i> Registrar</a>
                         </li>
                         <li>
-                            <a href="{% url 'panel:view-list-client' %}">Ver clientes</a>
+                            <a href="{% url 'panel:view-list-client' %}"><i class="fa fa-eye"></i> Ver clientes</a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="bootstrap-elements.html"><i class="fa fa-fw fa-product-hunt"></i> Productos</a>
-                </li>
-                <li>
-                    <a href="#" data-toggle="collapse" data-target="#demo"><i
-                            class="fa fa-fw fa-ticket"></i> Categorias <i class="fa fa-chevron-down"></i></a>
-                    <ul id="demo" class="collapse">
+                    <a href="#" data-toggle="collapse" data-target="#products"><i
+                            class="fa fa-fw fa-shopping-cart"></i> Productos <i class="fa fa-chevron-down"></i></a>
+                    <ul id="products" class="collapse">
                         <li>
-                            <a href="{% url 'panel:view-create-category' %}">Registrar</a>
+                            <a href="{% url 'panel:view-create-product' %}"><i class="fa fa-plus-circle"></i>
+                                Registrar</a>
                         </li>
                         <li>
-                            <a href="{% url 'panel:view-list-category' %}">Ver categorias</a>
+                            <a href="{% url 'panel:view-list-product' %}"><i class="fa fa-eye"></i> Ver productos</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" data-toggle="collapse" data-target="#category"><i
+                            class="fa fa-fw fa-ticket"></i> Categorias <i class="fa fa-chevron-down"></i></a>
+                    <ul id="category" class="collapse">
+                        <li>
+                            <a href="{% url 'panel:view-create-category' %}"><i class="fa fa-plus-circle"></i> Registrar</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'panel:view-list-category' %}"><i class="fa fa-eye"></i> Ver categorias</a>
                         </li>
                     </ul>
                 </li>
