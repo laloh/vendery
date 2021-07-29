@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.template.loader import render_to_string
 from weasyprint import HTML, CSS
 from django.conf import settings
