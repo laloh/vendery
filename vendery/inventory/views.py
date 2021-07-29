@@ -26,14 +26,11 @@ class Login(LoginView):
     template_name = 'login.html'
     authentication_form = AuthenticationFormUser
     success_url = reverse_lazy('inventory:view-inventory')
+    redirect_authenticated_user = True
 
-    # redirect_authenticated_user = True
-
-    def get(self, request, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return redirect(reverse('inventory:view-inventory'))
-        else:
-            return super(Login, self).get(request, *args, **kwargs)
+    def get_success_url(self):
+        url = super().get_redirect_url()
+        return url or self.success_url
 
 
 class Logout(LogoutView):
