@@ -1,13 +1,13 @@
 <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
                 <li class="active">
-                    <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                    <a href="{% url 'panel:view-admin-panel' %}"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                 </li>
                 <li>
-                    <a href="charts.html"><i class="fa fa-fw fa-users"></i> Provedores</a>
+                    <a href="{% url 'panel:view-list-provider' %}"><i class="fa fa-fw fa-users"></i> Proveedores</a>
                 </li>
                 <li>
-                    <a href="tables.html"><i class="fa fa-fw fa-users"></i> Vendedores</a>
+                    <a href="{% url 'panel:view-list-vendors' %}"><i class="fa fa-fw fa-users"></i> Vendedores</a>
                 </li>
                 <li>
                     <a href="#" data-toggle="collapse" data-target="#client"><i
