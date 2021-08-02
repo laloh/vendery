@@ -142,3 +142,16 @@ class TemporaryOrders(TimeStampedModel):
 
     def __str__(self):
         return f'{self.id}/{self.unique_id}'
+
+
+class Provider(TimeStampedModel):
+    name = models.CharField(max_length=255, default=None)
+    phone = models.CharField(max_length=20, default=None)
+    email = models.CharField(max_length=255, default=None)
+    debt = models.FloatField(default=0, blank=True,  null=True)
+    saldo = models.FloatField(default=0, blank=True,  null=True)
+    # TODO: modify or verify which products are
+    products = models.ManyToManyField(Products, related_name='provider_products')
+
+    def __str__(self):
+        return f'{self.id}/{self.name}'

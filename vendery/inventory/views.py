@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.template.loader import render_to_string
 from weasyprint import HTML, CSS
 from django.conf import settings
@@ -68,7 +68,8 @@ class ViewSales(LoginRequiredMixin, ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(ViewSales, self).get_context_data(**kwargs)
-        context['pdf'] = f'{self.request.scheme}://{self.request.get_host()}/{self.request.tenant.schema_name}/pdf/order_'
+        context[
+            'pdf'] = f'{self.request.scheme}://{self.request.get_host()}/{self.request.tenant.schema_name}/pdf/order_'
         return context
 
 
@@ -130,7 +131,7 @@ class ViewNote(LoginRequiredMixin, TemplateView):
     def post(self, request, *args, **kwargs):
         orders = json.loads(request.body)
         user_id = self.request.user
-        token =  kwargs['token']
+        token = kwargs['token']
         TemporaryOrders.objects.create(unique_id=token, data_orders=orders)
         total = orders['sumTotalAmount']
         productos = orders['products']
@@ -146,9 +147,8 @@ class ViewNote(LoginRequiredMixin, TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super(ViewNote, self).get_context_data(**kwargs)
         context['token'] = self.kwargs['token']
-        print('tok', self.kwargs['token'] )
+        print('tok', self.kwargs['token'])
         return context
-
 
 
 class ViewInventoryAll(LoginRequiredMixin, TemplateView):
@@ -256,7 +256,7 @@ class ViewTemporaryOrders(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(ViewTemporaryOrders, self).get_context_data(**kwargs)
-        date = datetime.strftime(datetime.now() ,'%b %d, %Y')
+        date = datetime.strftime(datetime.now(), '%b %d, %Y')
         datos = TemporaryOrders.objects.get(unique_id=self.kwargs['token'])
         id_client = datos.data_orders["clientID"]
         client = Clients.objects.get(id=id_client)
@@ -264,7 +264,7 @@ class ViewTemporaryOrders(LoginRequiredMixin, TemplateView):
         context['products'] = datos.data_orders['products']
         context['total'] = datos.data_orders["sumTotalAmount"]
         context["client"] = client
-        context["date"] =  date
+        context["date"] = date
         context['vendor'] = user
         token = kwargs['token']
         rendered_template = render_to_string(self.template_name, {"products": datos.data_orders['products'],

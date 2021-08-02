@@ -1,0 +1,57 @@
+{% extends "admin_panel/layout/base_admin.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Productos
+            </h1>
+        </div>
+    </div>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputName">Nombre</label>
+                {% render_field form.name class="form-control" %}
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputPhone">Precio</label>
+                {% render_field form.price class="form-control" %}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputName">Estatus</label>
+                {% render_field form.status class="form-control" %}
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputPhone">Categoria</label>
+                {% render_field form.category class="form-control" %}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputName">Existencia</label>
+                {% render_field form.stock class="form-control" %}
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="inputName">Imagen</label>
+                {% render_field form.image class="form-control" %}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="inputPhone">Descripcion</label>
+                {% render_field form.description class="form-control" %}
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-info">Registrar</button>
+        </div>
+    </form>
+{% endblock %}

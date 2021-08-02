@@ -24,4 +24,5 @@ urlpatterns = [
     path('', RedirectView.as_view(url='inventory/')),
     path('admin/', admin.site.urls),
     path('inventory/', include('vendery.inventory.urls')),
+    path('panel/', include('vendery.admin_panel.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
