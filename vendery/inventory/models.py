@@ -151,7 +151,7 @@ class Provider(TimeStampedModel):
     debt = models.FloatField(default=0, blank=True,  null=True)
     saldo = models.FloatField(default=0, blank=True,  null=True)
     # TODO: modify or verify which products are
-    products = models.ManyToManyField(Products, related_name='provider_products')
+    # products = models.ManyToManyField(Products, related_name='provider_products')
 
     def __str__(self):
         return f'{self.id}/{self.name}'

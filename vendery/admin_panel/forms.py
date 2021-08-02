@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
-from vendery.inventory.models import User, Category, Clients, Orders, Products, Tickets
+from vendery.inventory.models import *
 
 class AuthenticationFormUserPanel(AuthenticationForm):
     def clean(self):
@@ -60,22 +60,32 @@ class CategoryForm(forms.ModelForm):
         model = Category
         fields = "__all__"
 
+
 class ClientForm(forms.ModelForm):
     class Meta:
         model = Clients
         fields = "__all__"
+
 
 class OrdersForm(forms.ModelForm):
     class Meta:
         model = Orders
         fields = "__all__"
 
+
 class ProductsForm(forms.ModelForm):
     class Meta:
         model = Products
         fields = "__all__"
 
+
 class TicketsForm(forms.ModelForm):
     class Meta:
         model = Tickets
+        fields = "__all__"
+
+
+class ProviderForm(forms.ModelForm):
+    class Meta:
+        model = Provider
         fields = "__all__"

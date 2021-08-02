@@ -22,6 +22,8 @@ urlpatterns = [
     path('nueva-venta/', ViewCreateSales.as_view(), name='view-create-sale'),
     path('venta/<int:pk>/', ViewUpdateSales.as_view(), name='view-update-sale'),
     path('provedores/', ViewListProvider.as_view(), name='view-list-provider'),
+    path('nuevo-proveedor/', ViewCreateProvider.as_view(), name='view-create-provider'),
+    path('proveedor/<int:pk>/', ViewUpdateProvider.as_view(), name='view-update-provider'),
     path('vendedores/', ViewListVendors.as_view(), name='view-list-vendors'),
 
 ]

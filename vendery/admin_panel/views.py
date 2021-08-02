@@ -5,8 +5,8 @@ from django.views.generic import TemplateView, ListView, CreateView, UpdateView
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import AuthenticationFormUserPanel, CategoryForm, ClientForm, ProductsForm, TicketsForm, OrdersForm
-from vendery.inventory.models import Category, Clients, Products, Tickets, Orders
+from .forms import *
+from vendery.inventory.models import *
 from django.shortcuts import render, redirect
 
 
@@ -149,10 +149,27 @@ class ViewUpdateSales(LoginRequiredMixin, UpdateView):
     form_class = OrdersForm
 
 
-class ViewListProvider(LoginRequiredMixin, TemplateView):
+class ViewListProvider(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/provider/list_provider.html"
+    model = Provider
+    context_object_name = "providers"
 
+
+class ViewCreateProvider(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/provider/new_provider.html"
+    success_url = reverse_lazy('panel:view-list-provider')
+    model = Provider
+    form_class = ProviderForm
+
+
+class ViewUpdateProvider(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/provider/update_provider.html"
+    success_url = reverse_lazy('panel:view-list-provider')
+    model = Provider
+    form_class = ProviderForm
 
 class ViewListVendors(LoginRequiredMixin, TemplateView):
     login_url = reverse_lazy("panel:view-login-panel")
