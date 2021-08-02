@@ -147,3 +147,13 @@ class ViewUpdateSales(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('panel:view-list-sales')
     model = Orders
     form_class = OrdersForm
+
+
+class ViewListProvider(LoginRequiredMixin, TemplateView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/provider/list_provider.html"
+
+
+class ViewListVendors(LoginRequiredMixin, TemplateView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/vendors/list_vendors.html"
