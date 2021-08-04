@@ -13,16 +13,26 @@
         </div>
     </div>
     <div class="text-right">
-    <a type="button" class="btn btn-success" href="#">Añadir</a>
+    <a type="button" class="btn btn-success" href="{% url 'panel:view-create-provider' %}">Añadir</a>
     </div>
     <table class="table table-sm">
   <thead>
     <tr>
       <th scope="col">#</th>
       <th scope="col">Nombre</th>
+      <th scope="col">Contacto</th>
+      <th scope="col">Deuda</th>
     </tr>
   </thead>
   <tbody>
+    {% for provider in providers %}
+    <tr>
+      <td>{{ provider.id }}</td>
+      <td><a href="{% url 'panel:view-update-provider' provider.id %}">{{ provider.name }}</a></td>
+      <td>{{ provider.phone }}</td>
+      <td>{{ provider.debt }}</td>
+    </tr>
+  {% endfor %}
 
   </tbody>
 </table>

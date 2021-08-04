@@ -1,6 +1,8 @@
 from django.db import models
 from model_utils.models import TimeStampedModel
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
+
+# from django.contrib.auth.models import AbstractUser
 
 
 class Category(TimeStampedModel):
@@ -47,15 +49,6 @@ class Products(TimeStampedModel):
         return self.name
 
 
-class User(AbstractUser, TimeStampedModel):
-    # TODO: Translate to english
-    address = models.TextField(blank=True, max_length=50)
-    phone = models.CharField(max_length=20, blank=True)
-
-    def __str__(self):
-        return '{}'.format(self.username)
-
-
 class Vendors(TimeStampedModel):
     # TODO: Add Gastos Field
     # TODO: See if we can delete password field
@@ -69,6 +62,8 @@ class Vendors(TimeStampedModel):
     status = models.CharField(choices=Status.choices, default=Status.AVAILABLE, max_length=50)
     products = models.ManyToManyField(Products, related_name='vendors_products')
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
+    email = models.EmailField()
+    password = models.CharField(max_length=30, null=True, blank=True)
 
     class Meta:
         verbose_name = ('Vendedor')
@@ -151,7 +146,7 @@ class Provider(TimeStampedModel):
     debt = models.FloatField(default=0, blank=True,  null=True)
     saldo = models.FloatField(default=0, blank=True,  null=True)
     # TODO: modify or verify which products are
-    products = models.ManyToManyField(Products, related_name='provider_products')
+    # products = models.ManyToManyField(Products, related_name='provider_products')
 
     def __str__(self):
         return f'{self.id}/{self.name}'
