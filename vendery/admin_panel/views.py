@@ -7,6 +7,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import *
 from vendery.inventory.models import *
+
 from django.shortcuts import render, redirect
 
 
@@ -171,6 +172,46 @@ class ViewUpdateProvider(LoginRequiredMixin, UpdateView):
     model = Provider
     form_class = ProviderForm
 
-class ViewListVendors(LoginRequiredMixin, TemplateView):
+
+class ViewListVendors(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/vendors/list_vendors.html"
+    model = Vendors
+    context_object_name = "vendors"
+
+
+class ViewCreateVendors(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/vendors/new_vendors.html"
+    success_url = reverse_lazy('panel:view-list-vendors')
+    model = Vendors
+    form_class = VendorsForm
+
+    def post(self, request, *args, **kwargs):
+        if request.method == 'POST':
+            name = request.POST.get("name")
+            phone = request.POST.get("phone")
+            status = request.POST.get("status")
+            email = request.POST.get("email")
+            password = request.POST.get("password")
+            products = request.POST.getlist("products")
+            print(products)
+            user = User.objects.create_user(username=name,
+                                            email=email,
+                                            password=password)
+            vendor = Vendors.objects.create(user=user, name=name, phone=phone, status=status,
+                                            email=email, password='testing321')
+            for product_id in products:
+                product = Products.objects.get(id=product_id)
+                print(product)
+                vendor.products.add(product)
+
+        return redirect('panel:view-list-vendors')
+
+
+class ViewUpdateVendors(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/vendors/update_vendors.html"
+    success_url = reverse_lazy('panel:view-list-vendors')
+    model = Vendors
+    form_class = VendorsForm
