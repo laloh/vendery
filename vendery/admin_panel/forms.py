@@ -89,3 +89,10 @@ class ProviderForm(forms.ModelForm):
     class Meta:
         model = Provider
         fields = "__all__"
+
+
+class VendorsForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
+    class Meta:
+        model = Vendors
+        fields = "__all__"
