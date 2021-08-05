@@ -108,7 +108,7 @@ class ViewListTickets(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/tickets/list_tickets.html"
     context_object_name = "tickets"
-    model = Products
+    model = Tickets
 
 
 class ViewCreateTickets(LoginRequiredMixin, CreateView):
