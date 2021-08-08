@@ -19,6 +19,9 @@ urlpatterns = [
     path('search-products', SearchView.as_view(), name='search_products'),
     path('producto/<int:pk>/', ViewShowProduct.as_view(), name='view-product-show'),
     path('ticket/<int:pk>/', ViewShowTickets.as_view(), name='view-ticket-show'),
+    path('gastos/', ViewListExpenses.as_view(), name='view-list-expenses'),
+    path('nuevo-gasto/', ViewCreateExpremses.as_view(), name='view-create-expenses'),
+
 ]
 handler404 = Error404.as_view()
 # handler500 = Error500.as_error_view()
