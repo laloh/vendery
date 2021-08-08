@@ -200,7 +200,7 @@ class ViewCreateVendors(LoginRequiredMixin, CreateView):
                                             email=email,
                                             password=password)
             vendor = Vendors.objects.create(user=user, name=name, phone=phone, status=status,
-                                            email=email, password='testing321')
+                                            email=email, password=password)
             for product_id in products:
                 product = Products.objects.get(id=product_id)
                 print(product)

@@ -85,3 +85,4 @@ class ExpensesForm(forms.ModelForm):
     class Meta:
         model = Expenses
         fields = "__all__"
+        widgets = {'vendor': forms.HiddenInput()}
