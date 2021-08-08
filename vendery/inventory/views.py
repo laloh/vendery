@@ -18,8 +18,8 @@ from datetime import datetime
 from django.http import JsonResponse
 
 from django.template import RequestContext
-from .forms import AuthenticationFormUser, ClientForm, OrdersForm, ProductsForm, TicketsForm
-from .models import Vendors, Tickets, Clients, Products, Orders, TemporaryOrders
+from .forms import *
+from .models import Vendors, Tickets, Clients, Products, Orders, TemporaryOrders, Expenses
 
 
 class Login(LoginView):
@@ -274,6 +274,32 @@ class ViewTemporaryOrders(LoginRequiredMixin, TemplateView):
                                                                   "client": client})
         pdf_path = generate_pdf(self.request, rendered_template, token)
         send_pdf_sms(pdf_path)
+        return context
+
+
+class ViewListExpenses(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy("inventory:view-login")
+    template_name = "views/expenses/list_expenses.html"
+    context_object_name = "expenses"
+    model = Expenses
+
+    def get_queryset(self):
+        vendor = Vendors.objects.get(user=self.request.user)
+        return self.model.objects.filter(vendor=vendor)
+
+
+class ViewCreateExpremses(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy("panel:view-login")
+    template_name = "views/expenses/new_expenses.html"
+    model = Expenses
+    form_class = ExpensesForm
+    success_url = reverse_lazy('panel:view-list-expenses')
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ViewCreateExpremses, self).get_context_data(**kwargs)
+
+        context["vendor"] = Vendors.objects.get(user=self.request.user)
+
         return context
 
 
