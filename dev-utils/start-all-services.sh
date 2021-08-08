@@ -1,10 +1,10 @@
-echo "Stopping gunicorn.socket and gunicorn.service"
+echo "Start gunicorn.socket and gunicorn.service"
 eval `sudo systemctl start gunicorn.socket gunicorn.service`
 
-echo "Stopping gunicorn service"
+echo "Start gunicorn service"
 sudo systemctl start gunicorn
 
-echo "Stopping nginx"
+echo "Start nginx"
 sudo service nginx start
 
-echo "All services stopped successfully :)"
+echo "All services started successfully :)"
