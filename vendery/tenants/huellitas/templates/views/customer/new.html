@@ -1,0 +1,63 @@
+{% extends "loyout/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block main %}
+    <div class="container">
+        <div class="text-center">
+            <h2> Clientes</h2>
+        </div>
+
+        <div class="card">
+            <div class="card-header text-white text-center" style="background-color: #3d90bf">
+                Datos
+            </div>
+            <div class="card-body">
+
+                <form method="post">
+                        {% csrf_token %}
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputName">Nombre</label>
+                             {% render_field form.name class="form-control" %}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputPhone">Telefono</label>
+                             {% render_field form.phone class="form-control" %}
+                        </div>
+                    </div>
+                     <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputEmail">Email</label>
+                             {% render_field form.email class="form-control" %}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputLocation">Direccion</label>
+                             {% render_field form.location class="form-control" %}
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputCity">Nombre de Tienda</label>
+                            {% render_field form.store_name class="form-control" %}
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputState">Deuda</label>
+                            {% render_field form.debt class="form-control" %}
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="inputZip">Estatus</label>
+                            {% render_field form.status class="form-control" %}
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-dark">Registrar </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

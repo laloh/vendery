@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+	<title>404 HTML Template</title>
+	<!-- Custom stlylesheet -->
+
+
+</head>
+
+<body>
+
+	<div id="notfound">
+		<div class="notfound">
+			<div class="notfound-404">
+				<h1>:(</h1>
+			</div>
+			<h2>404 - PÁGINA NO ENCONTRADA</h2>
+			<p>Es posible que la página que está buscando se haya eliminado si se cambió el nombre o no está disponible temporalmente.</p>
+			<a href="{% url 'inventory:view-inventory' %}">pagina de inicio</a>
+		</div>
+	</div>
+
+</body>
+
+</html>

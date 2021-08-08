@@ -1,0 +1,58 @@
+{% extends "loyout/base.html" %}
+{% load static %}
+
+{% block main %}
+    <div class="container">
+        <div class="text-center">
+            <h2> Inventario</h2>
+        </div>
+        <div class="card">
+            <div class="card-header text-white text-center" style="background-color: #3d90bf">
+                Datos
+            </div>
+            <div class="card-body">
+                <hr>
+                {% if vendors %}
+                    <table class="table table-bordered table-responsive-sm ">
+                        <thead>
+                        <tr>
+                            <th scope="col">Clave</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Existencia</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for vendor in vendors %}
+                            {% for product in vendor.products.all %}
+                                <tr>
+
+                                    <th scope="row">
+                                    <a href="#" class="link"
+                                        onclick="modal_view('{% url 'inventory:view-product-show' product.id %}')">
+                                        {{ product.id }}
+                                    </a>
+                                    </th>
+                                    <td>{{ product.name }}</td>
+                                    <td>{{ product.stock }}</td>
+
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <h4 class="text-center">Sin productos</h4>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="view_product" role="dialog"></div>
+<script>
+    function modal_view(url) {
+        $('#view_product').load(url, function () {
+            $(this).modal('show');
+        });
+    }
+    </script>
+{% endblock %}
