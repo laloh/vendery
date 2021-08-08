@@ -288,16 +288,30 @@ class ViewListExpenses(LoginRequiredMixin, ListView):
         return self.model.objects.filter(vendor=vendor)
 
 
-class ViewCreateExpremses(LoginRequiredMixin, CreateView):
-    login_url = reverse_lazy("panel:view-login")
+class ViewCreateExpenses(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy("inventory:view-login")
     template_name = "views/expenses/new_expenses.html"
     model = Expenses
     form_class = ExpensesForm
-    success_url = reverse_lazy('panel:view-list-expenses')
+    success_url = reverse_lazy('inventory:view-list-expenses')
 
     def get_context_data(self, *args, **kwargs):
-        context = super(ViewCreateExpremses, self).get_context_data(**kwargs)
+        context = super(ViewCreateExpenses, self).get_context_data(**kwargs)
 
+        context["vendor"] = Vendors.objects.get(user=self.request.user)
+
+        return context
+
+
+class ViewUpdateExpenses(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy("inventory:view-login")
+    template_name = "views/expenses/update_expenses.html"
+    success_url = reverse_lazy('inventory:view-list-expenses')
+    model = Expenses
+    form_class = ExpensesForm
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ViewUpdateExpenses, self).get_context_data(**kwargs)
         context["vendor"] = Vendors.objects.get(user=self.request.user)
 
         return context
