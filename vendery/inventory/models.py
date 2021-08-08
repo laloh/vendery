@@ -150,3 +150,13 @@ class Provider(TimeStampedModel):
 
     def __str__(self):
         return f'{self.id}/{self.name}'
+
+
+class Expenses(TimeStampedModel):
+    amount = models.FloatField(default=0)
+    reason = models.CharField(max_length=255, default=None)
+    comments = models.TextField(default=None, blank=True, null=True)
+    vendor = models.ForeignKey(Vendors, on_delete=models.CASCADE, default=None)
+
+    def __str__(self):
+        return f'{self.id}/{self.reason}'

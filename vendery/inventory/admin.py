@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Products, Orders, Category, Vendors, Clients, Tickets, TemporaryOrders, Provider
+from .models import Products, Orders, Category, Vendors, Clients, Tickets, TemporaryOrders, Provider, Expenses
 from django.contrib.auth.admin import UserAdmin
 
 admin.site.register(Products)
@@ -10,3 +10,4 @@ admin.site.register(Clients)
 admin.site.register(Tickets)
 admin.site.register(Provider)
 admin.site.register(TemporaryOrders)
+admin.site.register(Expenses)
