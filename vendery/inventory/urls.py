@@ -20,7 +20,8 @@ urlpatterns = [
     path('producto/<int:pk>/', ViewShowProduct.as_view(), name='view-product-show'),
     path('ticket/<int:pk>/', ViewShowTickets.as_view(), name='view-ticket-show'),
     path('gastos/', ViewListExpenses.as_view(), name='view-list-expenses'),
-    path('nuevo-gasto/', ViewCreateExpremses.as_view(), name='view-create-expenses'),
+    path('nuevo-gasto/', ViewCreateExpenses.as_view(), name='view-create-expenses'),
+    path('gasto/<int:pk>', ViewUpdateExpenses.as_view(), name='view-update-expenses'),
 
 ]
 handler404 = Error404.as_view()
