@@ -1,0 +1,68 @@
+{% load static %}
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="{% static 'css/note.css' %}" rel="stylesheet">
+    <title>Huellitas</title>
+    <meta name="description" content="Invoice demo sample">
+    <meta name="author" content="Kozea">
+  </head>
+
+  <body>
+    <h1>Huellitas</h1>
+    <aside>
+      <address id="from">
+          <h3>Vendedor:</h3>
+          {{ vendor }}
+      </address>
+
+      <address id="to">
+        {{ client.name }}
+        {{ client.email }}
+        {{ client.phone }}
+        {{ client.location }}
+      </address>
+    </aside>
+
+    <dl id="informations">
+      <dt>Folio:</dt>
+      <dd>12345</dd>
+      <dt>Fecha:</dt>
+      <dd>{{ date }}</dd>
+    </dl>
+
+    <table>
+      <thead>
+        <th>Producto</th>
+        <th>Precio</th>
+        <th>Cantidad</th>
+        <th>Subtotal</th>
+      </thead>
+        <tbody>
+   {% for key, product in products.items %}
+        <tr>
+        <td>{{product.name}}</td>
+        <td>${{product.price}} MXN.</td>
+        <td>{{product.quantity}}</td>
+        <td>${{product.subtotal}} MXN.</td>
+
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div id="total" class="pt-5">
+    <table>
+      <thead>
+        <th>Total</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>${{ total }} MXN.</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </body>
+</html>

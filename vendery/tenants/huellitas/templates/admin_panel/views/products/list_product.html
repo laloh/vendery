@@ -1,0 +1,35 @@
+
+
+{% extends "admin_panel/layout/base_admin.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+        <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Productos
+            </h1>
+        </div>
+    </div>
+    <table class="table table-sm">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Precio</th>
+      <th scope="col">Existencia</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for product in products %}
+    <tr>
+      <th scope="row"><img style="height: 10rem; width: 10rem;" src="{{ product.image.url }}"></th>
+      <td><a href="{% url 'panel:view-update-product' product.id %}">{{ product.name }}</a></td>
+      <td>{{ product.price }}</td>
+      <td>{{ product.stock }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

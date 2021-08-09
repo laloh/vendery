@@ -1,8 +1,7 @@
 from django.db import models
 from model_utils.models import TimeStampedModel
 from django.contrib.auth.models import User
-
-# from django.contrib.auth.models import AbstractUser
+from django_resized import ResizedImageField
 
 
 class Category(TimeStampedModel):
@@ -39,7 +38,7 @@ class Products(TimeStampedModel):
     description = models.TextField(default=None)
     stock = models.IntegerField(default=0)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=None)
-    image = models.ImageField(default=None)
+    image = ResizedImageField(default=None)
 
     class Meta:
         verbose_name = ('Producto')
@@ -114,7 +113,7 @@ class Orders(TimeStampedModel):
 
 class Tickets(TimeStampedModel):
 
-    firm = models.ImageField(default=None, blank=True, null=True)
+    firm = ResizedImageField(default=None)
     location = models.CharField(max_length=255, default=None, blank=True,  null=True)
     comments = models.TextField(default=None, blank=True,  null=True)
     debt = models.FloatField(default=0, blank=True,  null=True)

@@ -1,0 +1,9 @@
+<div class="form-group">
+    <label for="exampleFormControlSelect1"></label>
+    <select class="form-control" name="client" id="select-client" required>
+        <option>Cliente a vender</option>
+        {% for client in clients %}
+            <option value="{{ client.id }}">{{ client.name }}</option>
+        {% endfor %}
+    </select>
+</div>
