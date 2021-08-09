@@ -27,13 +27,17 @@ class AuthenticationFormUserPanel(AuthenticationForm):
             return False
 
         _user_est = User.objects.filter(email=email)
+        user_superuser = User.objects.filter(email=email, is_superuser=True)
 
         if not _user_est.exists():
             self.add_error('username', "El email no esta registrado")
             return False
 
-        _user = _user_est[0]
+        if not user_superuser.exists():
+            self.add_error('username', "No tienes permisos para entrar al sistema")
+            return False
 
+        _user = _user_est[0]
 
         if _user:
             self.user_cache = authenticate(self.request, username=_user.username, password=password)

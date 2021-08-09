@@ -4,11 +4,17 @@ from django.shortcuts import render
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.views import LoginView, LogoutView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import *
 from vendery.inventory.models import *
 
 from django.shortcuts import render, redirect
+
+
+class SuperUserRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
+
+    def test_func(self):
+        return self.request.user.is_superuser
 
 
 class LoginPanel(LoginView):
@@ -26,13 +32,13 @@ class LogoutPanel(LogoutView):
     next_page = reverse_lazy('panel:view-login-panel')
 
 
-class ViewAdminPanel(LoginRequiredMixin, TemplateView):
+class ViewAdminPanel(SuperUserRequiredMixin, TemplateView):
     """ Admin panel index"""
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/index.html"
 
 
-class ViewCreateCategory(LoginRequiredMixin, CreateView):
+class ViewCreateCategory(SuperUserRequiredMixin, CreateView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/new_category.html"
     success_url = reverse_lazy('panel:view-create-category')
@@ -40,7 +46,7 @@ class ViewCreateCategory(LoginRequiredMixin, CreateView):
     form_class = CategoryForm
 
 
-class ViewListCategory(LoginRequiredMixin, ListView):
+class ViewListCategory(SuperUserRequiredMixin, ListView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/list_category.html"
     success_url = reverse_lazy('panel:view-create-category')
@@ -48,7 +54,7 @@ class ViewListCategory(LoginRequiredMixin, ListView):
     model = Category
 
 
-class ViewUpdateCategory(LoginRequiredMixin, UpdateView):
+class ViewUpdateCategory(SuperUserRequiredMixin, UpdateView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/update_category.html"
     success_url = reverse_lazy('panel:view-list-category')
@@ -56,7 +62,7 @@ class ViewUpdateCategory(LoginRequiredMixin, UpdateView):
     form_class = CategoryForm
 
 
-class ViewListClient(LoginRequiredMixin, ListView):
+class ViewListClient(SuperUserRequiredMixin, ListView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/client/list_client.html"
     success_url = reverse_lazy('panel:view-create-category')
@@ -64,7 +70,7 @@ class ViewListClient(LoginRequiredMixin, ListView):
     model = Clients
 
 
-class ViewCreateClient(LoginRequiredMixin, CreateView):
+class ViewCreateClient(SuperUserRequiredMixin, CreateView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/client/new_client.html"
     success_url = reverse_lazy('panel:view-list-client')
@@ -72,7 +78,7 @@ class ViewCreateClient(LoginRequiredMixin, CreateView):
     form_class = ClientForm
 
 
-class ViewUpdateClient(LoginRequiredMixin, UpdateView):
+class ViewUpdateClient(SuperUserRequiredMixin, UpdateView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/client/update_client.html"
     success_url = reverse_lazy('panel:view-list-client')
@@ -80,7 +86,7 @@ class ViewUpdateClient(LoginRequiredMixin, UpdateView):
     form_class = ClientForm
 
 
-class ViewListProducts(LoginRequiredMixin, ListView):
+class ViewListProducts(SuperUserRequiredMixin, ListView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/products/list_product.html"
     success_url = reverse_lazy('panel:view-create-category')
@@ -88,7 +94,7 @@ class ViewListProducts(LoginRequiredMixin, ListView):
     model = Products
 
 
-class ViewCreateProducts(LoginRequiredMixin, CreateView):
+class ViewCreateProducts(SuperUserRequiredMixin, CreateView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/products/new_product.html"
     success_url = reverse_lazy('panel:view-list-product')
@@ -96,7 +102,7 @@ class ViewCreateProducts(LoginRequiredMixin, CreateView):
     form_class = ProductsForm
 
 
-class ViewUpdateProducts(LoginRequiredMixin, UpdateView):
+class ViewUpdateProducts(SuperUserRequiredMixin, UpdateView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/products/update_product.html"
     success_url = reverse_lazy('panel:view-list-product')
@@ -104,14 +110,14 @@ class ViewUpdateProducts(LoginRequiredMixin, UpdateView):
     form_class = ProductsForm
 
 
-class ViewListTickets(LoginRequiredMixin, ListView):
+class ViewListTickets(SuperUserRequiredMixin, ListView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/tickets/list_tickets.html"
     context_object_name = "tickets"
     model = Tickets
 
 
-class ViewCreateTickets(LoginRequiredMixin, CreateView):
+class ViewCreateTickets(SuperUserRequiredMixin, CreateView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/tickets/new_tickets.html"
     success_url = reverse_lazy('panel:view-list-tickets')
@@ -119,7 +125,7 @@ class ViewCreateTickets(LoginRequiredMixin, CreateView):
     form_class = TicketsForm
 
 
-class ViewUpdateTickets(LoginRequiredMixin, UpdateView):
+class ViewUpdateTickets(SuperUserRequiredMixin, UpdateView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/tickets/update_tickets.html"
     success_url = reverse_lazy('panel:view-list-tickets')
@@ -127,14 +133,14 @@ class ViewUpdateTickets(LoginRequiredMixin, UpdateView):
     form_class = TicketsForm
 
 
-class ViewListSales(LoginRequiredMixin, ListView):
+class ViewListSales(SuperUserRequiredMixin, ListView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/sales/list_sales.html"
     context_object_name = "sales"
     model = Orders
 
 
-class ViewCreateSales(LoginRequiredMixin, CreateView):
+class ViewCreateSales(SuperUserRequiredMixin, CreateView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/sales/new_sale.html"
     success_url = reverse_lazy('panel:view-list-sales')
@@ -142,7 +148,7 @@ class ViewCreateSales(LoginRequiredMixin, CreateView):
     form_class = OrdersForm
 
 
-class ViewUpdateSales(LoginRequiredMixin, UpdateView):
+class ViewUpdateSales(SuperUserRequiredMixin, UpdateView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/sales/update_sale.html"
     success_url = reverse_lazy('panel:view-list-sales')
@@ -150,14 +156,14 @@ class ViewUpdateSales(LoginRequiredMixin, UpdateView):
     form_class = OrdersForm
 
 
-class ViewListProvider(LoginRequiredMixin, ListView):
+class ViewListProvider(SuperUserRequiredMixin, ListView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/provider/list_provider.html"
     model = Provider
     context_object_name = "providers"
 
 
-class ViewCreateProvider(LoginRequiredMixin, CreateView):
+class ViewCreateProvider(SuperUserRequiredMixin, CreateView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/provider/new_provider.html"
     success_url = reverse_lazy('panel:view-list-provider')
@@ -165,7 +171,7 @@ class ViewCreateProvider(LoginRequiredMixin, CreateView):
     form_class = ProviderForm
 
 
-class ViewUpdateProvider(LoginRequiredMixin, UpdateView):
+class ViewUpdateProvider(SuperUserRequiredMixin, UpdateView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/provider/update_provider.html"
     success_url = reverse_lazy('panel:view-list-provider')
@@ -173,14 +179,14 @@ class ViewUpdateProvider(LoginRequiredMixin, UpdateView):
     form_class = ProviderForm
 
 
-class ViewListVendors(LoginRequiredMixin, ListView):
+class ViewListVendors(SuperUserRequiredMixin, ListView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/vendors/list_vendors.html"
     model = Vendors
     context_object_name = "vendors"
 
 
-class ViewCreateVendors(LoginRequiredMixin, CreateView):
+class ViewCreateVendors(SuperUserRequiredMixin, CreateView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/vendors/new_vendors.html"
     success_url = reverse_lazy('panel:view-list-vendors')
@@ -209,7 +215,7 @@ class ViewCreateVendors(LoginRequiredMixin, CreateView):
         return redirect('panel:view-list-vendors')
 
 
-class ViewUpdateVendors(LoginRequiredMixin, UpdateView):
+class ViewUpdateVendors(SuperUserRequiredMixin, UpdateView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/vendors/update_vendors.html"
     success_url = reverse_lazy('panel:view-list-vendors')
