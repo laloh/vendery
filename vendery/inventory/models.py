@@ -113,7 +113,7 @@ class Orders(TimeStampedModel):
 
 class Tickets(TimeStampedModel):
 
-    firm = models.ImageField(default=None, blank=True, null=True)
+    firm = ResizedImageField(default=None)
     location = models.CharField(max_length=255, default=None, blank=True,  null=True)
     comments = models.TextField(default=None, blank=True,  null=True)
     debt = models.FloatField(default=0, blank=True,  null=True)
