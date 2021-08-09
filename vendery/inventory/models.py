@@ -7,10 +7,10 @@ from django_resized import ResizedImageField
 class Category(TimeStampedModel):
 
     class Status(models.TextChoices):
-        AVAILABLE = "available", "Available"
-        DELETED = "deleted", "Deleted"
-        PAUSED = "paused", "Paused"
-        OUT_OF_STOCK = "out_of_stock", "Out of stock"
+        AVAILABLE = "disponible", "Disponible"
+        DELETED = "eliminado", "Eliminado"
+        PAUSED = "pausado", "Pausado"
+        OUT_OF_STOCK = "agotado", "Agotado"
 
     name = models.CharField(max_length=255, default=None)
     status = models.CharField(choices=Status.choices, default=Status.AVAILABLE, max_length=50)
@@ -26,10 +26,10 @@ class Category(TimeStampedModel):
 class Products(TimeStampedModel):
     # TODO: Add Labels to spanish
     class Status(models.TextChoices):
-        AVAILABLE = "available", "Available"
-        DELETED = "deleted", "Deleted"
-        PAUSED = "paused", "Paused"
-        OUT_OF_STOCK = "out_of_stock", "Out of stock"
+        AVAILABLE = "disponible", "Disponible"
+        DELETED = "eliminado", "Eliminado"
+        PAUSED = "pausado", "Pausado"
+        OUT_OF_STOCK = "agotado", "Agotado"
 
     name = models.CharField(max_length=255, default=None)
     price = models.FloatField(default=0)
@@ -52,9 +52,10 @@ class Vendors(TimeStampedModel):
     # TODO: Add Gastos Field
     # TODO: See if we can delete password field
     class Status(models.TextChoices):
-        AVAILABLE = "available", "Available"
-        DELETED = "deleted", "Deleted"
-        PAUSED = "paused", "Paused"
+        AVAILABLE = "disponible", "Disponible"
+        DELETED = "eliminado", "Eliminado"
+        PAUSED = "pausado", "Pausado"
+        OUT_OF_STOCK = "agotado", "Agotado"
 
     name = models.CharField(max_length=255, default=None)
     phone = models.CharField(max_length=20, default=None)
@@ -77,9 +78,10 @@ class Clients(TimeStampedModel):
     # TODO: Maximize location by form
 
     class Status(models.TextChoices):
-        AVAILABLE = "available", "Available"
-        DELETED = "deleted", "Deleted"
-        PAUSED = "paused", "Paused"
+        AVAILABLE = "disponible", "Disponible"
+        DELETED = "eliminado", "Eliminado"
+        PAUSED = "pausado", "Pausado"
+        OUT_OF_STOCK = "agotado", "Agotado"
 
     name = models.CharField(max_length=255, default=None)
     phone = models.CharField(max_length=20, default=None)
