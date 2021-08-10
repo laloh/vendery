@@ -96,7 +96,10 @@ class ProviderForm(forms.ModelForm):
 
 
 class VendorsForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput)
+    products = forms.ModelMultipleChoiceField(
+        widget=forms.CheckboxSelectMultiple,
+        queryset=Products.objects.all())
+
     class Meta:
         model = Vendors
         fields = "__all__"
