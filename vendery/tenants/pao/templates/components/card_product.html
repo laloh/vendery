@@ -2,15 +2,15 @@
 
 <link href="{% static 'css/utils.css' %}" rel="stylesheet">
 <div class="container pt-5">
-    <div class="row">
-
+    <div class="row"  id="div-to-render-products">
+        {# TODO: No queremos que se renderize todos los productos de todos los vendedores#}
         {% for vendor in vendors %}
             {% for product in vendor.products.all %}
-                <div class='col-6 col-sm-4 col-md-3 p-1'>
+                <div class='col-6 col-sm-4 col-md-3 p-1 all-products'>
                     <div class="card mb-2" style="border-radius: 0.5rem;">
                         <img class="card-img-top p-2" src="{{ product.image.url }}" alt="Card image cap">
                         <div class='card-body'>
-                            <p class='product-name p-0'>{{ product.name }}</p>
+                            <p class='p-0 product-name'>{{ product.name }}</p>
                             <h5 class='card-title'>$ {{ product.price }}</h5>
                             <p>
                                 <a class="btn btn-info" style="border-radius: 2rem;"

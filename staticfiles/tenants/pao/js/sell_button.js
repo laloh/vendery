@@ -4,12 +4,49 @@ var totalAmount = document.getElementById("total-amount")
 var sellButton = document.getElementById('sell-button')
 var clientID = document.getElementById("select-client")
 var quantity = document.getElementsByClassName("quantity")
-
+var allProducts = document.getElementsByClassName("all-products")
+var searchInput = document.getElementById("search-product")
+var divToRenderProducts = document.getElementById("div-to-render-products")
 
 var order = {
 	"sumTotalAmount": 0.0,
 	"products": {}
 }
+
+// ------------------------
+//	Search input handlers
+// ------------------------
+
+var allProductsName = []
+var productCardBody = []
+for (let i = 0; i < allProducts.length; i++) {
+	productCardBody[i] = allProducts[i]
+	allProductsName[i] = allProducts[i].getElementsByClassName("product-name")[0].innerHTML
+}
+
+/*
+* Some ideas i have in mind:
+* 	1. Write a function to save the state of card product
+* 	2. It need to be modified and save by `sell button handler`
+* 	3. This function need to pass the element to be modified
+* 	4. When the match is made, it need to call the object
+* */
+
+var filteredArray = []
+searchInput.addEventListener('keyup', (e)=>{
+    divToRenderProducts.innerHTML = ""
+	filteredArray = allProductsName.filter(info => info.includes(e.target.value))
+	if (filteredArray.length > 0) {
+		divToRenderProducts.innerHTML += productCardBody[0].innerHTML
+	} else {
+		divToRenderProducts.innerHTML = "No existe el producto que buscas! :("
+	}
+})
+
+// ------------------------
+//	Sell button handlers
+// ------------------------
+
 
 function setTextTotalAmount(element){
 	order.sumTotalAmount = parseFloat(order.sumTotalAmount.toFixed(2))
