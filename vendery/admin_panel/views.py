@@ -221,3 +221,26 @@ class ViewUpdateVendors(SuperUserRequiredMixin, UpdateView):
     success_url = reverse_lazy('panel:view-list-vendors')
     model = Vendors
     form_class = VendorsForm
+
+    def post(self, request, *args, **kwargs):
+        #TODO: improve the way you update sellers
+        if request.method == 'POST':
+            name = request.POST.get("name")
+            phone = request.POST.get("phone")
+            status = request.POST.get("status")
+            email = request.POST.get("email")
+            password = request.POST.get("password")
+            products = request.POST.getlist("products")
+            vendor = Vendors.objects.get(id=kwargs['pk'])
+            user = User.objects.get(id=vendor.user.id)
+            user.set_password(password)
+            Vendors.objects.filter(id=kwargs['pk']).update(name=name, phone=phone, status=status,
+                                            email=email, password=password)
+            vendor.products.clear()
+            for product_id in products:
+                product = Products.objects.get(id=product_id)
+                print(product)
+                vendor.products.add(product)
+            user.save()
+
+        return redirect('panel:view-list-vendors')
