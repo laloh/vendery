@@ -10,7 +10,7 @@
                         <img class="card-img-top p-2" src="{{ product.image.url }}" alt="Card image cap">
                         <div class='card-body'>
                             <p class='product-name p-0'>{{ product.name }}</p>
-                            <h5 class='card-title'>${{ product.price }} MXN</h5>
+                            <h5 class='card-title'>Precio: ${{ product.price }} MXN</h5>
                             <input type='hidden' name='id' id='hiddenField' value='{{ product.id }}'>
                             <input type='hidden' name='name' id='hiddenField' value='{{ product.name }}'>
                             <input type='hidden' name='cantidad' id='hiddenField'>
