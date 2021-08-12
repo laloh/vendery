@@ -1,5 +1,11 @@
-let increaseTotal = document.getElementsByClassName('increase-total')
-var decreaseTotal = document.getElementsByClassName('decrease-total')
+var increaseTotalOne = document.getElementsByClassName('increase-total-1')
+var decreaseTotalOne = document.getElementsByClassName('decrease-total-1')
+var increaseTotalSix = document.getElementsByClassName('increase-total-6')
+var decreaseTotalSix = document.getElementsByClassName('decrease-total-6')
+var increaseTotalTwelve = document.getElementsByClassName('increase-total-12')
+var decreaseTotalTwelve = document.getElementsByClassName('decrease-total-12')
+
+
 var totalAmount = document.getElementById("total-amount")
 var sellButton = document.getElementById('sell-button')
 var clientID = document.getElementById("select-client")
@@ -19,70 +25,92 @@ function setTextTotalAmount(element){
 	element.innerHTML = "Total: $" + order.sumTotalAmount + " MX"
 }
 
+function increaseHandler(i, id, price, name, increment){
+    var productID = id
+	var productPrice = parseFloat(price)
+	var productName = name
 
-for (let i = 0; i < increaseTotal.length; i++) {
-	increaseTotal[i].addEventListener('click', function (){
-		var productID = this.dataset.id
-		var productPrice = parseFloat(this.dataset.price)
-		var productName = this.dataset.name
+	order.sumTotalAmount += productPrice * increment
+	setTextTotalAmount(totalAmount)
 
-		order.sumTotalAmount += productPrice
-		setTextTotalAmount(totalAmount)
-
-		if (!order.products.hasOwnProperty(productID)) {
-			order.products[productID] = {
-				"name": productName,
-				"quantity":0,
-				"subtotal":0,
-				"price": productPrice
-			}
-			console.log(order)
+	if (!order.products.hasOwnProperty(productID)) {
+		order.products[productID] = {
+			"name": productName,
+			"quantity":0,
+			"subtotal":0,
+			"price": productPrice
 		}
+		console.log(order)
+	}
 
-		order.products[productID].quantity += 1
-		order.products[productID].subtotal += productPrice
+	order.products[productID].quantity += increment
+	order.products[productID].subtotal += productPrice * increment
 
-		// Not permit zero values
-		if (order.products[productID].quantity <= 0) {
-			order.products[productID].quantity = 0
-			order.products[productID].subtotal = 0
+	// Not permit zero values
+	if (order.products[productID].quantity <= 0) {
+		order.products[productID].quantity = 0
+		order.products[productID].subtotal = 0
+	}
+
+	quantity[i].innerText = order.products[productID].quantity + " Uds"
+}
+
+function decreaseHandler(i, id, price, name, increment){
+	var productID = id
+	var productPrice = parseFloat(price)
+	var productName = name
+
+	order.sumTotalAmount -= productPrice * increment
+	setTextTotalAmount(totalAmount)
+
+	if (!order.products.hasOwnProperty(productID)) {
+		order.products[productID] = {
+			"name": productName,
+			"quantity":0,
+			"subtotal":0,
+			"price": productPrice
 		}
+		console.log(order)
+	}
 
-		quantity[i].innerText = order.products[productID].quantity
+	order.products[productID].quantity -= increment
+	order.products[productID].subtotal -= productPrice * increment
 
+	// Not permit zero values
+	if (order.products[productID].quantity <= 0) {
+		order.products[productID].quantity = 0
+		order.products[productID].subtotal = 0
+	}
+
+	quantity[i].innerText = order.products[productID].quantity + " uds"
+}
+
+
+for (let i = 0; i < increaseTotalOne.length; i++) {
+	increaseTotalOne[i].addEventListener('click', function (){
+		increaseHandler(i, this.dataset.id, this.dataset.price, this.dataset.name, 1)
+	})
+
+	increaseTotalSix[i].addEventListener('click', function (){
+		increaseHandler(i, this.dataset.id, this.dataset.price, this.dataset.name, 6)
+	})
+
+	increaseTotalTwelve[i].addEventListener('click', function (){
+		increaseHandler(i, this.dataset.id, this.dataset.price, this.dataset.name, 12)
 	})
 }
 
-for (let i = 0; i < decreaseTotal.length; i++) {
-	decreaseTotal[i].addEventListener('click', function (){
-		var productID = this.dataset.id
-		var productPrice = parseFloat(this.dataset.price)
-		var productName = this.dataset.name
+for (let i = 0; i < decreaseTotalOne.length; i++) {
+	decreaseTotalOne[i].addEventListener('click', function (){
+		decreaseHandler(i, this.dataset.id, this.dataset.price, this.dataset.name, 1)
+	})
 
-		order.sumTotalAmount -= productPrice
-		setTextTotalAmount(totalAmount)
+	decreaseTotalSix[i].addEventListener('click', function (){
+		decreaseHandler(i, this.dataset.id, this.dataset.price, this.dataset.name, 6)
+	})
 
-		if (!order.products.hasOwnProperty(productID)) {
-			order.products[productID] = {
-				"name": productName,
-				"quantity":0,
-				"subtotal":0,
-				"price": productPrice
-			}
-			console.log(order)
-		}
-
-		order.products[productID].quantity -= 1
-		order.products[productID].subtotal -= productPrice
-
-		// Not permit zero values
-		if (order.products[productID].quantity <= 0) {
-			order.products[productID].quantity = 0
-			order.products[productID].subtotal = 0
-		}
-
-		quantity[i].innerText = order.products[productID].quantity
-
+	decreaseTotalTwelve[i].addEventListener('click', function (){
+		decreaseHandler(i, this.dataset.id, this.dataset.price, this.dataset.name, 12)
 	})
 }
 

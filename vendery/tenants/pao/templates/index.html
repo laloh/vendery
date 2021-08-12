@@ -3,41 +3,8 @@
 {% block main %}
     <div class="container">
         {% include 'components/clients.html' with clients=clients %}
-        {% include 'components/search.html' %}
-        <div class="row pt-3 pl-2">
-            {% for p in productos %}
-                <div class='col-6 col-sm-4 col-md-3 p-1'>
-                    <div class="card mb-2" style="border-radius: 0.5rem;">
-                        <img class="card-img-top p-2" src="{{ p.image.url }}" alt="Card image cap">
-                        <div class='card-body'>
-                            <p class='product-name p-0'>{{ p.name }}</p>
-                            <h5 class='card-title'>$ {{ p.price }}</h5>
-                            <p>
-                                <a class="btn btn-info" style="border-radius: 2rem;"
-                                   data-toggle="collapse" href="#name{{ p.id }}"
-                                   role="button"
-                                   aria-expanded="false" aria-controls="name{{ p.id }}">Mas</a>
-                            </p>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="collapse multi-collapse border-0" id="name{{ p.id }}">
-                                        <div>
-                                            {{ p.description }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <input type='hidden' name='id' id='hiddenField' value='{{ p.id }}'>
-                            <input type='hidden' name='name' id='hiddenField' value='{{ p.name }}'>
-                            <input type='hidden' name='cantidad' id='hiddenField'>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-
-        </div>
+{#        {% include 'components/search.html' %}#}
         {% include 'components/card_product.html' %}
     </div>
     <script type="text/javascript" src="{% static 'js/sell_button.js' %}"></script>
-
 {% endblock %}
