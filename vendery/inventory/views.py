@@ -1,6 +1,7 @@
 import os
 import json
 import time
+
 import hashlib
 import uuid
 
@@ -284,8 +285,9 @@ class ViewListExpenses(LoginRequiredMixin, ListView):
     model = Expenses
 
     def get_queryset(self):
+        today = date.today()
         vendor = Vendors.objects.get(user=self.request.user)
-        return self.model.objects.filter(vendor=vendor)
+        return self.model.objects.filter(vendor=vendor, creation_date=today)
 
 
 class ViewCreateExpenses(LoginRequiredMixin, CreateView):

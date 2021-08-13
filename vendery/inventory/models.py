@@ -158,6 +158,7 @@ class Expenses(TimeStampedModel):
     reason = models.CharField(max_length=255, default=None)
     comments = models.TextField(default=None, blank=True, null=True)
     vendor = models.ForeignKey(Vendors, on_delete=models.CASCADE, default=None)
+    creation_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.id}/{self.reason}'
