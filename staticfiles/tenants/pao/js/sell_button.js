@@ -5,7 +5,6 @@ var decreaseTotalSix = document.getElementsByClassName('decrease-total-6')
 var increaseTotalTwelve = document.getElementsByClassName('increase-total-12')
 var decreaseTotalTwelve = document.getElementsByClassName('decrease-total-12')
 
-
 var totalAmount = document.getElementById("total-amount")
 var sellButton = document.getElementById('sell-button')
 var clientID = document.getElementById("select-client")
@@ -56,6 +55,7 @@ function increaseHandler(i, id, price, name, increment){
 }
 
 function decreaseHandler(i, id, price, name, increment){
+
 	var productID = id
 	var productPrice = parseFloat(price)
 	var productName = name
@@ -123,6 +123,13 @@ sellButton.onclick = function () {
 						.options[clientID.selectedIndex]
 						.getAttribute('value')
 
+	// Validate clientID is not null
+	if (order['clientID'] === null) {
+		alert("Seleciona cliente a vender productos")
+		return
+		// location.reload();
+	}
+
 	fetch(url, {
 		method: 'POST',
 		headers: {
@@ -137,4 +144,6 @@ sellButton.onclick = function () {
 		.then((data) => {
 			location.reload()
 		});
+
+	location.reload()
 }
