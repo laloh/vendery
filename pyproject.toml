@@ -20,6 +20,8 @@ django-widget-tweaks = "^1.4.8"
 weasyprint = "^52.5"
 twilio = "^6.61.0"
 django-resized = "^0.3.11"
+black = "^21.7b0"
+django-environ = "^0.4.5"
 
 [tool.poetry.dev-dependencies]
 
