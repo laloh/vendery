@@ -27,14 +27,7 @@ height: 250px;
                 <div class='col-6 col-sm-4 col-md-3 p-1'>
                     <div class="card mb-2" style="border-radius: 0.5rem;">
                         <img class="card-img-top p-2 img-size"  src="{{ product.image.url }}" alt="Card image cap">
-                        <div class='card-body'>
-                            <p class='product-name'>{{ product.name }}</p>
-                            <h5 class='card-title'>Precio: ${{ product.price }} MXN</h5>
-                            <input type='hidden' name='id' id='hiddenField' value='{{ product.id }}'>
-                            <input type='hidden' name='name' id='hiddenField' value='{{ product.name }}'>
-                            <input type='hidden' name='cantidad' id='hiddenField'>
-                            <input type='hidden' name='token' id='token' value="{{ token }}">
-                            {% include 'components/button.html' %}
+                            {% include 'components/card_product_body.html' %}
                         </div>
                     </div>
                 </div>
@@ -60,11 +53,14 @@ height: 250px;
 <div class="div-total">
     <div class="d-flex align-items-end flex-column">
             <div class="row">
+                <button type="button" class="btn btn-info" data-toggle="modal-cart" data-target="#exampleModal">
+                    Ver Carrito
+                </button>
                 <div class="col pl-5">
                     <div class="p-2 bg-light text-dark" id="total-amount" style="border-radius: 0.5rem; width:10rem;">Total: $0.00
                     </div>
                 </div>
-                <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModal">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
                     Vender
                 </button>
                 <div class="col pr-5">

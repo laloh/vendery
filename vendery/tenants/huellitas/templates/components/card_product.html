@@ -31,7 +31,7 @@
                             <input type='hidden' name='name' id='hiddenField' value='{{ product.name }}'>
                             <input type='hidden' name='cantidad' id='hiddenField'>
                             <input type='hidden' name='token' id='token' value="{{ token }}">
-                            {% include 'components/button.html' %}
+                            {% include 'components/card_product_body.html' %}
                         </div>
                     </div>
                 </div>
@@ -56,7 +56,6 @@
 <hr class="pt-5 border-0">
 <div class="div-total">
     <div class="d-flex align-items-end flex-column">
-{#        <form class="pt-4" method="GET" action="nota-remision/">#}
             <div class="row">
                 <div class="col pl-5">
                     <div class="p-2 bg-light text-dark" id="total-amount" style="border-radius: 0.5rem; width:10rem;">Total: $0.00
@@ -69,7 +68,6 @@
 
                 </div>
             </div>
-{#        </form>#}
     </div>
     <hr class="border-0">
 </div>
