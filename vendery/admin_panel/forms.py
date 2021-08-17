@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from vendery.inventory.models import *
 
+
 class AuthenticationFormUserPanel(AuthenticationForm):
     def clean(self):
         if self.cleaned_data is None:
@@ -102,4 +103,10 @@ class VendorsForm(forms.ModelForm):
 
     class Meta:
         model = Vendors
+        fields = "__all__"
+
+
+class ProductSizeForm(forms.ModelForm):
+    class Meta:
+        model = ProductSize
         fields = "__all__"

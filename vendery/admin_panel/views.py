@@ -223,7 +223,7 @@ class ViewUpdateVendors(SuperUserRequiredMixin, UpdateView):
     form_class = VendorsForm
 
     def post(self, request, *args, **kwargs):
-        #TODO: improve the way you update sellers
+        # TODO: improve the way you update sellers
         if request.method == 'POST':
             name = request.POST.get("name")
             phone = request.POST.get("phone")
@@ -235,7 +235,7 @@ class ViewUpdateVendors(SuperUserRequiredMixin, UpdateView):
             user = User.objects.get(id=vendor.user.id)
             user.set_password(password)
             Vendors.objects.filter(id=kwargs['pk']).update(name=name, phone=phone, status=status,
-                                            email=email, password=password)
+                                                           email=email, password=password)
             vendor.products.clear()
             for product_id in products:
                 product = Products.objects.get(id=product_id)
@@ -244,3 +244,19 @@ class ViewUpdateVendors(SuperUserRequiredMixin, UpdateView):
             user.save()
 
         return redirect('panel:view-list-vendors')
+
+
+class ViewCreateProductSize(SuperUserRequiredMixin, CreateView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/sizes/new_product_size.html"
+    success_url = reverse_lazy('panel:view-create-product-size')
+    model = ProductSize
+    form_class = ProductSizeForm
+
+
+class ViewListProductSize(SuperUserRequiredMixin, ListView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/sizes/list_product_size.html"
+    success_url = reverse_lazy('panel:view-create-category')
+    context_object_name = "sizes"
+    model = ProductSize

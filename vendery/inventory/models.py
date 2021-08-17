@@ -1,11 +1,11 @@
 from django.db import models
 from model_utils.models import TimeStampedModel
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields import ArrayField
 from django_resized import ResizedImageField
 
 
 class Category(TimeStampedModel):
-
     class Status(models.TextChoices):
         AVAILABLE = "disponible", "Disponible"
         DELETED = "eliminado", "Eliminado"
@@ -21,6 +21,13 @@ class Category(TimeStampedModel):
 
     def __str__(self):
         return self.name
+
+
+class ProductSize(TimeStampedModel):
+    size = models.IntegerField(default=None)
+
+    def __str__(self):
+        return str(self.size)
 
 
 class Products(TimeStampedModel):
@@ -39,6 +46,7 @@ class Products(TimeStampedModel):
     stock = models.IntegerField(default=0)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=None)
     image = ResizedImageField(default=None)
+    size = models.ForeignKey(ProductSize, on_delete=models.CASCADE, default=None)
 
     class Meta:
         verbose_name = ('Producto')
@@ -101,7 +109,6 @@ class Clients(TimeStampedModel):
 
 
 class Orders(TimeStampedModel):
-
     total = models.FloatField(default=0)
     products = models.ManyToManyField(Products)
 
@@ -114,11 +121,10 @@ class Orders(TimeStampedModel):
 
 
 class Tickets(TimeStampedModel):
-
     firm = ResizedImageField(default=None)
-    location = models.CharField(max_length=255, default=None, blank=True,  null=True)
-    comments = models.TextField(default=None, blank=True,  null=True)
-    debt = models.FloatField(default=0, blank=True,  null=True)
+    location = models.CharField(max_length=255, default=None, blank=True, null=True)
+    comments = models.TextField(default=None, blank=True, null=True)
+    debt = models.FloatField(default=0, blank=True, null=True)
     vendor = models.ForeignKey(Vendors, on_delete=models.CASCADE, default=None)
     client = models.ForeignKey(Clients, on_delete=models.CASCADE, default=None)
     order = models.OneToOneField(Orders, on_delete=models.CASCADE, default=None)
@@ -144,8 +150,9 @@ class Provider(TimeStampedModel):
     name = models.CharField(max_length=255, default=None)
     phone = models.CharField(max_length=20, default=None)
     email = models.CharField(max_length=255, default=None)
-    debt = models.FloatField(default=0, blank=True,  null=True)
-    saldo = models.FloatField(default=0, blank=True,  null=True)
+    debt = models.FloatField(default=0, blank=True, null=True)
+    saldo = models.FloatField(default=0, blank=True, null=True)
+
     # TODO: modify or verify which products are
     # products = models.ManyToManyField(Products, related_name='provider_products')
 
