@@ -1,68 +1,93 @@
 {% load static %}
 <!doctype html>
+<style>
+    @page {
+        size: "A4";
+         margin: 1.0cm 1.5cm 3.5cm 1.5cm;
+    }
+
+    body {
+        width: 100% !important;
+        height: 100%;
+        background: #fff;
+        color: black;
+        font-size: 100%;
+        font-family: 'Roboto', sans-serif;
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+        -webkit-text-size-adjust: none;
+    }
+
+</style>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <link href="{% static 'css/note.css' %}" rel="stylesheet">
     <title>Huellitas</title>
     <meta name="description" content="Invoice demo sample">
     <meta name="author" content="Kozea">
-  </head>
+</head>
 
-  <body>
-    <h1>Huellitas</h1>
-    <aside>
-      <address id="from">
-          <h3>Vendedor:</h3>
-          {{ vendor }}
-      </address>
+<body>
+<img src="{{ image }}" style="height: 3rem; width: 3rem;" alt="">
+<dl style="text-align: left" id="informations">
+    <dt>Folio</dt>
+    <dd>{{ token|truncatechars:7 }}</dd>
+    <dt>Fecha</dt>
+    <dd>{{ date }}</dd>
+    <dt>Vendedor</dt>
+    <dd>{{ vendor }}</dd>
+</dl>
 
-      <address id="to">
-        {{ client.name }}
-        {{ client.email }}
-        {{ client.phone }}
-        {{ client.location }}
-      </address>
-    </aside>
 
-    <dl id="informations">
-      <dt>Folio:</dt>
-      <dd>12345</dd>
-      <dt>Fecha:</dt>
-      <dd>{{ date }}</dd>
-    </dl>
+<CENTER><p style="color: #1B75B1; font-size: 2.2rem; font-weight: bold;">HUELLITAS NEVY</p></CENTER>
+<CENTER><p style="font-size: 0.7rem;   z-index:2;"> COMERCIALIZADORA DE CALZADO EN GRAL. DE PUEBLA Y LEON, GTO.<br>
+    R.F.C. AAHN960229E22<br>
+    Tehuacan Puebla.<br>
+    Tel.<br>
+    249 138 90 57 249 100 9976</p></CENTER>
 
-    <table>
-      <thead>
-        <th>Producto</th>
-        <th>Precio</th>
-        <th>Cantidad</th>
-        <th>Subtotal</th>
-      </thead>
-        <tbody>
-   {% for key, product in products.items %}
+<hr style="color: #F1F1F1">
+<aside>
+
+    <address id="from">
+        Cliente: {{ client.name }}
+        Email: {{ client.email }}
+        Telefono: {{ client.phone }}
+    </address>
+</aside>
+
+<table>
+    <thead>
+    <th>Producto</th>
+    <th>Precio</th>
+    <th>Cantidad</th>
+    <th>Subtotal</th>
+    </thead>
+    <tbody>
+    {% for key, product in products.items %}
         <tr>
-        <td>{{product.name}}</td>
-        <td>${{product.price}} MXN.</td>
-        <td>{{product.quantity}}</td>
-        <td>${{product.subtotal}} MXN.</td>
+            <td>{{ product.name }}</td>
+            <td>${{ product.price }} MXN.</td>
+            <td>{{ product.quantity }}</td>
+            <td>${{ product.subtotal }} MXN.</td>
 
         </tr>
-        {% endfor %}
+    {% endfor %}
+    </tbody>
+</table>
+
+<div id="total" class="pt-5">
+    <table>
+        <thead>
+        <th>Total</th>
+        </thead>
+        <tbody>
+        <tr>
+            <td>${{ total }} MXN.</td>
+        </tr>
         </tbody>
     </table>
-
-    <div id="total" class="pt-5">
-    <table>
-      <thead>
-        <th>Total</th>
-      </thead>
-      <tbody>
-        <tr>
-          <td>${{ total }} MXN.</td>
-        </tr>
-      </tbody>
-    </table>
-    </div>
-  </body>
+</div>
+</body>
 </html>

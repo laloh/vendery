@@ -257,7 +257,7 @@ class ViewTemporaryOrders(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(ViewTemporaryOrders, self).get_context_data(**kwargs)
-        date = datetime.strftime(datetime.now(), '%b %d, %Y')
+        date = datetime.strftime(datetime.now(), '%d/%m/%Y')
         datos = TemporaryOrders.objects.get(unique_id=self.kwargs['token'])
         id_client = datos.data_orders["clientID"]
         client = Clients.objects.get(id=id_client)
@@ -272,9 +272,11 @@ class ViewTemporaryOrders(LoginRequiredMixin, TemplateView):
                                                                   "date": date,
                                                                   "total": datos.data_orders["sumTotalAmount"],
                                                                   "vendor": user,
-                                                                  "client": client})
+                                                                  "client": client,
+                                                                  "token": token,
+                                                                  "vendor": user})
         pdf_path = generate_pdf(self.request, rendered_template, token)
-        send_pdf_sms(pdf_path)
+        # send_pdf_sms(pdf_path)
         return context
 
 
