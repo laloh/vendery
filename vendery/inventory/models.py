@@ -1,7 +1,6 @@
 from django.db import models
 from model_utils.models import TimeStampedModel
 from django.contrib.auth.models import User
-from django.contrib.postgres.fields import ArrayField
 from django_resized import ResizedImageField
 
 
@@ -46,7 +45,7 @@ class Products(TimeStampedModel):
     stock = models.IntegerField(default=0)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=None)
     image = ResizedImageField(default=None)
-    size = models.ForeignKey(ProductSize, on_delete=models.CASCADE, default=None)
+    sizes = models.ManyToManyField(ProductSize, related_name='sizes_products')
 
     class Meta:
         verbose_name = ('Producto')
@@ -138,6 +137,7 @@ class Tickets(TimeStampedModel):
         return f"{self.id}"
 
 
+# TODO: Deprecate this
 class TemporaryOrders(TimeStampedModel):
     unique_id = models.UUIDField(default=None, unique=True, null=True)
     data_orders = models.JSONField(null=True)

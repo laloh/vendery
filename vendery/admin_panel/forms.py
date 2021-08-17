@@ -79,6 +79,10 @@ class OrdersForm(forms.ModelForm):
 
 
 class ProductsForm(forms.ModelForm):
+    sizes = forms.ModelMultipleChoiceField(
+            widget=forms.CheckboxSelectMultiple,
+            queryset=ProductSize.objects.all())
+
     class Meta:
         model = Products
         fields = "__all__"
