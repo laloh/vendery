@@ -1,4 +1,4 @@
-{% extends "loyout/base.html" %}
+{% extends "layouts/base.html" %}
 {% load static %}
 {% block main %}
     <div class="container">
@@ -26,8 +26,7 @@
                         <tbody>
                         {% for exp in expenses %}
                             <tr>
-                                <th scope="row">
-                                        {{ exp.id }}
+                                <th scope="row"><a href="{% url 'inventory:view-update-expenses' exp.id %}"> {{ exp.id }}</a>
                                 </th>
                                 <td>{{ exp.amount }}</td>
                                 <td>{{ exp.reason }}</td>
