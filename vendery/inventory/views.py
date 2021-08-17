@@ -275,8 +275,8 @@ class ViewTemporaryOrders(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(ViewTemporaryOrders, self).get_context_data(**kwargs)
-        date = datetime.strftime(datetime.now(), "%b %d, %Y")
-        datos = TemporaryOrders.objects.get(unique_id=self.kwargs["token"])
+        date = datetime.strftime(datetime.now(), '%d/%m/%Y')
+        datos = TemporaryOrders.objects.get(unique_id=self.kwargs['token'])
         id_client = datos.data_orders["clientID"]
         client = Clients.objects.get(id=id_client)
         print("dude what the fuck is going on")
@@ -285,18 +285,15 @@ class ViewTemporaryOrders(LoginRequiredMixin, TemplateView):
         context["total"] = datos.data_orders["sumTotalAmount"]
         context["client"] = client
         context["date"] = date
-        context["vendor"] = user
-        token = kwargs["token"]
-        rendered_template = render_to_string(
-            self.template_name,
-            {
-                "products": datos.data_orders["products"],
-                "date": date,
-                "total": datos.data_orders["sumTotalAmount"],
-                "vendor": user,
-                "client": client,
-            },
-        )
+        context['vendor'] = user
+        token = kwargs['token']
+        rendered_template = render_to_string(self.template_name, {"products": datos.data_orders['products'],
+                                                                  "date": date,
+                                                                  "total": datos.data_orders["sumTotalAmount"],
+                                                                  "vendor": user,
+                                                                  "client": client,
+                                                                  "token": token,
+                                                                  "vendor": user})
         pdf_path = generate_pdf(self.request, rendered_template, token)
         send_pdf_sms(pdf_path, client.phone)
         return context
