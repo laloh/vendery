@@ -37,6 +37,7 @@ SHARED_APPS = (
     "django_tenants",  # mandatory
     "vendery.customers",  # you must list the app where your tenant model resides in
     "vendery.admin_panel",  #
+    "vendery.landing_page",  #
     "django.contrib.contenttypes",
     # everything below here is optional
     "django.contrib.auth",
@@ -56,6 +57,7 @@ TENANT_APPS = (
     # your tenant-specific apps
     "vendery.inventory",
     "vendery.admin_panel",
+    "vendery.landing_page",
     # everything below here is optional
     "django.contrib.auth",
     "django.contrib.sessions",

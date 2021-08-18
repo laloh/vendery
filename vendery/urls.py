@@ -25,4 +25,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('inventory/', include('vendery.inventory.urls')),
     path('panel/', include('vendery.admin_panel.urls')),
+    path('catalogo/', include('vendery.landing_page.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
