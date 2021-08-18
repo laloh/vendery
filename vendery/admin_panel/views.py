@@ -45,6 +45,18 @@ class ViewCreateCategory(SuperUserRequiredMixin, CreateView):
     model = Category
     form_class = CategoryForm
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["breadcrumb"] = [
+            ["Categorias", reverse("panel:view-list-category")],
+            [
+                "Nuevo",
+                reverse(
+                    "panel:view-create-category"),
+            ]
+        ]
+        return context
+
 
 class ViewListCategory(SuperUserRequiredMixin, ListView):
     login_url = reverse_lazy("panel:view-login-panel")
@@ -60,6 +72,22 @@ class ViewUpdateCategory(SuperUserRequiredMixin, UpdateView):
     success_url = reverse_lazy('panel:view-list-category')
     model = Category
     form_class = CategoryForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pk"] = self.kwargs["pk"]
+
+        context["breadcrumb"] = [
+            ["Categorias", reverse("panel:view-list-category")],
+            [
+                "Configuración",
+                reverse(
+                    "panel:view-update-category",
+                    kwargs={"pk": self.kwargs["pk"]},
+                ),
+            ]
+        ]
+        return context
 
 
 class ViewListClient(SuperUserRequiredMixin, ListView):
@@ -77,6 +105,18 @@ class ViewCreateClient(SuperUserRequiredMixin, CreateView):
     model = Clients
     form_class = ClientForm
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["breadcrumb"] = [
+            ["Clientes", reverse("panel:view-list-client")],
+            [
+                "Nuevo",
+                reverse(
+                    "panel:view-create-client"),
+            ]
+        ]
+        return context
+
 
 class ViewUpdateClient(SuperUserRequiredMixin, UpdateView):
     login_url = reverse_lazy("panel:view-login-panel")
@@ -84,6 +124,22 @@ class ViewUpdateClient(SuperUserRequiredMixin, UpdateView):
     success_url = reverse_lazy('panel:view-list-client')
     model = Clients
     form_class = ClientForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pk"] = self.kwargs["pk"]
+
+        context["breadcrumb"] = [
+            ["Clientes", reverse("panel:view-list-client")],
+            [
+                "Configuración",
+                reverse(
+                    "panel:view-update-client",
+                    kwargs={"pk": self.kwargs["pk"]},
+                ),
+            ]
+        ]
+        return context
 
 
 class ViewListProducts(SuperUserRequiredMixin, ListView):
@@ -101,6 +157,18 @@ class ViewCreateProducts(SuperUserRequiredMixin, CreateView):
     model = Products
     form_class = ProductsForm
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["breadcrumb"] = [
+            ["Productos", reverse("panel:view-list-product")],
+            [
+                "Nuevo",
+                reverse(
+                    "panel:view-create-product"),
+            ]
+        ]
+        return context
+
 
 class ViewUpdateProducts(SuperUserRequiredMixin, UpdateView):
     login_url = reverse_lazy("panel:view-login-panel")
@@ -108,6 +176,22 @@ class ViewUpdateProducts(SuperUserRequiredMixin, UpdateView):
     success_url = reverse_lazy('panel:view-list-product')
     model = Products
     form_class = ProductsForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pk"] = self.kwargs["pk"]
+
+        context["breadcrumb"] = [
+            ["Productos", reverse("panel:view-list-product")],
+            [
+                "Configuración",
+                reverse(
+                    "panel:view-update-product",
+                    kwargs={"pk": self.kwargs["pk"]},
+                ),
+            ]
+        ]
+        return context
 
 
 class ViewListTickets(SuperUserRequiredMixin, ListView):
@@ -162,6 +246,13 @@ class ViewListProvider(SuperUserRequiredMixin, ListView):
     model = Provider
     context_object_name = "providers"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["breadcrumb"] = [
+            ["Proveedores", reverse("panel:view-list-provider")]
+        ]
+        return context
+
 
 class ViewCreateProvider(SuperUserRequiredMixin, CreateView):
     login_url = reverse_lazy("panel:view-login-panel")
@@ -170,6 +261,18 @@ class ViewCreateProvider(SuperUserRequiredMixin, CreateView):
     model = Provider
     form_class = ProviderForm
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["breadcrumb"] = [
+            ["Proveedores", reverse("panel:view-list-provider")],
+            [
+                "Nuevo",
+                reverse(
+                    "panel:view-create-provider"),
+            ]
+        ]
+        return context
+
 
 class ViewUpdateProvider(SuperUserRequiredMixin, UpdateView):
     login_url = reverse_lazy("panel:view-login-panel")
@@ -177,6 +280,22 @@ class ViewUpdateProvider(SuperUserRequiredMixin, UpdateView):
     success_url = reverse_lazy('panel:view-list-provider')
     model = Provider
     form_class = ProviderForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pk"] = self.kwargs["pk"]
+
+        context["breadcrumb"] = [
+            ["Proveedores", reverse("panel:view-list-provider")],
+            [
+                "Configuración",
+                reverse(
+                    "panel:view-update-provider",
+                    kwargs={"pk": self.kwargs["pk"]},
+                ),
+            ]
+        ]
+        return context
 
 
 class ViewListVendors(SuperUserRequiredMixin, ListView):
@@ -214,6 +333,18 @@ class ViewCreateVendors(SuperUserRequiredMixin, CreateView):
 
         return redirect('panel:view-list-vendors')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["breadcrumb"] = [
+            ["Vendedores", reverse("panel:view-list-vendors")],
+            [
+                "Nuevo",
+                reverse(
+                    "panel:view-create-vendor"),
+            ]
+        ]
+        return context
+
 
 class ViewUpdateVendors(SuperUserRequiredMixin, UpdateView):
     login_url = reverse_lazy("panel:view-login-panel")
@@ -244,3 +375,19 @@ class ViewUpdateVendors(SuperUserRequiredMixin, UpdateView):
             user.save()
 
         return redirect('panel:view-list-vendors')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pk"] = self.kwargs["pk"]
+
+        context["breadcrumb"] = [
+            ["Vendedores", reverse("panel:view-list-vendors")],
+            [
+                "Configuración",
+                reverse(
+                    "panel:view-update-vendors",
+                    kwargs={"pk": self.kwargs["pk"]},
+                ),
+            ]
+        ]
+        return context
