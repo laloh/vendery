@@ -3,6 +3,7 @@ import json
 import re
 import uuid
 
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -22,7 +23,7 @@ from .models import (
     Clients,
     Products,
     Orders,
-    TemporaryOrders,
+    # TemporaryOrders,
     Expenses,
 )
 
@@ -100,9 +101,9 @@ def insert_order_to_db(orders):
         order.products.add(product)
 
 
-def generate_pdf(request, template, token):
+def generate_pdf(request, template):
     unique_id = uuid.uuid4().hex[:8]
-    media_pdf_path = f"{request.tenant.schema_name}/pdf/order_{token}.pdf"
+    media_pdf_path = f"{request.tenant.schema_name}/pdf/order_{unique_id}.pdf"
     pdf_path = os.path.join(settings.MEDIA_ROOT, media_pdf_path)
     # TODO: Generate Ticket Table Row
 
@@ -142,28 +143,19 @@ class ViewNote(LoginRequiredMixin, TemplateView):
     template_name = "views/product_orders.html"
 
     def post(self, request, *args, **kwargs):
+        response = {'status': 200, 'message': ("Your error")}
         orders = json.loads(request.body)
-        user_id = self.request.user
-        token = kwargs["token"]
-        TemporaryOrders.objects.create(unique_id=token, data_orders=orders)
-        total = orders["sumTotalAmount"]
-        productos = orders["products"]
-        object_order = Orders.objects.create(total=total)
-        for key, value in productos.items():
-            product = Products.objects.get(id=key)
-            object_order.products.add(product)
-        user = Vendors.objects.get(user=user_id)
-        client = Clients.objects.get(id=orders["clientID"])
-        Tickets.objects.create(
-            vendor=user, client=client, order=object_order, token=token
-        )
-        return redirect("inventory:view-sales")
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(ViewNote, self).get_context_data(**kwargs)
-        context["token"] = self.kwargs["token"]
-        print("tok", self.kwargs["token"])
-        return context
+        client = Clients.objects.get(id=orders['clientID'])
+
+        # Refactor orders man
+        rendered_template = render_to_string(self.template_name, orders)
+
+        pdf_path = generate_pdf(self.request, rendered_template)
+        send_pdf_sms(pdf_path, client.phone)
+
+
+        return HttpResponse(json.dumps(response), content_type='application/json')
 
 
 class ViewInventoryAll(LoginRequiredMixin, TemplateView):
@@ -266,39 +258,6 @@ class ViewShowTickets(LoginRequiredMixin, UpdateView):
         context = super().get_context_data()
         context["pk"] = self.kwargs["pk"]
 
-        return context
-
-
-class ViewTemporaryOrders(LoginRequiredMixin, TemplateView):
-    login_url = reverse_lazy("inventory:view-login")
-    template_name = "views/note.html"
-
-    def get_context_data(self, *args, **kwargs):
-        context = super(ViewTemporaryOrders, self).get_context_data(**kwargs)
-        date = datetime.strftime(datetime.now(), "%b %d, %Y")
-        datos = TemporaryOrders.objects.get(unique_id=self.kwargs["token"])
-        id_client = datos.data_orders["clientID"]
-        client = Clients.objects.get(id=id_client)
-        print("dude what the fuck is going on")
-        user = self.request.user
-        context["products"] = datos.data_orders["products"]
-        context["total"] = datos.data_orders["sumTotalAmount"]
-        context["client"] = client
-        context["date"] = date
-        context["vendor"] = user
-        token = kwargs["token"]
-        rendered_template = render_to_string(
-            self.template_name,
-            {
-                "products": datos.data_orders["products"],
-                "date": date,
-                "total": datos.data_orders["sumTotalAmount"],
-                "vendor": user,
-                "client": client,
-            },
-        )
-        pdf_path = generate_pdf(self.request, rendered_template, token)
-        send_pdf_sms(pdf_path, client.phone)
         return context
 
 

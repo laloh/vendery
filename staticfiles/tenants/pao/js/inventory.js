@@ -1,6 +1,6 @@
 const cardProducts = document.getElementsByClassName("card-body-product")
-const clientID = document.getElementById("select-client")
-const sellButton = document.getElementById('sell-button')
+var totalAmount = document.getElementById('total-amount')
+
 
 var order = {
     "sumTotalAmount": null,
@@ -39,40 +39,30 @@ for (let i = 0; i < cardProducts.length; i++) {
         // Sum all subtotals of every product
         for (let key in sumTotalAmount) {
             order.sumTotalAmount = Object.values(sumTotalAmount[key]).reduce((a, b) => a + b, 0)
+            totalAmount.innerText = "Total: $"+ order.sumTotalAmount +".00"
         }
-
-        console.log(clientID.options[1].getAttribute('id'))
     })
 }
 
-// TODO: Send all the data to DJANGO
-sellButton.onclick = function () {
-    // var token = document.getElementById("token").value;
-    // var url = "/inventory/nota-remision/" + token + "/"
-
-    // Selects the id value of client selected
-    order['clientID'] = parseInt(clientID.options[1].getAttribute('id'))
-    if (order['clientID'] === null) {
+$("#sell-button").click(function (e){
+    e.preventDefault()
+    const clientID = $("#select-client option:selected").val()
+    if (clientID == "Cliente a vender") {
         alert("Seleciona cliente a vender productos")
         return
     }
+    order['clientID'] = clientID
+    console.log(JSON.stringify(order))
 
-
-    console.log(order)
-
-    // fetch(url, {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //         // 'X-CSRFToken': csrftoken,
-    //     },
-    //     body: JSON.stringify(order)
-    // })
-    //     .then((response) => {
-    //         return response.json();
-    //     })
-    //     .then((data) => {
-    //         location.reload()
-    //     });
-
-}
+    $.ajax({
+        type: 'POST',
+        url: '/inventory/nota-remision/',
+        data: JSON.stringify(order),
+        success: function (data){
+            if (data.status == 200) {
+                console.log("Redirecting to the mis-ventas man")
+                // window.location = '/inventory/mis-ventas/'
+            }
+    }
+    });
+});

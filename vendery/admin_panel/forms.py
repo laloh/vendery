@@ -79,7 +79,7 @@ class OrdersForm(forms.ModelForm):
 
 
 class ProductsForm(forms.ModelForm):
-    sizes = forms.ModelMultipleChoiceField(
+    size = forms.ModelMultipleChoiceField(
             widget=forms.CheckboxSelectMultiple,
             queryset=ProductSize.objects.all())
 

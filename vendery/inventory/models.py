@@ -45,7 +45,7 @@ class Products(TimeStampedModel):
     stock = models.IntegerField(default=0)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=None)
     image = ResizedImageField(default=None)
-    sizes = models.ManyToManyField(ProductSize, related_name='sizes_products')
+    size = models.ManyToManyField(ProductSize, related_name='product_size')
 
     class Meta:
         verbose_name = ('Producto')
@@ -81,7 +81,6 @@ class Vendors(TimeStampedModel):
 
 
 class Clients(TimeStampedModel):
-    # TODO: See if we can delete password field
     # TODO: Maximize location by form
 
     class Status(models.TextChoices):
@@ -106,7 +105,8 @@ class Clients(TimeStampedModel):
     def __str__(self):
         return self.name
 
-
+# Deprecate Orders, use a JSON Field no telated table to store the
+# Order created by the user.
 class Orders(TimeStampedModel):
     total = models.FloatField(default=0)
     products = models.ManyToManyField(Products)
@@ -120,14 +120,12 @@ class Orders(TimeStampedModel):
 
 
 class Tickets(TimeStampedModel):
-    firm = ResizedImageField(default=None)
     location = models.CharField(max_length=255, default=None, blank=True, null=True)
     comments = models.TextField(default=None, blank=True, null=True)
     debt = models.FloatField(default=0, blank=True, null=True)
     vendor = models.ForeignKey(Vendors, on_delete=models.CASCADE, default=None)
     client = models.ForeignKey(Clients, on_delete=models.CASCADE, default=None)
     order = models.OneToOneField(Orders, on_delete=models.CASCADE, default=None)
-    token = models.UUIDField(default=None, unique=True, null=True)
 
     class Meta:
         verbose_name = ('Ticket')
@@ -135,15 +133,6 @@ class Tickets(TimeStampedModel):
 
     def __str__(self):
         return f"{self.id}"
-
-
-# TODO: Deprecate this
-class TemporaryOrders(TimeStampedModel):
-    unique_id = models.UUIDField(default=None, unique=True, null=True)
-    data_orders = models.JSONField(null=True)
-
-    def __str__(self):
-        return f'{self.id}/{self.unique_id}'
 
 
 class Provider(TimeStampedModel):
