@@ -10,78 +10,16 @@
             <a href="{% url 'panel:view-list-vendors' %}"><i class="fa fa-fw fa-users"></i> Vendedores</a>
         </li>
         <li>
-            <a href="#" data-toggle="collapse" data-target="#client"><i
-                    class="fa fa-fw fa-users"></i> Clientes <i class="fa fa-chevron-down"></i></a>
-            <ul id="client" class="collapse">
-                <li>
-                    <a href="{% url 'panel:view-create-client' %}"><i class="fa fa-plus-circle"></i> Registrar</a>
-                </li>
-                <li>
-                    <a href="{% url 'panel:view-list-client' %}"><i class="fa fa-eye"></i> Ver clientes</a>
-                </li>
-            </ul>
+            <a href="{% url 'panel:view-list-client' %}"><i class="fa fa-fw fa-users"></i> Clientes </a>
         </li>
         <li>
-            <a href="#" data-toggle="collapse" data-target="#category"><i
-                    class="fa fa-fw fa-ticket"></i> Categorias <i class="fa fa-chevron-down"></i></a>
-            <ul id="category" class="collapse">
-                <li>
-                    <a href="{% url 'panel:view-create-category' %}"><i class="fa fa-plus-circle"></i> Registrar</a>
-                </li>
-                <li>
-                    <a href="{% url 'panel:view-list-category' %}"><i class="fa fa-eye"></i> Ver categorias</a>
-                </li>
-            </ul>
-        </li>
-        {#        <li>#}
-        {#            <a href="{% url 'panel:view-create-product-size' %}"><i class="fa fa-fw fa-list-ol"></i>Tallas</a>#}
-        {#            <ul id="products" class="collapse">#}
-        {#                <li>#}
-        {#                    <a href="{% url 'panel:view-create-product' %}"><i class="fa fa-plus-circle"></i>#}
-        {#                        Registrar</a>#}
-        {#                </li>#}
-        {#                <li>#}
-        {#                    <a href="{% url 'panel:view-list-product' %}"><i class="fa fa-eye"></i> Ver productos</a>#}
-        {#                </li>#}
-        {#            </ul>#}
-        {#        </li>#}
-        <li>
-            <a href="#" data-toggle="collapse" data-target="#sizes"><i
-                    class="fa fa-fw fa-shopping-cart"></i> Tallas<i class="fa fa-chevron-down"></i></a>
-            <ul id="sizes" class="collapse">
-                <li>
-                    <a href="{% url 'panel:view-create-product-size' %}"><i class="fa fa-plus-circle"></i>
-                        Registrar</a>
-                </li>
-                <li>
-                    <a href="{% url 'panel:view-list-product-size' %}"><i class="fa fa-eye"></i> Ver Tallas</a>
-                </li>
-            </ul>
+            <a href="{% url 'panel:view-list-category' %}"><i class="fa fa-fw fa-users"></i> Categorias </a>
         </li>
         <li>
-            <a href="#" data-toggle="collapse" data-target="#products"><i
-                    class="fa fa-fw fa-shopping-cart"></i> Productos <i class="fa fa-chevron-down"></i></a>
-            <ul id="products" class="collapse">
-                <li>
-                    <a href="{% url 'panel:view-create-product' %}"><i class="fa fa-plus-circle"></i>
-                        Registrar</a>
-                </li>
-                <li>
-                    <a href="{% url 'panel:view-list-product' %}"><i class="fa fa-eye"></i> Ver productos</a>
-                </li>
-            </ul>
+            <a href="{% url 'panel:view-list-product-size' %}"><i class="fa fa-fw fa-users"></i> Tallas</a>
         </li>
         <li>
-            <a href="#" data-toggle="collapse" data-target="#ticket"><i
-                    class="fa fa-fw fa-ticket"></i> Tickets <i class="fa fa-chevron-down"></i></a>
-            <ul id="ticket" class="collapse">
-                <li>
-                    <a href="{% url 'panel:view-create-tickets' %}"><i class="fa fa-plus-circle"></i> Registrar</a>
-                </li>
-                <li>
-                    <a href="{% url 'panel:view-list-tickets' %}"><i class="fa fa-eye"></i> Ver tickets</a>
-                </li>
-            </ul>
+            <a href="{% url 'panel:view-list-product' %}"><i class="fa fa-fw fa-users"></i> Productos </a>
         </li>
         <li>
             <a href="{% url 'panel:view-list-sales' %}"><i class="fa fa-fw fa-shopping-bag"></i> Ventas</a>
