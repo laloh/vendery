@@ -1,7 +1,6 @@
 const cardProducts = document.getElementsByClassName("card-body-product")
 var totalAmount = document.getElementById('total-amount')
 
-
 var order = {
     "sumTotalAmount": null,
     "products": {}
@@ -69,3 +68,8 @@ $("#sell-button").click(function (e){
     }
     });
 });
+
+$("#product-cart").click(function (e){
+    console.log("what the fuck man")
+    $("#cart-modal").modal('show');
+})
