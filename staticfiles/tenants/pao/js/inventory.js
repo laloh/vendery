@@ -37,10 +37,13 @@ for (let i = 0; i < cardProducts.length; i++) {
         sumTotalAmount[productID][productSize] = order.products[productID][productSize].subtotal
 
         // Sum all subtotals of every product
+        var sumTotal = 0
         for (let key in sumTotalAmount) {
-            order.sumTotalAmount = Object.values(sumTotalAmount[key]).reduce((a, b) => a + b, 0)
-            totalAmount.innerText = "Total: $"+ order.sumTotalAmount +".00"
+            sumTotal += Object.values(sumTotalAmount[key]).reduce((a, b) => a + b, 0)
         }
+
+        order.sumTotalAmount = sumTotal
+        totalAmount.innerText = "Total: $"+ order.sumTotalAmount +".00"
     })
 }
 

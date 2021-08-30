@@ -101,12 +101,10 @@ def insert_order_to_db(orders):
         order.products.add(product)
 
 
-def generate_pdf(request, template):
-    unique_id = uuid.uuid4().hex[:8]
+def generate_pdf(request, template, unique_id):
     media_pdf_path = f"{request.tenant.schema_name}/pdf/order_{unique_id}.pdf"
     pdf_path = os.path.join(settings.MEDIA_ROOT, media_pdf_path)
     # TODO: Generate Ticket Table Row
-
     css_path = f"tenants/{request.tenant.schema_name}/css/note.css"
     pdf_file = HTML(string=template).write_pdf(
         stylesheets=[CSS(settings.STATIC_ROOT + css_path)], presentational_hints=True
@@ -140,20 +138,37 @@ def send_pdf_sms(pdf_path, phone):
 
 class ViewNote(LoginRequiredMixin, TemplateView):
     login_url = reverse_lazy("inventory:view-login")
-    template_name = "views/product_orders.html"
+    # template_name = "views/product_orders.html"
+    template_name = "views/note.html"
 
     def post(self, request, *args, **kwargs):
         response = {'status': 200, 'message': ("Your error")}
+        unique_id = uuid.uuid4().hex[:8]
         orders = json.loads(request.body)
+        products = []
+        context = {'client': Clients.objects.get(id=orders['clientID']),
+                   'date': datetime.strftime(datetime.now(), '%d/%m/%Y'),
+                   'vendor': self.request.user,
+                   'total': orders['sumTotalAmount'],
+                   'uuid': unique_id,
+                   }
 
-        client = Clients.objects.get(id=orders['clientID'])
+        # Build Context to render PDF
+        for product_id, product_id_body in orders['products'].items():
+            for product_size, product_size_body in product_id_body.items():
+                products.append({
+                    'size': product_size,
+                    'name': product_size_body['name'],
+                    'price': product_size_body['price'],
+                    'quantity': product_size_body['quantity'],
+                    'subtotal': product_size_body['subtotal']
+                })
 
-        # Refactor orders man
-        rendered_template = render_to_string(self.template_name, orders)
+        context['products'] = products
 
-        pdf_path = generate_pdf(self.request, rendered_template)
-        send_pdf_sms(pdf_path, client.phone)
-
+        rendered_template = render_to_string(self.template_name, context=context)
+        pdf_path = generate_pdf(self.request, rendered_template, unique_id)
+        # send_pdf_sms(pdf_path, context['client'].phone)
 
         return HttpResponse(json.dumps(response), content_type='application/json')
 

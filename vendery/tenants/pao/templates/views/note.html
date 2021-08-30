@@ -32,7 +32,7 @@
 <img src="{{ image }}" style="height: 3rem; width: 3rem;" alt="">
 <dl style="text-align: left" id="informations">
     <dt>Folio</dt>
-    <dd>{{ token|truncatechars:7 }}</dd>
+    <dd>{{ uuid }}</dd>
     <dt>Fecha</dt>
     <dd>{{ date }}</dd>
     <dt>Vendedor</dt>
@@ -49,7 +49,6 @@
 
 <hr style="color: #F1F1F1">
 <aside>
-
     <address id="from">
         Cliente: {{ client.name }}
         Email: {{ client.email }}
@@ -61,14 +60,16 @@
     <thead>
     <th>Producto</th>
     <th>Precio</th>
+    <th>Talla</th>
     <th>Cantidad</th>
     <th>Subtotal</th>
     </thead>
     <tbody>
-    {% for key, product in products.items %}
+    {% for product in products %}
         <tr>
             <td>{{ product.name }}</td>
             <td>${{ product.price }} MXN.</td>
+            <td>{{ product.size}}</td>
             <td>{{ product.quantity }}</td>
             <td>${{ product.subtotal }} MXN.</td>
 

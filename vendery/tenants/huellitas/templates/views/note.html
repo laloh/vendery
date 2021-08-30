@@ -36,17 +36,18 @@
       <thead>
         <th>Producto</th>
         <th>Precio</th>
+        <th>Talla</th>
         <th>Cantidad</th>
         <th>Subtotal</th>
       </thead>
         <tbody>
-   {% for key, product in products.items %}
+   {% for product in products %}
         <tr>
         <td>{{product.name}}</td>
         <td>${{product.price}} MXN.</td>
+        <td>${{product.size}}</td>
         <td>{{product.quantity}}</td>
         <td>${{product.subtotal}} MXN.</td>
-
         </tr>
         {% endfor %}
         </tbody>
