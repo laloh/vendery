@@ -13,6 +13,7 @@ urlpatterns = [
     path('clientes/', ViewListClient.as_view(), name='view-list-client'),
     path('nuevo-cliente/', ViewCreateClient.as_view(), name='view-create-client'),
     path('cliente/<int:pk>/', ViewUpdateClient.as_view(), name='view-update-client'),
+    path('cliente/<int:pk>/eliminar/', ViewDeleteClient.as_view(), name='view-delete-client'),
     path('productos/', ViewListProducts.as_view(), name='view-list-product'),
     path('nuevo-producto/', ViewCreateProducts.as_view(), name='view-create-product'),
     path('producto/<int:pk>/', ViewUpdateProducts.as_view(), name='view-update-product'),

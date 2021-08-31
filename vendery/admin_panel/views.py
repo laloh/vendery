@@ -99,7 +99,7 @@ class ViewDeleteCategory(SuperUserRequiredMixin, DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["pk"] = self.kwargs["pk"]
-        context["product"] = Category.objects.get(id=self.kwargs["pk"])
+        context["category"] = Category.objects.get(id=self.kwargs["pk"])
 
         return context
 
@@ -155,6 +155,20 @@ class ViewUpdateClient(SuperUserRequiredMixin, UpdateView):
         ]
         return context
 
+
+class ViewDeleteClient(SuperUserRequiredMixin, DeleteView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/client/delete_client.html"
+    success_url = reverse_lazy('panel:view-list-client')
+    model = Clients
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pk"] = self.kwargs["pk"]
+        context["client"] = Clients.objects.get(id=self.kwargs["pk"])
+
+
+        return context
 
 class ViewListProducts(SuperUserRequiredMixin, ListView):
     login_url = reverse_lazy("panel:view-login-panel")
