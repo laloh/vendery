@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.views.generic import TemplateView, ListView, CreateView, UpdateView
+from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -191,6 +191,20 @@ class ViewUpdateProducts(SuperUserRequiredMixin, UpdateView):
                 ),
             ]
         ]
+        return context
+
+
+class ViewDeleteProducts(SuperUserRequiredMixin, DeleteView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/products/delete_products.html"
+    success_url = reverse_lazy('panel:view-list-product')
+    model = Products
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pk"] = self.kwargs["pk"]
+        context["product"] = Products.objects.get(id=self.kwargs["pk"])
+
         return context
 
 
