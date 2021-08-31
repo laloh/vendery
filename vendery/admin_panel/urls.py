@@ -32,5 +32,6 @@ urlpatterns = [
     path('nuevo-vendedor/', ViewCreateVendors.as_view(), name='view-create-vendor'),
     path('vendedor/<int:pk>/', ViewUpdateVendors.as_view(), name='view-update-vendors'),
     path('vendedor/<int:pk>/eliminar/', ViewDeleteVendor.as_view(), name='view-delete-vendors'),
+    path('gastos/', ViewListExpenses.as_view(), name='view-list-expenses'),
 
 ]

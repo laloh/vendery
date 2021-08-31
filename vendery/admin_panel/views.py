@@ -458,3 +458,10 @@ class ViewDeleteVendor(SuperUserRequiredMixin, DeleteView):
         context["pk"] = self.kwargs["pk"]
         context["vendor"] = Vendors.objects.get(id=self.kwargs["pk"])
         return context
+
+
+class ViewListExpenses(SuperUserRequiredMixin, ListView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/expenses/list_expenses.html"
+    model = Expenses
+    context_object_name = "expenses"
