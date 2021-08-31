@@ -90,6 +90,20 @@ class ViewUpdateCategory(SuperUserRequiredMixin, UpdateView):
         return context
 
 
+class ViewDeleteCategory(SuperUserRequiredMixin, DeleteView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/delete_category.html"
+    success_url = reverse_lazy('panel:view-list-category')
+    model = Category
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pk"] = self.kwargs["pk"]
+        context["product"] = Category.objects.get(id=self.kwargs["pk"])
+
+        return context
+
+
 class ViewListClient(SuperUserRequiredMixin, ListView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/client/list_client.html"
