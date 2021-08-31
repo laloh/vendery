@@ -21,6 +21,7 @@
       <th scope="col">#</th>
       <th scope="col">Nombre</th>
       <th scope="col">Estatus</th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
@@ -29,8 +30,17 @@
       <th scope="row">{{ category.id }}</th>
       <td><a href="{% url 'panel:view-update-category' category.id %}">{{ category.name }}</a></td>
       <td>{{ category.status }}</td>
+  <td><a type="button" class="btn btn-danger"  onclick="modal_delete('{% url 'panel:view-delete-category' category.id %}')"><i class="fa fa-trash" aria-hidden="true"></i>
     </tr>
   {% endfor %}
   </tbody>
 </table>
+    <div class="modal fade" id="delete_category" role="dialog"></div>
+<script>
+    function modal_delete(url) {
+        $('#delete_category').load(url, function () {
+            $(this).modal('show');
+        });
+    }
+</script>
 {% endblock %}

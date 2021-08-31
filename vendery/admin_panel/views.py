@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.views.generic import TemplateView, ListView, CreateView, UpdateView
+from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -90,6 +90,20 @@ class ViewUpdateCategory(SuperUserRequiredMixin, UpdateView):
         return context
 
 
+class ViewDeleteCategory(SuperUserRequiredMixin, DeleteView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/delete_category.html"
+    success_url = reverse_lazy('panel:view-list-category')
+    model = Category
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pk"] = self.kwargs["pk"]
+        context["category"] = Category.objects.get(id=self.kwargs["pk"])
+
+        return context
+
+
 class ViewListClient(SuperUserRequiredMixin, ListView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/client/list_client.html"
@@ -142,6 +156,19 @@ class ViewUpdateClient(SuperUserRequiredMixin, UpdateView):
         return context
 
 
+class ViewDeleteClient(SuperUserRequiredMixin, DeleteView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/client/delete_client.html"
+    success_url = reverse_lazy('panel:view-list-client')
+    model = Clients
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pk"] = self.kwargs["pk"]
+        context["client"] = Clients.objects.get(id=self.kwargs["pk"])
+        return context
+
+
 class ViewListProducts(SuperUserRequiredMixin, ListView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/products/list_product.html"
@@ -191,6 +218,20 @@ class ViewUpdateProducts(SuperUserRequiredMixin, UpdateView):
                 ),
             ]
         ]
+        return context
+
+
+class ViewDeleteProducts(SuperUserRequiredMixin, DeleteView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/products/delete_products.html"
+    success_url = reverse_lazy('panel:view-list-product')
+    model = Products
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pk"] = self.kwargs["pk"]
+        context["product"] = Products.objects.get(id=self.kwargs["pk"])
+
         return context
 
 
@@ -298,6 +339,19 @@ class ViewUpdateProvider(SuperUserRequiredMixin, UpdateView):
         return context
 
 
+class ViewDeleteProvider(SuperUserRequiredMixin, DeleteView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/provider/delete_provider.html"
+    success_url = reverse_lazy('panel:view-list-provider')
+    model = Provider
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pk"] = self.kwargs["pk"]
+        context["provider"] = Provider.objects.get(id=self.kwargs["pk"])
+        return context
+
+
 class ViewListVendors(SuperUserRequiredMixin, ListView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/vendors/list_vendors.html"
@@ -390,4 +444,17 @@ class ViewUpdateVendors(SuperUserRequiredMixin, UpdateView):
                 ),
             ]
         ]
+        return context
+
+
+class ViewDeleteVendor(SuperUserRequiredMixin, DeleteView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/vendors/delete_vendors.html"
+    success_url = reverse_lazy('panel:view-list-vendors')
+    model = Vendors
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pk"] = self.kwargs["pk"]
+        context["vendor"] = Vendors.objects.get(id=self.kwargs["pk"])
         return context

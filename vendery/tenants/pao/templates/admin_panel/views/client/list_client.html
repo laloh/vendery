@@ -21,7 +21,7 @@
       <th scope="col">#</th>
       <th scope="col">Nombre</th>
       <th scope="col">Email</th>
-      <th scope="col">Deuda</th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
@@ -30,9 +30,20 @@
       <th scope="row">{{ customer.id }}</th>
       <td><a href="{% url 'panel:view-update-client' customer.id %}">{{ customer.name }}</a></td>
       <td>{{ customer.email }}</td>
-      <td>{{ customer.debt }}</td>
+      <td><a type="button" class="btn btn-danger"
+             onclick="modal_delete('{% url 'panel:view-delete-client' customer.id %}')"><i class="fa fa-trash"
+             aria-hidden="true"></i></a></td>
     </tr>
   {% endfor %}
   </tbody>
 </table>
+
+<div class="modal fade" id="delete_client" role="dialog"></div>
+<script>
+    function modal_delete(url) {
+        $('#delete_client').load(url, function () {
+            $(this).modal('show');
+        });
+    }
+</script>
 {% endblock %}
