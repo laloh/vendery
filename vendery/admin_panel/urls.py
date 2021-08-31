@@ -27,6 +27,7 @@ urlpatterns = [
     path('provedores/', ViewListProvider.as_view(), name='view-list-provider'),
     path('nuevo-proveedor/', ViewCreateProvider.as_view(), name='view-create-provider'),
     path('proveedor/<int:pk>/', ViewUpdateProvider.as_view(), name='view-update-provider'),
+    path('proveedor/<int:pk>/eliminar/', ViewDeleteProvider.as_view(), name='view-delete-provider'),
     path('vendedores/', ViewListVendors.as_view(), name='view-list-vendors'),
     path('nuevo-vendedor/', ViewCreateVendors.as_view(), name='view-create-vendor'),
     path('vendedor/<int:pk>/', ViewUpdateVendors.as_view(), name='view-update-vendors'),

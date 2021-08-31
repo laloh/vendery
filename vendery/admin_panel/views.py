@@ -339,6 +339,19 @@ class ViewUpdateProvider(SuperUserRequiredMixin, UpdateView):
         return context
 
 
+class ViewDeleteProvider(SuperUserRequiredMixin, DeleteView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/provider/delete_provider.html"
+    success_url = reverse_lazy('panel:view-list-provider')
+    model = Provider
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pk"] = self.kwargs["pk"]
+        context["provider"] = Provider.objects.get(id=self.kwargs["pk"])
+        return context
+
+
 class ViewListVendors(SuperUserRequiredMixin, ListView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/vendors/list_vendors.html"
