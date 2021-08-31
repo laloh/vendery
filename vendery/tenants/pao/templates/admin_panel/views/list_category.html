@@ -30,7 +30,8 @@
       <th scope="row">{{ category.id }}</th>
       <td><a href="{% url 'panel:view-update-category' category.id %}">{{ category.name }}</a></td>
       <td>{{ category.status }}</td>
-  <td><a type="button" class="btn btn-danger"  onclick="modal_delete('{% url 'panel:view-delete-category' category.id %}')"><i class="fa fa-trash" aria-hidden="true"></i>
+  <td><a type="button" class="btn btn-danger"  onclick="modal_delete('{% url 'panel:view-delete-category' category.id %}')">
+      <i class="fa fa-trash" aria-hidden="true"></i></a></td>
     </tr>
   {% endfor %}
   </tbody>
