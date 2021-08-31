@@ -30,5 +30,6 @@ urlpatterns = [
     path('vendedores/', ViewListVendors.as_view(), name='view-list-vendors'),
     path('nuevo-vendedor/', ViewCreateVendors.as_view(), name='view-create-vendor'),
     path('vendedor/<int:pk>/', ViewUpdateVendors.as_view(), name='view-update-vendors'),
+    path('vendedor/<int:pk>/eliminar/', ViewDeleteVendor.as_view(), name='view-delete-vendors'),
 
 ]
