@@ -5,27 +5,23 @@
         {# Idk why but closing the last tag it breakes the products aligment#}
         <h5 class='card-title'>Precio: ${{ product.price }} MXN</h5
     </div>
-
     <div>
         <select class="form-select product-size" aria-label="Default select example">
             <option selected>Selecciona Talla</option>
-            <option value="1">Uno</option>
-            <option value="2">Dos</option>
-            <option value="3">Tres</option>
+            {% for size in product.size.all %}
+                <option value="{{ size }}">{{ size }}</option>
+            {% endfor %}
         </select>
     </div>
-
     <div class="form-group" style="padding-top: 1rem">
         <small id="emailHelp" class="form-text text-muted">Ingrese cantidades a vender</small>
         <input type="number" min="0" class="form-control product-quantity" aria-describedby="emailHelp"
                placeholder="0 Unidades">
     </div>
-
     <div>
         <button type="button" class="btn btn-primary button-add"
                 data-price="{{ product.price }}"
                 data-productid="{{ product.id }}"
                 data-productname="{{ product.name }}">Agregar</button>
     </div>
-
 </div>

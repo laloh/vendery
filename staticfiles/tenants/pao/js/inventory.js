@@ -59,10 +59,10 @@ $("#product-cart").click(function (e){
                 <tr id="product-${productID}-${productSize}">
                     <td class="tg-1pky">${productID}</td>
                     <td class="tg-1pky">${productName}</td>
-                    <td class="tg-1pky">${productPrice}</td>
+                    <td class="tg-1pky">$ ${productPrice}.00 MXN</td>
                     <td class="tg-1pky">${productSize}</td>
                     <td class="tg-1pky">${productQuantity}</td>
-                    <td class="tg-1lax">${productSubtotal}</td>
+                    <td class="tg-1lax">$ ${productSubtotal}.00 MXN</td>
                     <td class="tg-1lax">
                         <button type="button" 
                                 class="btn btn-danger delete-product" 

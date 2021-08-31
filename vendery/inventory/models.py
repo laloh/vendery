@@ -23,7 +23,7 @@ class Category(TimeStampedModel):
 
 
 class ProductSize(TimeStampedModel):
-    size = models.IntegerField(default=None)
+    size = models.FloatField(default=None)
 
     def __str__(self):
         return str(self.size)
