@@ -43,8 +43,67 @@ for (let i = 0; i < cardProducts.length; i++) {
 
         order.sumTotalAmount = sumTotal
         totalAmount.innerText = "Total: $"+ order.sumTotalAmount +".00"
-    })
+    });
 }
+
+$("#product-cart").click(function (e){
+    var table_rows = []
+    for (let productID in order['products']) {
+        for (let productSize in order['products'][productID]) {
+            const productName = order['products'][productID][productSize].name;
+            const productPrice = order['products'][productID][productSize].price;
+            const productQuantity = order['products'][productID][productSize].quantity;
+            const productSubtotal = order['products'][productID][productSize].subtotal;
+
+            table_rows.push(`
+                <tr id="product-${productID}-${productSize}">
+                    <td class="tg-1pky">${productID}</td>
+                    <td class="tg-1pky">${productName}</td>
+                    <td class="tg-1pky">${productPrice}</td>
+                    <td class="tg-1pky">${productSize}</td>
+                    <td class="tg-1pky">${productQuantity}</td>
+                    <td class="tg-1lax">${productSubtotal}</td>
+                    <td class="tg-1lax">
+                        <button type="button" 
+                                class="btn btn-danger delete-product" 
+                                id="${productID}-${productSize}">Borrar
+                        </button>
+                    </td>
+                </tr>`
+            )
+        }
+    }
+
+    $(".cart-modal-table-body").html(table_rows.join(''))
+    $("#cart-modal").modal('show');
+
+    // Delete button event handler
+    $('.delete-product').each(function (){
+        var deleteButton = this;
+        deleteButton.addEventListener("click", function (){
+            // Delete product from modal
+            $(`#product-${deleteButton.id}`).remove()
+
+            // Delete product from order json i.e. productID-ProductSize
+            let productIDSize = deleteButton.id.split("-")
+            let productID = productIDSize[0]
+            let productSize = productIDSize[1]
+
+            // Test when all sizes from products are deleted
+            delete order['products'][productID][productSize]
+            delete sumTotalAmount[productID][productSize]
+
+            // TODO: Create function for do the sum (above there are the same code)
+            var sumTotal = 0
+            for (let key in sumTotalAmount) {
+                sumTotal += Object.values(sumTotalAmount[key]).reduce((a, b) => a + b, 0)
+            }
+
+            order.sumTotalAmount = sumTotal
+            totalAmount.innerText = "Total: $"+ order.sumTotalAmount +".00"
+        });
+    });
+});
 
 $("#sell-button").click(function (e){
     e.preventDefault()
@@ -65,11 +124,6 @@ $("#sell-button").click(function (e){
                 console.log("Redirecting to the mis-ventas man")
                 // window.location = '/inventory/mis-ventas/'
             }
-    }
+        }
     });
 });
-
-$("#product-cart").click(function (e){
-    console.log("what the fuck man")
-    $("#cart-modal").modal('show');
-})
