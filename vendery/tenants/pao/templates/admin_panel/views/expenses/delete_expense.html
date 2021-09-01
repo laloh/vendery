@@ -7,14 +7,14 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h5 class="modal-title" id="exampleModalLabel">Esta seguro de eliminar gasto  <br> de :<b> {{ expense.vendor.name }} </b> </h5>
             </div>
             <div class="modal-body text-center">
+                <h5 class="modal-title" id="exampleModalLabel">Esta seguro de eliminar gasto  <br> de :<b> {{ expense.vendor.name }} </b> </h5>
+                <hr>
                 <form method="post" action="{% url 'panel:view-delete-expenses' pk %}">
                     {% csrf_token %}
                     <div class="d-flex justify-content-center">
-                    <a type="button"  class="btn btn-success" href="{% url 'panel:view-list-expenses' %}" >Cancelar</a>
-
+                        <a type="button"  class="btn btn-success" data-dismiss="modal" >Cancelar</a>
                         <button type="submit" class="btn btn-danger">Eliminar</button>
                     </div>
                 </form>
