@@ -103,3 +103,9 @@ class VendorsForm(forms.ModelForm):
     class Meta:
         model = Vendors
         fields = "__all__"
+
+
+class ExpensesForm(forms.ModelForm):
+    class Meta:
+        model = Expenses
+        fields = "__all__"
