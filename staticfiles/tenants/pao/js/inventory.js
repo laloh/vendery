@@ -48,6 +48,7 @@ for (let i = 0; i < cardProducts.length; i++) {
 
 $("#product-cart").click(function (e){
     var table_rows = []
+    var productModalID = 0
     for (let productID in order['products']) {
         for (let productSize in order['products'][productID]) {
             const productName = order['products'][productID][productSize].name;
@@ -56,7 +57,7 @@ $("#product-cart").click(function (e){
             const productSubtotal = order['products'][productID][productSize].subtotal;
 
             table_rows.push(`
-                <tr id="product-${productID}-${productSize}">
+                <tr id="product-${productModalID}">
                     <td class="tg-1pky">${productID}</td>
                     <td class="tg-1pky">${productName}</td>
                     <td class="tg-1pky">$ ${productPrice}.00 MXN</td>
@@ -66,11 +67,14 @@ $("#product-cart").click(function (e){
                     <td class="tg-1lax">
                         <button type="button" 
                                 class="btn btn-danger delete-product" 
-                                id="${productID}-${productSize}">Borrar
+                                id="${productModalID}-${productID}-${productSize}">
+                        Borrar
                         </button>
                     </td>
                 </tr>`
             )
+
+            productModalID++;
         }
     }
 
@@ -81,13 +85,13 @@ $("#product-cart").click(function (e){
     $('.delete-product').each(function (){
         var deleteButton = this;
         deleteButton.addEventListener("click", function (){
-            // Delete product from modal
-            $(`#product-${deleteButton.id}`).remove()
-
             // Delete product from order json i.e. productID-ProductSize
             let productIDSize = deleteButton.id.split("-")
-            let productID = productIDSize[0]
-            let productSize = productIDSize[1]
+            let productModalID = productIDSize[0]
+            let productID = productIDSize[1]
+            let productSize = productIDSize[2]
+
+            $(`#product-${productModalID}`).remove()
 
             // Test when all sizes from products are deleted
             delete order['products'][productID][productSize]
