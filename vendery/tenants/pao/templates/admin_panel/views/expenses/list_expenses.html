@@ -13,24 +13,26 @@
         </div>
     </div>
     <div class="text-right">
-        <a type="button" class="btn btn-success" >Añadir</a>
+        <a type="button" href="{% url 'panel:view-create-expenses' %}" class="btn btn-success" >Añadir</a>
     </div>
     <table class="table table-sm">
   <thead>
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">Monto</th>
       <th scope="col">Vendedor</th>
+      <th scope="col">Monto</th>
       <th scope="col">Fecha</th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
   {% for expense in expenses %}
     <tr>
-      <th scope="row">{{ expense.id }}</th>
-      <td><a>{{ expense.amount }}</a></td>
-      <td>{{ expense.vendor.name }}</td>
-      <td>{{ expense.creation_date }}</td>
+      <td><a href="{% url 'panel:view-update-expenses' expense.id %}">{{ expense.vendor.name }}</a></td>
+      <td>{{ expense.amount }}</td>
+      <td>{{ expense.creation_date|date:'d-m-Y'}}</td>
+      <td><a type="button" class="btn btn-danger"
+             onclick="modal_delete('{% url 'panel:view-delete-expenses' expense.id %}')">
+             <i class="fa fa-trash" aria-hidden="true"></i></a></td>
     </tr>
   {% endfor %}
   </tbody>

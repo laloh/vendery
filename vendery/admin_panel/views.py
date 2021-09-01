@@ -465,3 +465,60 @@ class ViewListExpenses(SuperUserRequiredMixin, ListView):
     template_name = "admin_panel/views/expenses/list_expenses.html"
     model = Expenses
     context_object_name = "expenses"
+
+
+class ViewUpdateExpenses(SuperUserRequiredMixin, UpdateView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/expenses/update_expense.html"
+    success_url = reverse_lazy('panel:view-list-expenses')
+    model = Expenses
+    form_class = ExpensesForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pk"] = self.kwargs["pk"]
+
+        context["breadcrumb"] = [
+            ["Gastos", reverse("panel:view-list-expenses")],
+            [
+                "Configuración",
+                reverse(
+                    "panel:view-update-expenses",
+                    kwargs={"pk": self.kwargs["pk"]},
+                ),
+            ]
+        ]
+        return context
+
+
+class ViewCreateExpenses(SuperUserRequiredMixin, CreateView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/expenses/new_expense.html"
+    success_url = reverse_lazy('panel:view-list-expenses')
+    model = Expenses
+    form_class = ExpensesForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["breadcrumb"] = [
+            ["Gastos", reverse("panel:view-list-expenses")],
+            [
+                "Nuevo",
+                reverse(
+                    "panel:view-create-expenses"),
+            ]
+        ]
+        return context
+
+
+class ViewDeleteExpense(SuperUserRequiredMixin, DeleteView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/expenses/delete_expense.html"
+    success_url = reverse_lazy('panel:view-list-expenses')
+    model = Expenses
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pk"] = self.kwargs["pk"]
+        context["expense"] = Expenses.objects.get(id=self.kwargs["pk"])
+        return context

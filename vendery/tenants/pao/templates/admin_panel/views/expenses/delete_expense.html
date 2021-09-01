@@ -9,14 +9,12 @@
                 </button>
             </div>
             <div class="modal-body text-center">
-                <h5 class="modal-title" id="exampleModalLabel">Esta seguro de eliminar la Categoria : <b>{{ category.name }} </b> </h5>
-                <p class="text-warning"><b><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                </b>Se eliminaran productos de esta Categoria</p>
+                <h5 class="modal-title" id="exampleModalLabel">Esta seguro de eliminar gasto  <br> de :<b> {{ expense.vendor.name }} </b> </h5>
                 <hr>
-                <form method="post" action="{% url 'panel:view-delete-category' pk %}">
+                <form method="post" action="{% url 'panel:view-delete-expenses' pk %}">
                     {% csrf_token %}
                     <div class="d-flex justify-content-center">
-                        <a type="button"  class="btn btn-success" data-dismiss="modal">Cancelar</a>
+                        <a type="button"  class="btn btn-success" data-dismiss="modal" >Cancelar</a>
                         <button type="submit" class="btn btn-danger">Eliminar</button>
                     </div>
                 </form>
