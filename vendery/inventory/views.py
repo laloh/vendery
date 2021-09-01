@@ -4,11 +4,10 @@ import re
 import uuid
 
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.template.loader import render_to_string
 from weasyprint import HTML, CSS
 from django.conf import settings
@@ -23,8 +22,8 @@ from .models import (
     Clients,
     Products,
     Orders,
-    # TemporaryOrders,
     Expenses,
+    Sales
 )
 
 
@@ -138,17 +137,24 @@ def send_pdf_sms(pdf_path, phone):
 
 class ViewNote(LoginRequiredMixin, TemplateView):
     login_url = reverse_lazy("inventory:view-login")
-    # template_name = "views/product_orders.html"
     template_name = "views/note.html"
 
     def post(self, request, *args, **kwargs):
         response = {'status': 200, 'message': ("Your error")}
         unique_id = uuid.uuid4().hex[:8]
         orders = json.loads(request.body)
+        orders['vendor'] = str(self.request.user)
+
+        Sales(data=orders,
+              vendor=orders['vendor'],
+              client=orders['clientID'],
+              total=orders['sumTotalAmount']
+              ).save()
+
         products = []
         context = {'client': Clients.objects.get(id=orders['clientID']),
                    'date': datetime.strftime(datetime.now(), '%d/%m/%Y'),
-                   'vendor': self.request.user,
+                   'vendor': orders['vendor'],
                    'total': orders['sumTotalAmount'],
                    'uuid': unique_id,
                    }

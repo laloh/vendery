@@ -122,7 +122,6 @@ $("#sell-button").click(function (e){
         return
     }
     order['clientID'] = clientID
-    console.log(JSON.stringify(order))
 
     $.ajax({
         type: 'POST',
@@ -130,8 +129,8 @@ $("#sell-button").click(function (e){
         data: JSON.stringify(order),
         success: function (data){
             if (data.status == 200) {
-                console.log("Redirecting to the mis-ventas man")
-                // window.location = '/inventory/mis-ventas/'
+                alert("La venta se ha realizado con exito!")
+                window.location = '/inventory/mis-ventas/'
             }
         }
     });

@@ -105,6 +105,7 @@ class Clients(TimeStampedModel):
     def __str__(self):
         return self.name
 
+
 # Deprecate Orders, use a JSON Field no telated table to store the
 # Order created by the user.
 class Orders(TimeStampedModel):
@@ -117,6 +118,13 @@ class Orders(TimeStampedModel):
 
     def __str__(self):
         return str(self.id)
+
+
+class Sales(TimeStampedModel):
+    data = models.JSONField()
+    vendor = models.CharField(max_length=255, default=None, blank=True, null=True)
+    client = models.CharField(max_length=255, default=None, blank=True, null=True)
+    total = models.FloatField(default=0, blank=True, null=True)
 
 
 class Tickets(TimeStampedModel):
