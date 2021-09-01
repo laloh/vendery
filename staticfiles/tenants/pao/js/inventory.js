@@ -109,6 +109,11 @@ $("#product-cart").click(function (e){
     });
 });
 
+
+$("#continue-button").click(function (){
+   $("#cart-modal").modal('hide');
+});
+
 $("#sell-button").click(function (e){
     e.preventDefault()
     const clientID = $("#select-client option:selected").val()
@@ -131,3 +136,5 @@ $("#sell-button").click(function (e){
         }
     });
 });
+
+
