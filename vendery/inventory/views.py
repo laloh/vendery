@@ -68,11 +68,10 @@ class ViewSales(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("inventory:view-login")
     template_name = "views/sales.html"
     context_object_name = "sales"
-    model = Tickets
+    model = Sales
 
     def get_queryset(self):
-        vendor = Vendors.objects.get(user=self.request.user)
-        return self.model.objects.filter(vendor=vendor.id)
+        return self.model.objects.filter(vendor_id=self.request.user.id)
 
     def get_context_data(self, *args, **kwargs):
         context = super(ViewSales, self).get_context_data(**kwargs)
@@ -143,11 +142,11 @@ class ViewNote(LoginRequiredMixin, TemplateView):
         response = {'status': 200, 'message': ("Your error")}
         unique_id = uuid.uuid4().hex[:8]
         orders = json.loads(request.body)
-        orders['vendor'] = str(self.request.user)
+        orders['vendor'] = self.request.user.id
 
         Sales(data=orders,
-              vendor=orders['vendor'],
-              client=orders['clientID'],
+              vendor_id=orders['vendor'],
+              client_id=orders['clientID'],
               total=orders['sumTotalAmount']
               ).save()
 

@@ -122,8 +122,8 @@ class Orders(TimeStampedModel):
 
 class Sales(TimeStampedModel):
     data = models.JSONField()
-    vendor = models.CharField(max_length=255, default=None, blank=True, null=True)
-    client = models.CharField(max_length=255, default=None, blank=True, null=True)
+    vendor_id = models.IntegerField(default=None, blank=True, null=True)
+    client_id = models.IntegerField(default=None, blank=True, null=True)
     total = models.FloatField(default=0, blank=True, null=True)
 
 
