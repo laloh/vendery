@@ -110,6 +110,12 @@ class VendorsForm(forms.ModelForm):
         fields = "__all__"
 
 
+class ExpensesForm(forms.ModelForm):
+    class Meta:
+        model = Expenses
+        fields = "__all__"
+
+
 class ProductSizeForm(forms.ModelForm):
     class Meta:
         model = ProductSize

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.views.generic import TemplateView, ListView, CreateView, UpdateView
+from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -61,6 +61,36 @@ class ViewUpdateCategory(SuperUserRequiredMixin, UpdateView):
     model = Category
     form_class = CategoryForm
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pk"] = self.kwargs["pk"]
+
+        context["breadcrumb"] = [
+            ["Categorias", reverse("panel:view-list-category")],
+            [
+                "Configuración",
+                reverse(
+                    "panel:view-update-category",
+                    kwargs={"pk": self.kwargs["pk"]},
+                ),
+            ]
+        ]
+        return context
+
+
+class ViewDeleteCategory(SuperUserRequiredMixin, DeleteView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/delete_category.html"
+    success_url = reverse_lazy('panel:view-list-category')
+    model = Category
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pk"] = self.kwargs["pk"]
+        context["category"] = Category.objects.get(id=self.kwargs["pk"])
+
+        return context
+
 
 class ViewListClient(SuperUserRequiredMixin, ListView):
     login_url = reverse_lazy("panel:view-login-panel")
@@ -76,6 +106,18 @@ class ViewCreateClient(SuperUserRequiredMixin, CreateView):
     success_url = reverse_lazy('panel:view-list-client')
     model = Clients
     form_class = ClientForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["breadcrumb"] = [
+            ["Clientes", reverse("panel:view-list-client")],
+            [
+                "Nuevo",
+                reverse(
+                    "panel:view-create-client"),
+            ]
+        ]
+        return context
 
 
 class ViewUpdateClient(SuperUserRequiredMixin, UpdateView):
@@ -99,6 +141,19 @@ class ViewUpdateClient(SuperUserRequiredMixin, UpdateView):
                 ),
             ]
         ]
+        return context
+
+
+class ViewDeleteClient(SuperUserRequiredMixin, DeleteView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/client/delete_client.html"
+    success_url = reverse_lazy('panel:view-list-client')
+    model = Clients
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pk"] = self.kwargs["pk"]
+        context["client"] = Clients.objects.get(id=self.kwargs["pk"])
         return context
 
 
@@ -151,6 +206,20 @@ class ViewUpdateProducts(SuperUserRequiredMixin, UpdateView):
                 ),
             ]
         ]
+        return context
+
+
+class ViewDeleteProducts(SuperUserRequiredMixin, DeleteView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/products/delete_products.html"
+    success_url = reverse_lazy('panel:view-list-product')
+    model = Products
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pk"] = self.kwargs["pk"]
+        context["product"] = Products.objects.get(id=self.kwargs["pk"])
+
         return context
 
 
@@ -255,6 +324,19 @@ class ViewUpdateProvider(SuperUserRequiredMixin, UpdateView):
                 ),
             ]
         ]
+        return context
+
+
+class ViewDeleteProvider(SuperUserRequiredMixin, DeleteView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/provider/delete_provider.html"
+    success_url = reverse_lazy('panel:view-list-provider')
+    model = Provider
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pk"] = self.kwargs["pk"]
+        context["provider"] = Provider.objects.get(id=self.kwargs["pk"])
         return context
 
 
@@ -379,3 +461,81 @@ class ViewListProductSize(SuperUserRequiredMixin, ListView):
     success_url = reverse_lazy('panel:view-create-category')
     context_object_name = "sizes"
     model = ProductSize
+
+
+
+class ViewDeleteVendor(SuperUserRequiredMixin, DeleteView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/vendors/delete_vendors.html"
+    success_url = reverse_lazy('panel:view-list-vendors')
+    model = Vendors
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pk"] = self.kwargs["pk"]
+        context["vendor"] = Vendors.objects.get(id=self.kwargs["pk"])
+        return context
+
+
+class ViewListExpenses(SuperUserRequiredMixin, ListView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/expenses/list_expenses.html"
+    model = Expenses
+    context_object_name = "expenses"
+
+
+class ViewUpdateExpenses(SuperUserRequiredMixin, UpdateView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/expenses/update_expense.html"
+    success_url = reverse_lazy('panel:view-list-expenses')
+    model = Expenses
+    form_class = ExpensesForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pk"] = self.kwargs["pk"]
+
+        context["breadcrumb"] = [
+            ["Gastos", reverse("panel:view-list-expenses")],
+            [
+                "Configuración",
+                reverse(
+                    "panel:view-update-expenses",
+                    kwargs={"pk": self.kwargs["pk"]},
+                ),
+            ]
+        ]
+        return context
+
+
+class ViewCreateExpenses(SuperUserRequiredMixin, CreateView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/expenses/new_expense.html"
+    success_url = reverse_lazy('panel:view-list-expenses')
+    model = Expenses
+    form_class = ExpensesForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["breadcrumb"] = [
+            ["Gastos", reverse("panel:view-list-expenses")],
+            [
+                "Nuevo",
+                reverse(
+                    "panel:view-create-expenses"),
+            ]
+        ]
+        return context
+
+
+class ViewDeleteExpense(SuperUserRequiredMixin, DeleteView):
+    login_url = reverse_lazy("panel:view-login-panel")
+    template_name = "admin_panel/views/expenses/delete_expense.html"
+    success_url = reverse_lazy('panel:view-list-expenses')
+    model = Expenses
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pk"] = self.kwargs["pk"]
+        context["expense"] = Expenses.objects.get(id=self.kwargs["pk"])
+        return context

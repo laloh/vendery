@@ -1,0 +1,48 @@
+
+
+{% extends "admin_panel/layout/base_admin.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+        <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Gastos
+            </h1>
+        </div>
+    </div>
+    <div class="text-right">
+        <a type="button" href="{% url 'panel:view-create-expenses' %}" class="btn btn-success" >Añadir</a>
+    </div>
+    <table class="table table-sm">
+  <thead>
+    <tr>
+      <th scope="col">Vendedor</th>
+      <th scope="col">Monto</th>
+      <th scope="col">Fecha</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for expense in expenses %}
+    <tr>
+      <td><a href="{% url 'panel:view-update-expenses' expense.id %}">{{ expense.vendor.name }}</a></td>
+      <td>{{ expense.amount }}</td>
+      <td>{{ expense.creation_date|date:'d-m-Y'}}</td>
+      <td><a type="button" class="btn btn-danger"
+             onclick="modal_delete('{% url 'panel:view-delete-expenses' expense.id %}')">
+             <i class="fa fa-trash" aria-hidden="true"></i></a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+    <div class="modal fade" id="delete_expenses" role="dialog"></div>
+<script>
+    function modal_delete(url) {
+        $('#delete_expenses').load(url, function () {
+            $(this).modal('show');
+        });
+    }
+</script>
+{% endblock %}
