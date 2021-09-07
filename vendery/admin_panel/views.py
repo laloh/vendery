@@ -41,9 +41,21 @@ class ViewAdminPanel(SuperUserRequiredMixin, TemplateView):
 class ViewCreateCategory(SuperUserRequiredMixin, CreateView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/new_category.html"
-    success_url = reverse_lazy('panel:view-create-category')
+    success_url = reverse_lazy('panel:view-list-category')
     model = Category
     form_class = CategoryForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["breadcrumb"] = [
+            ["Categorias", reverse("panel:view-list-category")],
+            [
+                "Nuevo",
+                reverse(
+                    "panel:view-create-category"),
+            ]
+        ]
+        return context
 
 
 class ViewListCategory(SuperUserRequiredMixin, ListView):
@@ -438,7 +450,7 @@ class ViewUpdateVendors(SuperUserRequiredMixin, UpdateView):
 class ViewCreateProductSize(SuperUserRequiredMixin, CreateView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/sizes/new_product_size.html"
-    success_url = reverse_lazy('panel:view-create-product-size')
+    success_url = reverse_lazy('panel:view-list-product-size')
     model = ProductSize
     form_class = ProductSizeForm
 
@@ -458,10 +470,8 @@ class ViewCreateProductSize(SuperUserRequiredMixin, CreateView):
 class ViewListProductSize(SuperUserRequiredMixin, ListView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/sizes/list_product_size.html"
-    success_url = reverse_lazy('panel:view-create-category')
     context_object_name = "sizes"
     model = ProductSize
-
 
 
 class ViewDeleteVendor(SuperUserRequiredMixin, DeleteView):

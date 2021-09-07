@@ -3,6 +3,9 @@
 {% load widget_tweaks %}
 {% block content %}
     <h1 class="page-header">Registrar Talla</h1>
+    <div class="text-right">
+       {% include 'admin_panel/components/breadcrumb.html'%}
+    </div>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group">
