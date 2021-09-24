@@ -106,41 +106,12 @@ class Clients(TimeStampedModel):
         return self.name
 
 
-# Deprecate Orders, use a JSON Field no telated table to store the
-# Order created by the user.
-class Orders(TimeStampedModel):
-    total = models.FloatField(default=0)
-    products = models.ManyToManyField(Products)
-
-    class Meta:
-        verbose_name = ('Venta')
-        verbose_name_plural = ('Ventas')
-
-    def __str__(self):
-        return str(self.id)
-
-
 class Sales(TimeStampedModel):
     data = models.JSONField()
     vendor_id = models.IntegerField(default=None, blank=True, null=True)
     client_id = models.IntegerField(default=None, blank=True, null=True)
     total = models.FloatField(default=0, blank=True, null=True)
-
-
-class Tickets(TimeStampedModel):
-    location = models.CharField(max_length=255, default=None, blank=True, null=True)
-    comments = models.TextField(default=None, blank=True, null=True)
-    debt = models.FloatField(default=0, blank=True, null=True)
-    vendor = models.ForeignKey(Vendors, on_delete=models.CASCADE, default=None)
-    client = models.ForeignKey(Clients, on_delete=models.CASCADE, default=None)
-    order = models.OneToOneField(Orders, on_delete=models.CASCADE, default=None)
-
-    class Meta:
-        verbose_name = ('Ticket')
-        verbose_name_plural = ('Tickets')
-
-    def __str__(self):
-        return f"{self.id}"
+    pdf = models.CharField(max_length=255, default=None, blank=True)
 
 
 class Provider(TimeStampedModel):

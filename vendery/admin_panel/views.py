@@ -235,52 +235,6 @@ class ViewDeleteProducts(SuperUserRequiredMixin, DeleteView):
         return context
 
 
-class ViewListTickets(SuperUserRequiredMixin, ListView):
-    login_url = reverse_lazy("panel:view-login-panel")
-    template_name = "admin_panel/views/tickets/list_tickets.html"
-    context_object_name = "tickets"
-    model = Tickets
-
-
-class ViewCreateTickets(SuperUserRequiredMixin, CreateView):
-    login_url = reverse_lazy("panel:view-login-panel")
-    template_name = "admin_panel/views/tickets/new_tickets.html"
-    success_url = reverse_lazy('panel:view-list-tickets')
-    model = Tickets
-    form_class = TicketsForm
-
-
-class ViewUpdateTickets(SuperUserRequiredMixin, UpdateView):
-    login_url = reverse_lazy("panel:view-login-panel")
-    template_name = "admin_panel/views/tickets/update_tickets.html"
-    success_url = reverse_lazy('panel:view-list-tickets')
-    model = Tickets
-    form_class = TicketsForm
-
-
-class ViewListSales(SuperUserRequiredMixin, ListView):
-    login_url = reverse_lazy("panel:view-login-panel")
-    template_name = "admin_panel/views/sales/list_sales.html"
-    context_object_name = "sales"
-    model = Orders
-
-
-class ViewCreateSales(SuperUserRequiredMixin, CreateView):
-    login_url = reverse_lazy("panel:view-login-panel")
-    template_name = "admin_panel/views/sales/new_sale.html"
-    success_url = reverse_lazy('panel:view-list-sales')
-    model = Orders
-    form_class = OrdersForm
-
-
-class ViewUpdateSales(SuperUserRequiredMixin, UpdateView):
-    login_url = reverse_lazy("panel:view-login-panel")
-    template_name = "admin_panel/views/sales/update_sale.html"
-    success_url = reverse_lazy('panel:view-list-sales')
-    model = Orders
-    form_class = OrdersForm
-
-
 class ViewListProvider(SuperUserRequiredMixin, ListView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/provider/list_provider.html"

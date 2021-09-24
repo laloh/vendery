@@ -18,10 +18,8 @@ from datetime import datetime
 from .forms import *
 from .models import (
     Vendors,
-    Tickets,
     Clients,
     Products,
-    Orders,
     Expenses,
     Sales
 )
@@ -91,14 +89,6 @@ class ViewSalesData(LoginRequiredMixin, ListView):
         return self.model.objects.all()
 
 
-def insert_order_to_db(orders):
-    # TODO: Refactor Change unit insertion for Bulk
-    order = Orders.objects.create(total=orders["sumTotalAmount"])
-    for product_id, value in orders["products"].items():
-        product = Products.objects.get(id=product_id)
-        order.products.add(product)
-
-
 def generate_pdf(request, template, unique_id):
     media_pdf_path = f"{request.tenant.schema_name}/pdf/order_{unique_id}.pdf"
     pdf_path = os.path.join(settings.MEDIA_ROOT, media_pdf_path)
@@ -144,11 +134,7 @@ class ViewNote(LoginRequiredMixin, TemplateView):
         orders = json.loads(request.body)
         orders['vendor'] = self.request.user.id
 
-        Sales(data=orders,
-              vendor_id=orders['vendor'],
-              client_id=orders['clientID'],
-              total=orders['sumTotalAmount']
-              ).save()
+
 
         products = []
         context = {'client': Clients.objects.get(id=orders['clientID']),
@@ -173,6 +159,15 @@ class ViewNote(LoginRequiredMixin, TemplateView):
 
         rendered_template = render_to_string(self.template_name, context=context)
         pdf_path = generate_pdf(self.request, rendered_template, unique_id)
+
+        Sales(data=orders,
+              vendor_id=orders['vendor'],
+              client_id=orders['clientID'],
+              total=orders['sumTotalAmount'],
+              pdf=pdf_path
+              ).save()
+
+
         # send_pdf_sms(pdf_path, context['client'].phone)
 
         return HttpResponse(json.dumps(response), content_type='application/json')
@@ -223,23 +218,6 @@ class ViewUpdateCustomers(LoginRequiredMixin, UpdateView):
         return context
 
 
-class ViewShowOrders(LoginRequiredMixin, UpdateView):
-    login_url = reverse_lazy("inventory:view-login")
-    template_name = "views/orders.html"
-    success_url = reverse_lazy("inventory:view-sales")
-    model = Orders
-    form_class = OrdersForm
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        context["data"] = Orders.objects.get(id=self.kwargs["pk"])
-        context["orders"] = Orders.objects.prefetch_related("products").filter(
-            id=self.kwargs["pk"]
-        )
-
-        return context
-
-
 class SearchView(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("inventory:view-login")
     template_name = "index.html"
@@ -259,20 +237,6 @@ class ViewShowProduct(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("inventory:view-inventory-all")
     model = Products
     form_class = ProductsForm
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        context["pk"] = self.kwargs["pk"]
-
-        return context
-
-
-class ViewShowTickets(LoginRequiredMixin, UpdateView):
-    login_url = reverse_lazy("inventory:view-login")
-    template_name = "views/products/ticket_detail.html"
-    success_url = reverse_lazy("inventory:view-sales")
-    model = Tickets
-    form_class = TicketsForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()

@@ -72,12 +72,6 @@ class ClientForm(forms.ModelForm):
         fields = "__all__"
 
 
-class OrdersForm(forms.ModelForm):
-    class Meta:
-        model = Orders
-        fields = "__all__"
-
-
 class ProductsForm(forms.ModelForm):
     size = forms.ModelMultipleChoiceField(
             widget=forms.CheckboxSelectMultiple,
@@ -85,12 +79,6 @@ class ProductsForm(forms.ModelForm):
 
     class Meta:
         model = Products
-        fields = "__all__"
-
-
-class TicketsForm(forms.ModelForm):
-    class Meta:
-        model = Tickets
         fields = "__all__"
 
 
