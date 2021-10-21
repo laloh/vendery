@@ -114,6 +114,28 @@ $("#continue-button").click(function (){
    $("#cart-modal").modal('hide');
 });
 
+$("#send-note-button").click(function (e){
+    let pdf_url = $(this).attr('data-pdf')
+    let client_id = $(this).attr('data-client')
+    console.log(client_id)
+    let body = {"pdf_url": pdf_url, "client_id": client_id}
+    if(!confirm('Esta seguro de enviar nota por SMS?')) {
+        return
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: '/inventory/send-note/',
+        data: JSON.stringify(body),
+        success: function (data){
+            if (data.status == 200) {
+                alert("Nota enviado al cliente con éxito!")
+                window.location = '/inventory/mis-ventas/'
+            }
+        }
+    });
+});
+
 $("#sell-button").click(function (e){
     e.preventDefault()
     const clientID = $("#select-client option:selected").val()

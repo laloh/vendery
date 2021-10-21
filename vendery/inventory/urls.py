@@ -20,7 +20,7 @@ urlpatterns = [
     path('gastos/', ViewListExpenses.as_view(), name='view-list-expenses'),
     path('nuevo-gasto/', ViewCreateExpenses.as_view(), name='view-create-expenses'),
     path('gasto/<int:pk>', ViewUpdateExpenses.as_view(), name='view-update-expenses'),
-
+    path('send-note/', ViewSendNote.as_view(), name='view-send-note'),
 ]
 handler404 = Error404.as_view()
 # handler500 = Error500.as_error_view()

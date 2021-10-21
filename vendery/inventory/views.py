@@ -71,13 +71,6 @@ class ViewSales(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return self.model.objects.filter(vendor_id=self.request.user.id)
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(ViewSales, self).get_context_data(**kwargs)
-        context[
-            "pdf"
-        ] = f"{self.request.scheme}://{self.request.get_host()}/{self.request.tenant.schema_name}/pdf/order_"
-        return context
-
 
 class ViewSalesData(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("inventory:view-login")
@@ -124,6 +117,27 @@ def send_pdf_sms(pdf_path, phone):
     )
 
 
+# TODO: Send pdf button
+# TODO: Buy sellphone to send messages to the clients
+# TODO: Modify Mis-ventas, replace cliente number for name
+# TODO: Check JS Files load first than HTML
+class ViewSendNote(LoginRequiredMixin, TemplateView):
+    login_url = reverse_lazy("inventory:view-login")
+
+    def post(self, request, *args, **kwargs):
+        response = {'status': 200, 'message': ("Your error")}
+        body = json.loads(request.body)
+
+        pdf_path = body['pdf_url']
+
+        client = Clients.objects.get(id=int(body['client_id']))
+        client_phone = client.phone
+
+        send_pdf_sms(pdf_path, client_phone)
+
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+
 class ViewNote(LoginRequiredMixin, TemplateView):
     login_url = reverse_lazy("inventory:view-login")
     template_name = "views/note.html"
@@ -133,8 +147,6 @@ class ViewNote(LoginRequiredMixin, TemplateView):
         unique_id = uuid.uuid4().hex[:8]
         orders = json.loads(request.body)
         orders['vendor'] = self.request.user.id
-
-
 
         products = []
         context = {'client': Clients.objects.get(id=orders['clientID']),
@@ -166,7 +178,6 @@ class ViewNote(LoginRequiredMixin, TemplateView):
               total=orders['sumTotalAmount'],
               pdf=pdf_path
               ).save()
-
 
         # send_pdf_sms(pdf_path, context['client'].phone)
 
