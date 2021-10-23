@@ -65,11 +65,14 @@ class ViewInventory(LoginRequiredMixin, ListView):
 class ViewSales(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("inventory:view-login")
     template_name = "views/sales.html"
-    context_object_name = "sales"
     model = Sales
 
-    def get_queryset(self):
-        return self.model.objects.filter(vendor_id=self.request.user.id)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        sales = Sales.objects.filter(vendor_id=self.request.user.id)
+        client = Clients.objects.get(id=sales.first().client_id)
+        context = {'sales': sales, 'client_name': client.name}
+        print(context)
+        return context
 
 
 class ViewSalesData(LoginRequiredMixin, ListView):
@@ -119,7 +122,11 @@ def send_pdf_sms(pdf_path, phone):
 
 # TODO: Send pdf button
 # TODO: Buy sellphone to send messages to the clients
-# TODO: Modify Mis-ventas, replace cliente number for name
+# TODO: Agregar modal para los clients cuando se le de click
+# TODO: Automatizar el crear el admin, con un bash script o algo asi
+# TODO: Arreglar productos panel
+# TODO: Merge a master y sacar nueva rama
+# TODO: Deploy to PROD, try to recreate a github action
 # TODO: Check JS Files load first than HTML
 class ViewSendNote(LoginRequiredMixin, TemplateView):
     login_url = reverse_lazy("inventory:view-login")
