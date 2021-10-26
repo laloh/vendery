@@ -17,7 +17,7 @@ urlpatterns = [
     path('productos/', ViewListProducts.as_view(), name='view-list-product'),
     path('nuevo-producto/', ViewCreateProducts.as_view(), name='view-create-product'),
     path('producto/<int:pk>/', ViewUpdateProducts.as_view(), name='view-update-product'),
-    # path('producto/<int:pk>/eliminar/', ViewDeleteProducts.as_view(), name='view-delete-product'),
+    path('producto/<int:pk>/eliminar/', ViewDeleteProducts.as_view(), name='view-delete-product'),
     path('provedores/', ViewListProvider.as_view(), name='view-list-provider'),
     path('nuevo-proveedor/', ViewCreateProvider.as_view(), name='view-create-provider'),
     path('proveedor/<int:pk>/', ViewUpdateProvider.as_view(), name='view-update-provider'),
@@ -30,7 +30,7 @@ urlpatterns = [
     path('nuevo-gasto/', ViewCreateExpenses.as_view(), name='view-create-expenses'),
     path('gasto/<int:pk>/', ViewUpdateExpenses.as_view(), name='view-update-expenses'),
     path('gasto/<int:pk>/eliminar/', ViewDeleteExpense.as_view(), name='view-delete-expenses'),
-
     path('talla/', ViewCreateProductSize.as_view(), name='view-create-product-size'),
     path('tallas/', ViewListProductSize.as_view(), name='view-list-product-size'),
+    path('ventas/', ViewListSells.as_view(), name='view-list-sells'),
 ]

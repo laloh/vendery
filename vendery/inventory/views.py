@@ -69,9 +69,12 @@ class ViewSales(LoginRequiredMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         sales = Sales.objects.filter(vendor_id=self.request.user.id)
-        client = Clients.objects.get(id=sales.first().client_id)
-        context = {'sales': sales, 'client_name': client.name}
-        print(context)
+        if sales:
+            client = Clients.objects.get(id=sales.first().client_id)
+            context = {'sales': sales, 'client_name': client.name}
+        else:
+            context = None
+
         return context
 
 
@@ -119,15 +122,21 @@ def send_pdf_sms(pdf_path, phone):
         to=f"+52{phone}",
     )
 
-
-# TODO: Send pdf button
+# TODO: Cambiar panel de Admin Landing, que no se igual al del usuario.
+# TODO: Products panel admin is broken
+# TODO: Ventas panel Admin not working (doesnt show the ventas made), it show provedores.
+# TODO: Agregrar un nuevo panel que se llame color en el panel de administracion
 # TODO: Buy sellphone to send messages to the clients
+# TODO: Agregar condicion cuando no el usuario no tenga inventario
+# TODO: Arreglar productos panel
 # TODO: Agregar modal para los clients cuando se le de click
 # TODO: Automatizar el crear el admin, con un bash script o algo asi
-# TODO: Arreglar productos panel
 # TODO: Merge a master y sacar nueva rama
 # TODO: Deploy to PROD, try to recreate a github action
 # TODO: Check JS Files load first than HTML
+# TODO: Agregar Landing Page
+# TODO: No permitir que el admin se logee como vendedor
+# TODO: Desde el panel, mostrar el producto con su talla y color en particular
 class ViewSendNote(LoginRequiredMixin, TemplateView):
     login_url = reverse_lazy("inventory:view-login")
 
@@ -269,6 +278,7 @@ class ViewListExpenses(LoginRequiredMixin, ListView):
     context_object_name = "expenses"
     model = Expenses
 
+    # FIXME: Do not use user name in .get, use id.
     def get_queryset(self):
         today = date.today()
         vendor = Vendors.objects.get(user=self.request.user)
