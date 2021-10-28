@@ -374,7 +374,7 @@ class ViewUpdateVendors(SuperUserRequiredMixin, UpdateView):
             user = User.objects.get(id=vendor.user.id)
             user.set_password(password)
             Vendors.objects.filter(id=kwargs['pk']).update(name=name, phone=phone, status=status,
-                                            email=email, password=password)
+                                                           email=email, password=password)
             vendor.products.clear()
             for product_id in products:
                 product = Products.objects.get(id=product_id)
@@ -510,3 +510,11 @@ class ViewListSells(SuperUserRequiredMixin, ListView):
     template_name = "admin_panel/views/sells/list_sells.html"
     context_object_name = "sales"
     model = Sales
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        for sale in context['sales']:
+            sale.client_name = Clients.objects.get(id=sale.client_id).name
+            sale.vendor_name = Vendors.objects.get(id=sale.vendor_id).name
+
+        return context

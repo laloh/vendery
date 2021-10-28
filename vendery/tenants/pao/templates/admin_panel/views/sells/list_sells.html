@@ -25,8 +25,8 @@
             {% for sale in sales %}
                 <tr>
                     <td>{{ sale.created }}</td>
-                    <td>{{ sale.client_id }}</td>
-                    <td>{{ sale.vendor_id }}</td>
+                    <td>{{ sale.client_name }}</td>
+                    <td>{{ sale.vendor_name }}</td>
                     <td><a type="button" class="btn btn-info" href="{{ sale.pdf }}">Ver</a></td>
                     <td>${{ sale.total }}MX</td>
                 </tr>
