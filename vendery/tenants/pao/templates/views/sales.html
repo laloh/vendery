@@ -14,7 +14,7 @@
                             <th scope="col">Nota</th>
                             <th scope="col">Cliente</th>
                             <th scope="col">Venta</th>
-                            <th scope="col">Nota</th>
+{#                            <th scope="col">Nota</th>#}
                         </tr>
                         </thead>
                         <tbody>
@@ -27,11 +27,11 @@
                                 </th>
                                 <td>{{ client_name }}</td>
                                 <td><a type="button" class="btn btn-info" href="{{ sale.pdf }}">Ver Nota</a></td>
-                                <td><a type="button"
-                                       class="btn btn-info"
-                                       id="send-note-button"
-                                       data-pdf="{{ sale.pdf }}"
-                                       data-client="{{ sale.client_id }}">Enviar Nota</a></td>
+{#                                <td><a type="button"#}
+{#                                       class="btn btn-info"#}
+{#                                       id="send-note-button"#}
+{#                                       data-pdf="{{ sale.pdf }}"#}
+{#                                       data-client="{{ sale.client_id }}">Enviar Nota</a></td>#}
                             </tr>
                         {% endfor %}
                         </tbody>

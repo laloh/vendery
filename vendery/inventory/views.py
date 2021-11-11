@@ -123,6 +123,7 @@ def send_pdf_sms(pdf_path, phone):
     )
 
 # TODO: Cambiar panel de Admin Landing, que no se igual al del usuario.
+# TODO: Uncomment the enviar nota.
 # TODO: Agregrar un nuevo panel que se llame color en el panel de administracion
 # TODO: Buy sellphone to send messages to the clients
 # TODO: Automatizar el crear el admin, con un bash script o algo asi
