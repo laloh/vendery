@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "9um+!0gl@dp46^aqqfn3ayfps*q)z#w%s6=7^4q5pc9#cy^%l="
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True if env('IS_LOCAL') else False
+DEBUG = True
 
 ALLOWED_HOSTS = ["www.vendery.app", "vendery.app", "*", "localhost"]
 

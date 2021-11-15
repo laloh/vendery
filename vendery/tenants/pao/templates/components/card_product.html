@@ -51,14 +51,11 @@ height: 250px;
 </style>
 <hr class="pt-5 border-0">
 <div class="div-total">
-    <div class="d-flex align-items-end flex-column">
-            <div class="row">
+            <div class="d-flex justify-content-between">
                 <button type="button" class="btn btn-info" id="product-cart">
                     Ver Carrito
                 </button>
-                <div class="col pl-5">
                     <div class="p-2 bg-light text-dark" id="total-amount" style="border-radius: 0.5rem; width:10rem;">Total: $0.00
-                    </div>
                 </div>
                 <button type="button"
                         class="btn btn-success"
@@ -68,16 +65,12 @@ height: 250px;
                         id="sell-button">
                     Vender
                 </button>
-                <div class="col pr-5">
-
-                </div>
             </div>
-    </div>
     <hr class="border-0">
 </div>
 
 {% include 'components/cart_modal.html' %}
-
+        
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
