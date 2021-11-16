@@ -69,9 +69,11 @@ class ViewSales(LoginRequiredMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         sales = Sales.objects.filter(vendor_id=self.request.user.id)
+        for sale in sales:
+            sale.client_name = Clients.objects.get(id=int(sale.client_id))
+                
         if sales:
-            client = Clients.objects.get(id=sales.first().client_id)
-            context = {'sales': sales, 'client_name': client.name}
+            context = {'sales': sales}
         else:
             context = None
 
