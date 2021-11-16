@@ -2,7 +2,6 @@
 {% load static %}
 {% block main %}
     <div class="container">
-
         <div class="card">
             <div class="card-header text-white text-center" style="background-color: #3d90bf">
                 Datos de Ventas
@@ -12,44 +11,36 @@
                     <table class="table table-bordered table-responsive-sm">
                         <thead>
                         <tr>
-                            <th scope="col">Clave</th>
+                            <th scope="col">Nota</th>
                             <th scope="col">Cliente</th>
                             <th scope="col">Venta</th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
+{#                            <th scope="col">Nota</th>#}
                         </tr>
                         </thead>
-
                         <tbody>
                         {% for sale in sales %}
                             <tr>
                                 <th scope="row">
                                     <a href="#" class="link"
-                                       onclick="modal_ticket('{% url 'inventory:view-ticket-show' sale.id %}')">
-                                        {{ sale.id }}
+                                       onclick="">{{ sale.id }}
                                     </a>
                                 </th>
-                                <td>{{ sale.client }}</td>
-                                <td> <a type="button" class="btn btn-info" href="{% url 'inventory:view-orders-show' sale.order.id %}">Ver venta </a></td>
-                                 <td> <a type="button" class="btn btn-info" href="{% url 'inventory:view-note-data' sale.token %}">Enviar Nota </a></td>
-                                 <td> <a type="button" class="btn btn-info" href="{{pdf}}{{sale.token}}.pdf/" >Ver Nota</a></td>
+                                <td>{{ client_name }}</td>
+                                <td><a type="button" class="btn btn-info" href="{{ sale.pdf }}">Ver Nota</a></td>
+{#                                <td><a type="button"#}
+{#                                       class="btn btn-info"#}
+{#                                       id="send-note-button"#}
+{#                                       data-pdf="{{ sale.pdf }}"#}
+{#                                       data-client="{{ sale.client_id }}">Enviar Nota</a></td>#}
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
                 {% else %}
-                    <h4 class="text-center"> No existen ventas</h4>
+                    <h4 class="text-center">No existen ventas</h4>
                 {% endif %}
             </div>
         </div>
-
     </div>
-        <div class="modal fade" id="view_ticket" role="dialog"></div>
-<script>
-    function modal_ticket(url) {
-        $('#view_ticket').load(url, function () {
-            $(this).modal('show');
-        });
-    }
-    </script>
+    <script type="text/javascript" src="{% static 'js/inventory.js' %}" defer></script>
 {% endblock %}

@@ -1,0 +1,77 @@
+{% load static %}
+<style>
+    .title {
+        text-align: center;
+        font-size: 2.8rem;
+        font-weight: bolder;
+        display: compact;
+        padding: 20px;
+
+    }
+
+    @page {
+        border: 2px groove black;
+        margin: 1.0cm 1.0cm 1.0cm 1.0cm;
+
+    }
+
+    img {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 4px;
+        width: 240px;
+        height: 240px;
+        position: absolute;
+
+    }
+
+    .hr-style {
+        display: block;
+        padding-top: 18%;
+    }
+
+    .description {
+        font-size: 1.6rem;
+        text-align: center;
+        width: 200px;
+        white-space: pre;
+        text-indent: 1em;
+        letter-spacing: 2px;
+        line-height: 90%;
+        white-space: pre;
+    }
+
+</style>
+<html lang="en">
+<body>
+<br>
+<center>
+    <img
+      src="{% if request.is_secure %}https://{% else %}http://{% endif %}{{ host }}/staticfiles/tenants/{{ tenant }}/conejo.jpg"
+      style=" width: 60%; height: 60%; padding-top: 3rem;"
+      alt="">
+</center>
+<p class="title"><br>HUELLITAS NEVY</p>
+
+<p style="text-align: center; font-size: 1.5rem;">
+    Comercializadora de calzado en general de Puebla y de León Gto.<br>
+    Tehuacan Puebla.<br>
+    - 49 138 9057.& 249 100 99 75.<br>
+</p>
+<div class="album py-5 bg-light">
+    <div class="container">
+
+        {% for product in products %}
+            <img class="img-size"
+                 src="{% if request.is_secure %}https://{% else %}http://{% endif %}{{ host }}/{{ product.image.url }}"
+                 alt="Card image cap">
+            <p style="text-align: center; padding-top: -10rem; font-size: 19px;">
+                {{ product.name }}<br>
+                $ {{ product.price }} MXN.</p>
+            <p class="description"> {{ product.description }}.</p>
+            <hr class="hr-style">
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{% extends "admin_panel/layout/base_admin.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+    <h1 class="page-header">Registrar Talla</h1>
+    <div class="text-right">
+       {% include 'admin_panel/components/breadcrumb.html'%}
+    </div>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="inputSize">Talla</label>
+            {% render_field form.size class="form-control" %}
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-info">Registrar</button>
+        </div>
+    </form>
+{% endblock %}
