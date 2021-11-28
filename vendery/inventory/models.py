@@ -91,7 +91,6 @@ class Clients(TimeStampedModel):
 
     name = models.CharField(max_length=255, default=None)
     phone = models.CharField(max_length=20, default=None)
-    email = models.CharField(max_length=255, default=None)
     location = models.CharField(max_length=255, default=None)
     # TODO: Add store_name as Table
     store_name = models.CharField(max_length=255, default=None)
