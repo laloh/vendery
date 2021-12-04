@@ -71,7 +71,7 @@ class ViewSales(LoginRequiredMixin, ListView):
         sales = Sales.objects.filter(vendor_id=self.request.user.id)
         for sale in sales:
             sale.client_name = Clients.objects.get(id=int(sale.client_id))
-                
+
         if sales:
             context = {'sales': sales}
         else:
@@ -123,6 +123,7 @@ def send_pdf_sms(pdf_path, phone):
         from_="+12408984498",
         to=f"+52{phone}",
     )
+
 
 # TODO: Cambiar panel de Admin Landing, que no se igual al del usuario.
 # TODO: Uncomment the enviar nota.
@@ -179,6 +180,11 @@ class ViewNote(LoginRequiredMixin, TemplateView):
                     'quantity': product_size_body['quantity'],
                     'subtotal': product_size_body['subtotal']
                 })
+
+                # Update product
+                product = Products.objects.get(id=product_id)
+                product.stock = product.stock - product_size_body['quantity']
+                product.save()
 
         context['products'] = products
 
