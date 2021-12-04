@@ -515,6 +515,6 @@ class ViewListSells(SuperUserRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         for sale in context['sales']:
             sale.client_name = Clients.objects.get(id=sale.client_id).name
-            sale.vendor_name = Vendors.objects.get(id=sale.vendor_id).name
+            sale.vendor_name = Vendors.objects.get(user_id=sale.vendor_id).name
 
         return context
