@@ -1,0 +1,10 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+{% block main %}
+    <div class="container">
+        {% include 'components/clients.html' with clients=clients %}
+{#        {% include 'components/search.html' %}#}
+        {% include 'components/card_product.html' %}
+    </div>
+    <script type="text/javascript" src="{% static 'js/inventory.js' %}" defer></script>
+{% endblock %}

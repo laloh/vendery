@@ -1,0 +1,33 @@
+{% load static %}
+
+<div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+        <span class="sr-only"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="{% url 'panel:view-admin-panel' %}">HUELLITAS NEVY </a>
+</div>
+<!-- Top Menu Items -->
+<ul class="nav navbar-right top-nav">
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b
+                class="caret"></b></a>
+        <ul class="dropdown-menu alert-dropdown">
+            <li>
+                <a href="#">Alertas <span class="label label-default">Alert</span></a>
+            </li>
+        </ul>
+    </li>
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">    <img src="{% static 'img/logo.png' %}" style="height: 3rem; width: 3rem;" alt="">{{ user.get_username }} <b
+                class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li class="divider"></li>
+            <li>
+                <a href="{% url 'panel:view-logout-panel' %}"><i class="fa fa-fw fa-power-off"></i> Salir</a>
+            </li>
+        </ul>
+    </li>
+</ul>
