@@ -505,7 +505,7 @@ class ViewDeleteExpense(SuperUserRequiredMixin, DeleteView):
         return context
 
 
-class ViewListSells(SuperUserRequiredMixin, ListView):
+class ViewSells(SuperUserRequiredMixin, ListView):
     login_url = reverse_lazy("panel:view-login-panel")
     template_name = "admin_panel/views/sells/list_sells.html"
     context_object_name = "sales"

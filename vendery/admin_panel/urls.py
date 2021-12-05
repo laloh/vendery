@@ -32,5 +32,5 @@ urlpatterns = [
     path('gasto/<int:pk>/eliminar/', ViewDeleteExpense.as_view(), name='view-delete-expenses'),
     path('talla/', ViewCreateProductSize.as_view(), name='view-create-product-size'),
     path('tallas/', ViewListProductSize.as_view(), name='view-list-product-size'),
-    path('ventas/', ViewListSells.as_view(), name='view-list-sells'),
+    path('sells/', ViewSells.as_view(), name='view-sells'),
 ]
