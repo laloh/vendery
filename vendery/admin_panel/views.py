@@ -511,6 +511,7 @@ class ViewSells(SuperUserRequiredMixin, ListView):
     context_object_name = "sales"
     model = Sales
 
+    # TODO: Fix this when the vendor and client is not founds!
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         for sale in context['sales']:

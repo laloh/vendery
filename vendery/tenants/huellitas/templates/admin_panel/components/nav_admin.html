@@ -1,7 +1,7 @@
 <div class="collapse navbar-collapse navbar-ex1-collapse">
     <ul class="nav navbar-nav side-nav">
-        <li class="active">
-            <a href="{% url 'panel:view-admin-panel' %}"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+        <li>
+            <a href={% url 'panel:view-sells' %}><i class="fa fa-fw fa-shopping-bag"></i> Ventas</a>
         </li>
         <li>
             <a href="{% url 'panel:view-list-provider' %}"><i class="fa fa-fw fa-users"></i> Proveedores</a>
@@ -21,12 +21,11 @@
         <li>
             <a href="{% url 'panel:view-list-category' %}"><i class="fa fa-fw fa-users"></i> Categorias </a>
         </li>
-
         <li>
             <a href="{% url 'panel:view-list-product' %}"><i class="fa fa-fw fa-users"></i> Productos </a>
         </li>
-        <li>
-            <a href="{% url 'panel:view-sells' %}"><i class="fa fa-fw fa-shopping-bag"></i> Ventas</a>
+        <li class="active">
+            <a href="{% url 'panel:view-admin-panel' %}"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
         </li>
     </ul>
 </div>
