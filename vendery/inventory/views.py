@@ -110,8 +110,8 @@ def generate_pdf(request, template, unique_id):
 
 
 def send_pdf_sms(pdf_path, phone):
-    account_sid = "AC81ecb5361350d7c651828ded7208547e"
-    auth_token = "7972d8c260291774f4f491278fc186a9"
+    account_sid = ""
+    auth_token = ""
     client = Client(account_sid, auth_token)
 
     characters_to_remove = "-() "
